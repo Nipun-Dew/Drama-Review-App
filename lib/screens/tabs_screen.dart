@@ -35,13 +35,28 @@ class _TabScreenState extends State<TabScreen> {
         backgroundColor: Colors.transparent,
         title: Container(
           margin: EdgeInsets.only(top: 20),
-          child: Text(
-            "DramaOn...",
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.w900,
-              fontSize: 26,
-            ),
+          child: Row(
+            children: [
+              Text(
+                "DramaOn...",
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 26,
+                ),
+              ),
+              SizedBox(
+                width: 200,
+              ),
+              CircleAvatar(
+                radius: 15,
+                backgroundColor: Theme.of(context).primaryColor,
+                child: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -49,8 +64,7 @@ class _TabScreenState extends State<TabScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.movie), label: "Trending"),
+          BottomNavigationBarItem(icon: Icon(Icons.movie), label: "Trending"),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite), label: "Favourite"),
           BottomNavigationBarItem(
