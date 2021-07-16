@@ -5,6 +5,7 @@ import './fav_screen.dart';
 import './home_screen.dart';
 import './notifications_screen.dart';
 import './trending_screen.dart';
+import './search_screen.dart';
 
 class TabScreen extends StatefulWidget {
   @override
@@ -18,7 +19,8 @@ class _TabScreenState extends State<TabScreen> {
     TrendingScreen(),
     FavouriteScreen(),
     NotificationScreen(),
-    DrawerScreen()
+    DrawerScreen(),
+    SearchScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -29,38 +31,59 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double statusBar = MediaQuery.of(context).padding.top;
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Container(
-          margin: EdgeInsets.only(top: 20),
-          child: Row(
-            children: [
-              Text(
-                "DramaOn...",
-                style: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 26,
+      //SingleChildScrollView(child: _currentTab[_selectIndex])
+      body: Container(
+        margin: EdgeInsets.only(top: statusBar),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              primary: false,
+              floating: false,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              expandedHeight: 70,
+              title: Container(
+                child: Row(
+                  children: [
+                    Text(
+                      "DramaOn...",
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 26,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                    ),
+                    CircleAvatar(
+                      radius: 15,
+                      backgroundColor: Theme.of(context).primaryColor,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => SearchScreen()));
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              SizedBox(
-                width: 200,
-              ),
-              CircleAvatar(
-                radius: 15,
-                backgroundColor: Theme.of(context).primaryColor,
-                child: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
+            ),
+            SliverList(
+                delegate: SliverChildBuilderDelegate(
+              (context, index) => Container(child: _currentTab[_selectIndex]),
+              childCount: 1,
+            )),
+          ],
         ),
       ),
-      body: _currentTab[_selectIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
