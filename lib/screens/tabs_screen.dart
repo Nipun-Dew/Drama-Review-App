@@ -14,7 +14,8 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int _selectIndex = 0;
-  final List<Widget> _currentTab = [HomeScreen(), TrendingScreen(), FavouriteScreen(), NotificationScreen(), DrawerScreen(), SearchScreen()];
+  final List<String> titles = ["DreamOn...", "Trending", "Favourites", "Notifications", "More.."];
+  final List<Widget> _currentTab = [HomeScreen(), TrendingScreen(), FavouriteScreen(), NotificationScreen(), DrawerScreen()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -42,17 +43,15 @@ class _TabScreenState extends State<TabScreen> {
               expandedHeight: phoneHeight * 0.1,
               title: Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "DramaOn...",
+                      titles[_selectIndex],
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w900,
                         fontSize: 26,
                       ),
-                    ),
-                    SizedBox(
-                      width: phoneWidth * 0.45,
                     ),
                     CircleAvatar(
                       radius: 15,
