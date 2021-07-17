@@ -14,13 +14,19 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int _selectIndex = 0;
+  final List<String> titles = [
+    "DreamOn...",
+    "Trending",
+    "Favourites",
+    "Notifications",
+    "More.."
+  ];
   final List<Widget> _currentTab = [
     HomeScreen(),
     TrendingScreen(),
     FavouriteScreen(),
     NotificationScreen(),
-    DrawerScreen(),
-    SearchScreen()
+    DrawerScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -51,7 +57,7 @@ class _TabScreenState extends State<TabScreen> {
                 child: Row(
                   children: [
                     Text(
-                      "DramaOn...",
+                      titles[_selectIndex],
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w900,
