@@ -1,3 +1,4 @@
+import 'package:drama_app/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => DramaDetails()),
+      ChangeNotifierProvider(create: (_) => Categories()),
     ],
     child: MyApp(),
   ));
@@ -25,10 +27,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blue,
         fontFamily: 'Raleway',
         textTheme: TextTheme(
-          headline6: TextStyle(
-              fontFamily: 'RobotoCondensed',
-              fontSize: 20,
-              fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontFamily: 'RobotoCondensed', fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       home: TabScreen(),
