@@ -38,7 +38,7 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
-    double phoneWidth = MediaQuery.of(context).size.width;
+    // double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
