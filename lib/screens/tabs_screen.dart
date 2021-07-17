@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import './drawer_screen.dart';
-import './fav_screen.dart';
-import './home_screen.dart';
-import './notifications_screen.dart';
-import './trending_screen.dart';
-import './search_screen.dart';
+import 'tab_screens/drawer_screen.dart';
+import 'tab_screens/fav_screen.dart';
+import 'tab_screens/home_screen.dart';
+import 'tab_screens/notifications_screen.dart';
+import 'tab_screens/trending_screen.dart';
+import 'search_screen.dart';
 
 class TabScreen extends StatefulWidget {
   @override

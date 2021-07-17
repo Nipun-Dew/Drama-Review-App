@@ -7,8 +7,7 @@ import '../models/upcoming_drama.dart';
 class UpcomingDramas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<UpcomingDrama> dramas =
-        Provider.of<DramaDetails>(context).upcomingList;
+    List<UpcomingDrama> dramas = Provider.of<DramaDetails>(context).upcomingList;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.24,
@@ -21,11 +20,8 @@ class UpcomingDramas extends StatelessWidget {
           itemCount: dramas.length,
           itemBuilder: (context, index) {
             return Container(
-                padding: EdgeInsets.only(
-                ),
-                margin: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.012
-                ),
+                padding: EdgeInsets.only(),
+                margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.012),
                 child: Ink(
                   //height: 100,
                   width: MediaQuery.of(context).size.width * 0.3,
