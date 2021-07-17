@@ -32,6 +32,9 @@ class _TabScreenState extends State<TabScreen> {
   @override
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
+    double phoneWidth = MediaQuery.of(context).size.width;
+    double phoneHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       //SingleChildScrollView(child: _currentTab[_selectIndex])
       body: Container(
@@ -43,7 +46,7 @@ class _TabScreenState extends State<TabScreen> {
               floating: false,
               elevation: 0,
               backgroundColor: Colors.transparent,
-              expandedHeight: 70,
+              expandedHeight: phoneHeight * 0.1,
               title: Container(
                 child: Row(
                   children: [
@@ -56,7 +59,7 @@ class _TabScreenState extends State<TabScreen> {
                       ),
                     ),
                     SizedBox(
-                      width: 200,
+                      width: phoneWidth * 0.5,
                     ),
                     CircleAvatar(
                       radius: 15,
