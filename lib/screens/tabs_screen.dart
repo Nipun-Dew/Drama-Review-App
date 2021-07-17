@@ -1,4 +1,6 @@
+import 'package:drama_app/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'tab_screens/drawer_screen.dart';
 import 'tab_screens/fav_screen.dart';
@@ -32,14 +34,17 @@ class _TabScreenState extends State<TabScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectIndex = index;
+      Provider.of<Categories>(context, listen: false).categoryClick = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     double statusBar = MediaQuery.of(context).padding.top;
-    // double phoneWidth = MediaQuery.of(context).size.width;
+    double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height;
+
+    bool isCatClicked = Provider.of<Categories>(context, listen: true).categoryClicked;
 
     return Scaffold(
       //SingleChildScrollView(child: _currentTab[_selectIndex])
@@ -53,7 +58,7 @@ class _TabScreenState extends State<TabScreen> {
               elevation: 0,
               backgroundColor: Colors.transparent,
               expandedHeight: phoneHeight * 0.1,
-              title: Container(
+              title: !isCatClicked ? Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -81,6 +86,27 @@ class _TabScreenState extends State<TabScreen> {
                     ),
                   ],
                 ),
+              ) : Row(
+                children: [
+                  InkWell(
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    onTap: () {
+                      Provider.of<Categories>(context, listen: false).categoryClick = false;
+                    },
+                  ),
+                  SizedBox(width: phoneWidth * 0.01,),
+                  Text(
+                    Provider.of<Categories>(context).catTitle,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 23,
+                    ),
+                  ),
+                ],
               ),
             ),
             SliverList(

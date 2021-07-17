@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/upcoming_drama_widget.dart';
+import '../category_items_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool isCatClicked = Provider.of<Categories>(context, listen: true).categoryClicked;
+    String id = Provider.of<Categories>(context, listen: true).catId;
+    String title = Provider.of<Categories>(context, listen: true).catTitle;
     final categoryData = Provider.of<Categories>(context);
     final categories = categoryData.items;
 
-    return Column(
+    return !isCatClicked ? Column(
       children: [
         UpcomingDramas(),
         Column(
@@ -23,6 +27,6 @@ class HomeScreen extends StatelessWidget {
               .toList(),
         ),
       ],
-    );
+    ) : CategoryItemScreen(id, title);
   }
 }

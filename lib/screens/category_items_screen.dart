@@ -20,16 +20,28 @@ class CategoryItemScreen extends StatelessWidget {
       return item.category.contains(id);
     }).toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: ListView.builder(
-        itemBuilder: (ctx, index) {
-          return ItemWidget(id: displayItems[index].id, title: displayItems[index].title, imageUrl: displayItems[index].imageUrl, category: displayItems[index].category, genre: Genre.Action);
-        },
-        itemCount: displayItems.length,
-      ),
+    return Column(
+      children: [
+        ...displayItems.map((item) {
+          return ItemWidget(
+              id: item.id,
+              title: item.title,
+              imageUrl: item.imageUrl,
+              category: item.category,
+              genre: Genre.Action);
+        })
+//        ListView.builder(
+//          itemBuilder: (ctx, index) {
+//            return ItemWidget(
+//                id: displayItems[index].id,
+//                title: displayItems[index].title,
+//                imageUrl: displayItems[index].imageUrl,
+//                category: displayItems[index].category,
+//                genre: Genre.Action);
+//          },
+//          itemCount: displayItems.length,
+//        ),
+      ],
     );
   }
 }
