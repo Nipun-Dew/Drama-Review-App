@@ -55,6 +55,7 @@ class _TabScreenState extends State<TabScreen> {
               expandedHeight: phoneHeight * 0.1,
               title: Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       titles[_selectIndex],
@@ -63,9 +64,6 @@ class _TabScreenState extends State<TabScreen> {
                         fontWeight: FontWeight.w900,
                         fontSize: 26,
                       ),
-                    ),
-                    SizedBox(
-                      width: phoneWidth * 0.5,
                     ),
                     CircleAvatar(
                       radius: 15,
