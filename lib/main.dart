@@ -1,4 +1,6 @@
 import 'package:drama_app/providers/categories_provider.dart';
+import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/screens/category_items_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => DramaDetails()),
       ChangeNotifierProvider(create: (_) => Categories()),
+      ChangeNotifierProvider(create: (_) => Items()),
     ],
     child: MyApp(),
   ));
@@ -31,6 +34,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: TabScreen(),
+      //home: CategoryItemScreen(),
     );
   }
 }

@@ -1,10 +1,10 @@
-import 'package:drama_app/widgets/category_item.dart';
+import 'package:drama_app/widgets/category_types_widget.dart';
 
-import '../providers/categories_provider.dart';
+import '../../providers/categories_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/upcoming_drama_widget.dart';
+import '../../widgets/upcoming_drama_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
         Column(
           children: categories
               .map(
-                (catData) => CategoryItem(catData.id, catData.title),
+                (catData) => CategoryItem(catData.id, catData.title, catData.imageUrl),
               )
               .toList(),
         ),
