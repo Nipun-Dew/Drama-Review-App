@@ -1,5 +1,6 @@
 import 'package:drama_app/providers/categories_provider.dart';
 import 'package:drama_app/screens/category_items_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
@@ -12,41 +13,67 @@ class CategoryItem extends StatelessWidget {
   CategoryItem(this.id, this.title, this.imageUrl);
 
   void selectCategory(BuildContext ctx) {
-    Provider.of<Categories>(ctx, listen: false).categoryClick = true;
-    Provider.of<Categories>(ctx, listen: false).setCatId = id;
-    Provider.of<Categories>(ctx, listen: false).setCatTitle = title;
-//    Navigator.of(ctx).push(
-//      MaterialPageRoute(
-//        builder: (_) {
-//          return CategoryItemScreen(id, title);
-//        },
-//      ),
-//    );
+    Provider
+        .of<Categories>(ctx, listen: false)
+        .categoryClick = true;
+    Provider
+        .of<Categories>(ctx, listen: false)
+        .setCatId = id;
+    Provider
+        .of<Categories>(ctx, listen: false)
+        .setCatTitle = title;
   }
 
   @override
   Widget build(BuildContext context) {
+    final double phoneWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final double phoneHeight = MediaQuery
+        .of(context)
+        .size
+        .height;
+
     return InkWell(
       onTap: () => selectCategory(context),
       child: Container(
         // padding: EdgeInsets.only(top: 5),
-        margin: EdgeInsets.only(top: 10),
-        width: 300,
-        height: 80,
+        margin: EdgeInsets.only(top: phoneHeight * 0.02),
+        width: phoneWidth * 0.95,
+        height: phoneHeight * 0.15,
         child: Card(
-            shape: RoundedRectangleBorder(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          color: Colors.yellow,
+          child: Container(
+            decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
+              color: Theme
+                  .of(context)
+                  .primaryColor,
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Theme.of(context).primaryColor.withOpacity(0.7), BlendMode.dstATop,),
+                  image: NetworkImage(
+                      imageUrl
+                  )
+              ),
             ),
-            color: Colors.yellow,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            child: Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 34,
                 ),
-              ],
-            )),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

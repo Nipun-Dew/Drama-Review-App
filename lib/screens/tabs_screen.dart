@@ -57,7 +57,7 @@ class _TabScreenState extends State<TabScreen> {
               floating: false,
               elevation: 0,
               backgroundColor: Colors.transparent,
-              expandedHeight: phoneHeight * 0.1,
+              expandedHeight: phoneHeight * 0.12,
               title: !isCatClicked ? Container(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

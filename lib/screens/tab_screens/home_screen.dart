@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
     return !isCatClicked ? Column(
       children: [
         UpcomingDramas(),
+        SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
         Column(
           children: categories
               .map(

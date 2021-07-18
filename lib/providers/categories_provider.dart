@@ -12,27 +12,27 @@ class Categories with ChangeNotifier {
     DramaCategory(
         id: "C1",
         title: "Teledrams",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://www.itntv.lk/wp-content/uploads/2020/06/thanamalvila-kollek-episode-40-2-407x229.jpg"),
     DramaCategory(
         id: "C2",
         title: "Web Series",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://i.ytimg.com/vi/Jb4Z-MvRGPU/maxresdefault.jpg"),
     DramaCategory(
         id: "C3",
         title: "Movies",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://i.ytimg.com/vi/qGeVRCI2P-0/maxresdefault.jpg"),
     DramaCategory(
         id: "C4",
         title: "Documentries",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://www.cinnamonnaturetrails.com/wp-content/uploads/2017/12/asian-elephant-2.jpg"),
     DramaCategory(
         id: "C5",
         title: "Cartoons",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/1618598239038-1QA2Y4IJD2G8KPFD3JB7/rat_ot1.jpg"),
     DramaCategory(
         id: "C6",
         title: "Educational",
-        imageUrl: "https://images.unsplash.com/reserve/bOvf94dPRxWu0u3QsPjF_tree.jpg?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmF0dXJhbHxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60"),
+        imageUrl: "https://i0.wp.com/www.colombotelegraph.com/wp-content/uploads/2021/01/Shukra-Munawwar.jpg?ssl=1"),
   ];
 
   List<DramaCategory> get items {
