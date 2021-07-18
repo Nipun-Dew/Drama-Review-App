@@ -39,52 +39,70 @@ class ItemDetailsScreen extends StatelessWidget {
     final selectedItem = items.firstWhere((item) => item.id == id);
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        toolbarHeight: MediaQuery.of(context).size.height * 0.03,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: Container(
+          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
+            child: InkWell(
+              child: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Theme.of(context).primaryColor,
+                ),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                // selectedItem.imageUrl,
-                "https://www.fmarion.edu/wp-content/uploads/2018/01/Movie-Night.jpg",
-                fit: BoxFit.cover,
-              ),
-            ),
-            buildingSectionTitle(context, selectedItem.title),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Text(
-                selectedItem.description,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500),
-              ),
-            ),
-            buildingSectionTitle(context, "Director"),
-            Text(
-              selectedItem.director,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
-            ),
-            buildingSectionTitle(context, "Producer"),
-            Text(
-              selectedItem.producer,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
-            ),
-            buildingSectionTitle(context, "Cast"),
-            buildContainer(
-              ListView.builder(
-                itemCount: selectedItem.cast.length,
-                itemBuilder: (ctx, index) => Card(
-                  color: Theme.of(context).accentColor,
-                  child: Padding(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10), child: Text(selectedItem.cast[index])),
+      body: Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: 300,
+                width: double.infinity,
+                child: Image.network(
+                  // selectedItem.imageUrl,
+                  "https://www.fmarion.edu/wp-content/uploads/2018/01/Movie-Night.jpg",
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ],
+              buildingSectionTitle(context, selectedItem.title),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(
+                  selectedItem.description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500),
+                ),
+              ),
+              buildingSectionTitle(context, "Director"),
+              Text(
+                selectedItem.director,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+              ),
+              buildingSectionTitle(context, "Producer"),
+              Text(
+                selectedItem.producer,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+              ),
+              buildingSectionTitle(context, "Cast"),
+              buildContainer(
+                ListView.builder(
+                  itemCount: selectedItem.cast.length,
+                  itemBuilder: (ctx, index) => Card(
+                    color: Theme.of(context).accentColor,
+                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10), child: Text(selectedItem.cast[index])),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

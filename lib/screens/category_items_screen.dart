@@ -30,17 +30,6 @@ class CategoryItemScreen extends StatelessWidget {
               category: item.category,
               genre: Genre.Action);
         })
-//        ListView.builder(
-//          itemBuilder: (ctx, index) {
-//            return ItemWidget(
-//                id: displayItems[index].id,
-//                title: displayItems[index].title,
-//                imageUrl: displayItems[index].imageUrl,
-//                category: displayItems[index].category,
-//                genre: Genre.Action);
-//          },
-//          itemCount: displayItems.length,
-//        ),
       ],
     );
   }
