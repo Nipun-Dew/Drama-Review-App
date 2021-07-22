@@ -23,18 +23,18 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => {selectItemDetails(context)},
-      child: Container(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          elevation: 4,
-          margin: EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              Stack(
+    return Container(
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        elevation: 4,
+        margin: EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            InkWell(
+              onTap: () => {selectItemDetails(context)},
+              child: Stack(
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -70,40 +70,46 @@ class ItemWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.work),
-                        SizedBox(width: 6),
-                        Text("like"),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.work),
-                        SizedBox(width: 6),
-                        Text("comment"),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(Icons.favorite),
-                        SizedBox(width: 6),
-                        Text("Favourite"),
-                      ],
-                    )
-                  ],
-                ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.favorite),
+                      ),
+                      Text("like"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.favorite),
+                      ),
+                      Text("Comment"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.favorite),
+                      ),
+                      Text("Favourite"),
+                    ],
+                  )
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
