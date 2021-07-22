@@ -15,7 +15,7 @@ class ItemWidget extends StatelessWidget {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(this.id, this.title, this.category);
+          return ItemDetailsScreen(id, title, category, imageUrl);
         },
       ),
     );
@@ -43,7 +43,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                     child: Image.network(
                       //imageUrl,
-                      "https://blog.hubspot.com/hubfs/Sales_Blog/famous-movie-quotes.jpg",
+                      imageUrl,
                       height: 250,
                       width: double.infinity,
                       fit: BoxFit.cover,

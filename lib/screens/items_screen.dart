@@ -6,8 +6,9 @@ class ItemDetailsScreen extends StatelessWidget {
   final String id;
   final String title;
   final String category;
+  final String imageUrl;
 
-  ItemDetailsScreen(this.id, this.title, this.category);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl);
 
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
@@ -49,7 +50,7 @@ class ItemDetailsScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Image.network(
                     // selectedItem.imageUrl,
-                    "https://i.ytimg.com/vi/nSe4hW60FNI/maxresdefault.jpg",
+                    imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
