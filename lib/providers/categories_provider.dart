@@ -11,7 +11,7 @@ class Categories with ChangeNotifier {
   List<DramaCategory> _items = [
     DramaCategory(
         id: "C1",
-        title: "Teledrams",
+        title: "Teledramas",
         imageUrl: "https://www.itntv.lk/wp-content/uploads/2020/06/thanamalvila-kollek-episode-40-2-407x229.jpg"),
     DramaCategory(
         id: "C2",

@@ -3,7 +3,6 @@ import 'package:drama_app/screens/category_items_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;

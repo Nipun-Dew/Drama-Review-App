@@ -7,7 +7,8 @@ import '../models/upcoming_drama.dart';
 class UpcomingDramas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<UpcomingDrama> dramas = Provider.of<DramaDetails>(context).upcomingList;
+    List<UpcomingDrama> dramas =
+        Provider.of<DramaDetails>(context).upcomingList;
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.24,
@@ -20,27 +21,25 @@ class UpcomingDramas extends StatelessWidget {
           itemCount: dramas.length,
           itemBuilder: (context, index) {
             return Container(
+                width: MediaQuery.of(context).size.width * 0.3,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Theme.of(context).primaryColor.withOpacity(0.5),
+                    Theme.of(context).accentColor,
+                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                  borderRadius: BorderRadius.circular(18),
+                ),
                 padding: EdgeInsets.only(),
-                margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.012),
-                child: Ink(
-                  //height: 100,
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      Theme.of(context).accentColor.withOpacity(0.5),
-                      Theme.of(context).accentColor,
-                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                  child: InkWell(
-                    onTap: () {},
-                    radius: 25,
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Text(
-                        dramas[index].title,
-                        style: Theme.of(context).textTheme.headline6,
-                      ),
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.012),
+                child: InkWell(
+                  onTap: () {},
+                  radius: 25,
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    child: Text(
+                      dramas[index].title,
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                 ));

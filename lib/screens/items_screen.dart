@@ -38,58 +38,64 @@ class ItemDetailsScreen extends StatelessWidget {
 
     final selectedItem = items.firstWhere((item) => item.id == id);
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * 0.03,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        title: Container(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.02),
-            child: InkWell(
-              child: Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Theme.of(context).primaryColor,
-                ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-      ),
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Container(
-                height: 300,
-                width: double.infinity,
-                child: Image.network(
-                  // selectedItem.imageUrl,
-                  "https://www.fmarion.edu/wp-content/uploads/2018/01/Movie-Night.jpg",
-                  fit: BoxFit.cover,
+              Stack(children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.37,
+                  width: double.infinity,
+                  child: Image.network(
+                    // selectedItem.imageUrl,
+                    "https://i.ytimg.com/vi/nSe4hW60FNI/maxresdefault.jpg",
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
+                Container(
+                  padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  child: InkWell(
+                    child: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.white,
+                      size: 50,
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ]),
               buildingSectionTitle(context, selectedItem.title),
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w500),
                 ),
               ),
               buildingSectionTitle(context, "Director"),
               Text(
                 selectedItem.director,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+                style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20),
               ),
               buildingSectionTitle(context, "Producer"),
               Text(
                 selectedItem.producer,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+                style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20),
               ),
               buildingSectionTitle(context, "Cast"),
               buildContainer(
@@ -97,7 +103,10 @@ class ItemDetailsScreen extends StatelessWidget {
                   itemCount: selectedItem.cast.length,
                   itemBuilder: (ctx, index) => Card(
                     color: Theme.of(context).accentColor,
-                    child: Padding(padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10), child: Text(selectedItem.cast[index])),
+                    child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        child: Text(selectedItem.cast[index])),
                   ),
                 ),
               ),
