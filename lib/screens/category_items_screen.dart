@@ -29,7 +29,9 @@ class CategoryItemScreen extends StatelessWidget {
               title: item.title,
               imageUrl: item.imageUrl,
               category: item.category,
-              genre: Genre.Action);
+              genre: Genre.Action,
+              wholeItem: item
+          );
         })
       ],
     );

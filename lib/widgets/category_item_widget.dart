@@ -1,6 +1,8 @@
 import 'package:drama_app/models/item.dart';
+import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/screens/items_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemWidget extends StatelessWidget {
   final String id;
@@ -8,8 +10,15 @@ class ItemWidget extends StatelessWidget {
   final String category;
   final String imageUrl;
   final Genre genre;
+  final Item wholeItem;
 
-  ItemWidget({required this.id, required this.title, required this.imageUrl, required this.category, required this.genre});
+  ItemWidget(
+      {required this.wholeItem,
+      required this.id,
+      required this.title,
+      required this.imageUrl,
+      required this.category,
+      required this.genre});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
@@ -21,8 +30,19 @@ class ItemWidget extends StatelessWidget {
     );
   }
 
+  void favBtnTap(bool isFav, BuildContext context, Item item) {
+    if (isFav) {
+      Provider.of<Items>(context, listen: false).delFavItems = item;
+    } else {
+      Provider.of<Items>(context, listen: false).addFavItems = item;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isFavourite =
+        Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+
     return Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -56,7 +76,8 @@ class ItemWidget extends StatelessWidget {
                     child: Container(
                       width: 300,
                       color: Colors.black54,
-                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       child: Text(
                         title,
                         style: TextStyle(
@@ -72,16 +93,17 @@ class ItemWidget extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(20),
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
                         onPressed: null,
-                        icon: Icon(Icons.favorite),
+                        icon: Icon(Icons.thumb_up),
                       ),
                       Text("like"),
                     ],
@@ -91,7 +113,7 @@ class ItemWidget extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         onPressed: null,
-                        icon: Icon(Icons.favorite),
+                        icon: Icon(Icons.comment),
                       ),
                       Text("Comment"),
                     ],
@@ -100,9 +122,11 @@ class ItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.favorite),
-                      ),
+                          onPressed: () =>
+                              favBtnTap(isFavourite, context, wholeItem),
+                          icon: isFavourite
+                              ? Icon(Icons.favorite, color: Colors.red,)
+                              : Icon(Icons.favorite, color: Colors.grey,)),
                       Text("Favourite"),
                     ],
                   )

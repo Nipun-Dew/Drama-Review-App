@@ -1,5 +1,6 @@
 import 'package:drama_app/models/item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class Items with ChangeNotifier {
   List<Item> _items = [
@@ -60,5 +61,21 @@ class Items with ChangeNotifier {
 
   List<Item> get items {
     return [..._items];
+  }
+
+  List<Item> _favItems = [];
+
+  set addFavItems(Item i) {
+    _favItems.add(i);
+    notifyListeners();
+  }
+
+  set delFavItems(Item i) {
+    _favItems.remove(i);
+    notifyListeners();
+  }
+
+  List<Item> get getFavItems {
+    return [..._favItems];
   }
 }
