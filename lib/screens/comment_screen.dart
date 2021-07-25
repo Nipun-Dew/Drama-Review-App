@@ -28,7 +28,7 @@ class CommentScreen extends StatelessWidget {
                 ),
                 Container(
                   padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -41,7 +41,31 @@ class CommentScreen extends StatelessWidget {
                   ),
                 ),
               ]),
-              SizedBox(height: 80,),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: TextField(
+                  cursorHeight: 27,
+                  style: TextStyle(decoration: TextDecoration.none),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                      suffixIcon: Icon(Icons.send),
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                      //prefixIcon: Icon(Icons.edit),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                        borderSide: BorderSide(
+                        width: 0,
+                        style: BorderStyle.none,
+                      ),
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                      labelText: "Write a Comment.."),
+                ),
+              ),
+              SizedBox(
+                height: 80,
+              ),
               Center(
                 child: Text("Comments are here!"),
               )
