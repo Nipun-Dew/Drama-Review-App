@@ -3,6 +3,7 @@ import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/screens/items_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../screens/comment_screen.dart';
 
 class ItemWidget extends StatelessWidget {
   final String id;
@@ -112,8 +113,12 @@ class ItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.comment),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                            return CommentScreen(imageUrl, wholeItem);
+                          }));
+                        },
+                        icon: Icon(Icons.comment, color: Colors.grey,),
                       ),
                       Text("Comment"),
                     ],
