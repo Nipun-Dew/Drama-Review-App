@@ -13,13 +13,7 @@ class ItemWidget extends StatelessWidget {
   final Genre genre;
   final Item wholeItem;
 
-  ItemWidget(
-      {required this.wholeItem,
-      required this.id,
-      required this.title,
-      required this.imageUrl,
-      required this.category,
-      required this.genre});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
@@ -39,10 +33,28 @@ class ItemWidget extends StatelessWidget {
     }
   }
 
+  String get genreText {
+    switch (genre) {
+      case Genre.Action:
+        return 'Action';
+      case Genre.Commody:
+        return 'comody';
+      case Genre.Drama:
+        return 'Drama';
+      case Genre.Horror:
+        return 'Horror';
+      case Genre.Romamce:
+        return 'Romance';
+      case Genre.Thriller:
+        return 'Thriller';
+      default:
+        return 'unknown';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isFavourite =
-        Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
 
     return Container(
       child: Card(
@@ -70,32 +82,50 @@ class ItemWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  Positioned(
-                    bottom: 20,
-                    left: 20,
-                    // right: 20,
-                    child: Container(
-                      width: 300,
-                      color: Colors.black54,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: Colors.white,
-                        ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
-                      ),
+                  // Positioned(
+                  //   bottom: 20,
+                  //   left: 20,
+                  //   // right: 20,
+                  //   child: Container(
+                  //     width: 300,
+                  //     color: Colors.black54,
+                  //     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                  //     child: Text(
+                  //       title,
+                  //       style: TextStyle(
+                  //         fontSize: 26,
+                  //         color: Colors.white,
+                  //       ),
+                  //       softWrap: true,
+                  //       overflow: TextOverflow.fade,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
+            ),
+            Container(
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                  Text(
+                    genreText,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -109,29 +139,44 @@ class ItemWidget extends StatelessWidget {
                       Text("like"),
                     ],
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                            return CommentScreen(imageUrl, wholeItem);
-                          }));
-                        },
-                        icon: Icon(Icons.comment, color: Colors.grey,),
-                      ),
-                      Text("Comment"),
-                    ],
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                        return CommentScreen(id, imageUrl, wholeItem);
+                      }));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                              return CommentScreen(id, imageUrl, wholeItem);
+                            }));
+                          },
+                          icon: Icon(
+                            Icons.comment,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text("Comment"),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                          onPressed: () =>
-                              favBtnTap(isFavourite, context, wholeItem),
+                          onPressed: () => favBtnTap(isFavourite, context, wholeItem),
                           icon: isFavourite
-                              ? Icon(Icons.favorite, color: Colors.red,)
-                              : Icon(Icons.favorite, color: Colors.grey,)),
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : Icon(
+                                  Icons.favorite,
+                                  color: Colors.grey,
+                                )),
                       Text("Favourite"),
                     ],
                   )

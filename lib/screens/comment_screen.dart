@@ -1,15 +1,24 @@
+import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/item.dart';
 
 class CommentScreen extends StatelessWidget {
+  final String id;
   final String imageUrl;
   final Item wholeItem;
 
-  CommentScreen(this.imageUrl, this.wholeItem);
+  CommentScreen(this.id, this.imageUrl, this.wholeItem);
 
   @override
   Widget build(BuildContext context) {
+    final itemData = Provider.of<Items>(context);
+    final items = itemData.items;
+
+    final selectedItem = items.firstWhere((item) => item.id == id);
+
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -27,8 +36,7 @@ class CommentScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -47,7 +55,7 @@ class CommentScreen extends StatelessWidget {
                   cursorHeight: 27,
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                      contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
                       suffixIcon: Icon(Icons.send),
                       fillColor: Colors.grey[300],
                       filled: true,
@@ -55,20 +63,25 @@ class CommentScreen extends StatelessWidget {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(50)),
                         borderSide: BorderSide(
-                        width: 0,
-                        style: BorderStyle.none,
-                      ),
+                          width: 0,
+                          style: BorderStyle.none,
+                        ),
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelText: "Write a Comment.."),
                 ),
               ),
               SizedBox(
-                height: 80,
+                height: 5,
               ),
-              Center(
-                child: Text("Comments are here!"),
-              )
+              Container(
+                height: double.maxFinite,
+                width: double.infinity,
+                child: ListView.builder(
+                  itemCount: selectedItem.comments.length,
+                  itemBuilder: (ctx, index) => CommentItem(comment: selectedItem.comments[index]),
+                ),
+              ),
             ],
           ),
         ),

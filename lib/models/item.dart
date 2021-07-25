@@ -11,6 +11,7 @@ class Item {
   final String producer;
   final Genre genre;
   final bool isFavourite;
+  final List<String> comments;
 
   const Item({
     required this.id,
@@ -23,5 +24,6 @@ class Item {
     required this.producer,
     required this.genre,
     this.isFavourite = false,
+    required this.comments,
   });
 }
