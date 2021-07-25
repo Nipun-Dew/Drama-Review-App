@@ -30,7 +30,12 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blue,
         fontFamily: 'Raleway',
         textTheme: TextTheme(
-          headline6: TextStyle(fontFamily: 'RobotoCondensed', fontSize: 20, fontWeight: FontWeight.bold),
+          headline6: TextStyle(
+              fontFamily: 'RobotoCondensed',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white
+          ),
         ),
       ),
       home: TabScreen(),

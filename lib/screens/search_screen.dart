@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double phoneWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
@@ -11,7 +13,6 @@ class SearchScreen extends StatelessWidget {
             children: [
           Container(
             margin: EdgeInsets.only(left: 10),
-            //width: MediaQuery.of(context).size.width * 0.2,
             child: InkWell(
                 onTap: () => Navigator.pop(context),
                 child: Icon(
@@ -21,8 +22,12 @@ class SearchScreen extends StatelessWidget {
                 )),
           ),
           Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            margin: EdgeInsets.all(20),
+            width: phoneWidth * 0.8,
+            margin: EdgeInsets.only(
+              top: phoneWidth * 0.05,
+              bottom: phoneWidth * 0.05,
+              left: phoneWidth * 0.01,
+            ),
             child: TextField(
               cursorHeight: 27,
               style: TextStyle(decoration: TextDecoration.none),

@@ -4,6 +4,8 @@ class UpcomingDrama {
   String type;
   String source;
   String time;
+  String imageUrl;
 
-  UpcomingDrama(this.id, this.title, this.type, this.source, this.time);
+  UpcomingDrama(
+      this.id, this.title, this.type, this.source, this.time, this.imageUrl);
 }

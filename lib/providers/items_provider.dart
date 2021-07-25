@@ -8,7 +8,7 @@ class Items with ChangeNotifier {
         id: "I1",
         category: "C1",
         title: "Nadagamkarayo",
-        imageUrl: "https://i.ytimg.com/vi/9ggS9gZdk0E/maxresdefault.jpg",
+        imageUrl: "https://steemitimages.com/p/TZjG7hXReeVoAvXt2X6pMxYAb3q65xMju8wryWxKrsghkLoEqpouqCt7QGaJSv8qX8FaMW8RPeeL3tyhpXaTGBZSDLGft3WXaxBBR9fFksjUiNZH9wsBe3nTQye4TPJHqPiCs7bCHDF2W2?format=match&mode=fit&width=800",
         description:
             "Nadagamkarayo is a drama based on a village life. Sara, Kiriputha, Kawadiya, Sudda are four young boys who sell toddy for living. Master is the musician in that village. First half of the story goes with the Vesak drama which is produced by the Master. Kukula lakuna is the rowdy of that village who is determined to be a politician",
         cast: [
@@ -50,13 +50,13 @@ class Items with ChangeNotifier {
     Item(
         id: "I4",
         category: "C3",
-        title: "Suriya arana",
-        imageUrl: "https://alchetron.com/cdn/sooriya-arana-a7d4802e-fdba-4295-a481-245833fb71b-resize-750.jpg",
-        description: "Suriya arana is a.....",
+        title: "Machan",
+        imageUrl: "https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg",
+        description: "Machan is a movie.....",
         cast: [],
         director: "Director",
         producer: "Producer",
-        genre: Genre.Thriller),
+        genre: Genre.Drama),
   ];
 
   List<Item> get items {

@@ -23,11 +23,18 @@ class UpcomingDramas extends StatelessWidget {
             return Container(
                 width: MediaQuery.of(context).size.width * 0.3,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Theme.of(context).primaryColor.withOpacity(0.5),
-                    Theme.of(context).accentColor,
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(15),
+                  color: Theme
+                      .of(context)
+                      .primaryColor,
+                  image: DecorationImage(
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor.withOpacity(0.9), BlendMode.dstATop,),
+                      image: NetworkImage(
+                          dramas[index].imageUrl
+                      )
+                  ),
                 ),
                 padding: EdgeInsets.only(),
                 margin: EdgeInsets.symmetric(
