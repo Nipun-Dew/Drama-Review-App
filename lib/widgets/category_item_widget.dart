@@ -124,6 +124,13 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text("Like Count"),
+                Text("Comment Count"),
+              ],
+            ),
             Padding(
               padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
               child: Row(

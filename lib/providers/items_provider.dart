@@ -57,9 +57,9 @@ class Items with ChangeNotifier {
     return [..._items];
   }
 
-  List<String> get comments {
-    return [...comments];
-  }
+  // List<String> get comments {
+  //   return [...comments];
+  // }
 
   List<Item> _favItems = [];
 
