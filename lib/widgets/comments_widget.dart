@@ -51,7 +51,11 @@ class CommentItem extends StatelessWidget {
             height: 80,
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15)
+                ),
               ),
               elevation: 4,
               margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
@@ -60,7 +64,7 @@ class CommentItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 5, top: 2),
+                    padding: EdgeInsets.only(left: 10, top: 2),
                     child: Text(
                       "Name",
                       style: TextStyle(fontWeight: FontWeight.bold),

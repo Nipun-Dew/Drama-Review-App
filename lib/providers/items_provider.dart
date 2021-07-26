@@ -12,11 +12,23 @@ class Items with ChangeNotifier {
             "https://steemitimages.com/p/TZjG7hXReeVoAvXt2X6pMxYAb3q65xMju8wryWxKrsghkLoEqpouqCt7QGaJSv8qX8FaMW8RPeeL3tyhpXaTGBZSDLGft3WXaxBBR9fFksjUiNZH9wsBe3nTQye4TPJHqPiCs7bCHDF2W2?format=match&mode=fit&width=800",
         description:
             "Nadagamkarayo is a drama based on a village life. Sara, Kiriputha, Kawadiya, Sudda are four young boys who sell toddy for living. Master is the musician in that village. First half of the story goes with the Vesak drama which is produced by the Master. Kukula lakuna is the rowdy of that village who is determined to be a politician",
-        cast: ["Sara - Sajith Anthoney", "Patali - Senali Fonseka", "Master - Prasannajith Abeysuriya", "Malan - Kokila Pawan Jayasooriya", "Kukula Lakuna - Giriraj Kaushalya"],
+        cast: [
+          "Sara - Sajith Anthoney",
+          "Patali - Senali Fonseka",
+          "Master - Prasannajith Abeysuriya",
+          "Malan - Kokila Pawan Jayasooriya",
+          "Kukula Lakuna - Giriraj Kaushalya"
+        ],
         director: "Jayaprakash Sivagurunadan",
         producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
         genre: Genre.Drama,
-        comments: ["Great Teledrama ❤️", "Best Acting 🔥", "kukulai kikili patiyai 😂😂😂", "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡"]),
+        comments: [
+          "Great Teledrama ❤️",
+          "Best Acting 🔥",
+          "kukulai kikili patiyai 😂😂😂",
+          "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡",
+          "Amboo ape Malan aiyya dena athal nm..."
+        ]),
     Item(
         id: "I2",
         category: "C1",
@@ -24,7 +36,12 @@ class Items with ChangeNotifier {
         imageUrl: "https://i.ytimg.com/vi/nSe4hW60FNI/maxresdefault.jpg",
         description:
             "Thnamalvila kollek a life story of a village boy who is struggeling with many problems as a person in a rural area. This teledrama shows how win his life and make a succefull artist. THis teledrama shows calm and peacefullnes of the village as well as the dark side of the village life as poverty and how people are strugling to win their lives",
-        cast: ["Deeptha - Dhanuka Dilshan", "kithula - Xavier Kanishka", "koora - Nilanka Sepala Dahanayake", "Yashodhara - Yashoda Wimaladharma"],
+        cast: [
+          "Deeptha - Dhanuka Dilshan",
+          "kithula - Xavier Kanishka",
+          "koora - Nilanka Sepala Dahanayake",
+          "Yashodhara - Yashoda Wimaladharma"
+        ],
         director: "Roshan Ravindra",
         producer: "Fahim Maujude",
         genre: Genre.Drama,
@@ -44,7 +61,8 @@ class Items with ChangeNotifier {
         id: "I4",
         category: "C3",
         title: "Machan",
-        imageUrl: "https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg",
+        imageUrl:
+            "https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg",
         description: "Machan is a movie.....",
         cast: [],
         director: "Director",

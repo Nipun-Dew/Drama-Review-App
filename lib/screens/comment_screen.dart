@@ -71,15 +71,11 @@ class CommentScreen extends StatelessWidget {
                       labelText: "Write a Comment.."),
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
               Container(
-                height: double.maxFinite,
+                //height: MediaQuery.of(context).size.height * 0.5,
                 width: double.infinity,
-                child: ListView.builder(
-                  itemCount: selectedItem.comments.length,
-                  itemBuilder: (ctx, index) => CommentItem(comment: selectedItem.comments[index]),
+                child: Column(
+                  children: [...selectedItem.comments.map((comment) => CommentItem(comment: comment))],
                 ),
               ),
             ],
