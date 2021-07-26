@@ -13,7 +13,7 @@ class ItemDetailsScreen extends StatelessWidget {
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Text(text, style: Theme.of(context).textTheme.title),
+      child: Text(text, style: Theme.of(context).textTheme.headline2),
     );
   }
 

@@ -72,7 +72,6 @@ class CommentScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                //height: MediaQuery.of(context).size.height * 0.5,
                 width: double.infinity,
                 child: Column(
                   children: [...selectedItem.comments.map((comment) => CommentItem(comment: comment))],

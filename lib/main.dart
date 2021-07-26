@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.blue,
         fontFamily: 'Raleway',
         textTheme: TextTheme(
+          headline2: TextStyle(
+              fontFamily: 'RobotoCondensed',
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+          ),
           headline6: TextStyle(
               fontFamily: 'RobotoCondensed',
               fontSize: 20,
