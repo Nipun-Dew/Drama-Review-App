@@ -16,18 +16,22 @@ class HomeScreen extends StatelessWidget {
     final categoryData = Provider.of<Categories>(context);
     final categories = categoryData.items;
 
-    return !isCatClicked ? Column(
-      children: [
-        UpcomingDramas(),
-        SizedBox(height: MediaQuery.of(context).size.height * 0.02,),
-        Column(
-          children: categories
-              .map(
-                (catData) => CategoryItem(catData.id, catData.title, catData.imageUrl),
-              )
-              .toList(),
-        ),
-      ],
-    ) : CategoryItemScreen(id, title);
+    return !isCatClicked
+        ? Column(
+            children: [
+              UpcomingDramas(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.02,
+              ),
+              Column(
+                children: categories
+                    .map(
+                      (catData) => CategoryItem(catData.id, catData.title, catData.imageUrl),
+                    )
+                    .toList(),
+              ),
+            ],
+          )
+        : CategoryItemScreen(id, title);
   }
 }
