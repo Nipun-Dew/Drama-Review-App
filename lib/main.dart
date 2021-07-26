@@ -1,6 +1,5 @@
 import 'package:drama_app/providers/categories_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/screens/category_items_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
