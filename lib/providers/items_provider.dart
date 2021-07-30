@@ -20,8 +20,10 @@ class Items with ChangeNotifier {
       //   "Kukula Lakuna - Giriraj Kaushalya"
       // ],
       cast: ["A1", "A2", "A3", "A4", "A5"],
-      director: "Jayaprakash Sivagurunadan",
-      producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
+      // director: "Jayaprakash Sivagurunadan",
+      director: "D1",
+      // producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
+      producer: "P2",
       genre: Genre.Drama,
       comments: ["Great Teledrama ❤️", "Best Acting 🔥", "kukulai kikili patiyai 😂😂😂", "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡", "Amboo ape Malan aiyya dena athal nm..."],
       ratingValues: [],

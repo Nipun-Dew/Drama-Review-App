@@ -55,6 +55,9 @@ class ItemDetailsScreen extends StatelessWidget {
     final castData = Provider.of<Casts>(context);
     final itemsCast = castData.items;
 
+    final roleData = Provider.of<Casts>(context);
+    final itemsRoles = roleData.items;
+
     final selectedItem = items.firstWhere((item) => item.id == id);
 
     final selectedCast = [];
@@ -66,6 +69,9 @@ class ItemDetailsScreen extends StatelessWidget {
         }
       });
     });
+
+    final selectedProducer = itemsRoles.where((item) => item.id == selectedItem.producer);
+    final selectedDirector = itemsRoles.where((item) => item.id == selectedItem.director);
 
     return Scaffold(
       body: Container(
@@ -218,6 +224,7 @@ class ItemDetailsScreen extends StatelessWidget {
               ),
               Text(
                 selectedItem.director,
+                //selectedDirector.name,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
               ),
