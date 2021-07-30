@@ -166,7 +166,7 @@ class ItemWidget extends StatelessWidget {
                             color: Colors.grey,
                           ),
                         ),
-                        Text("Comment"),
+                        Text("Review  "),
                       ],
                     ),
                   ),
