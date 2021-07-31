@@ -37,7 +37,7 @@ class ItemDetailsScreen extends StatelessWidget {
 
   final ratingValues = [4.5, 3, 5];
 
-  var initialRatingValue = 1;
+  final initialRatingValue = 1;
 
   arraySum(List arr) {
     var sum = 0.0;
@@ -78,10 +78,11 @@ class ItemDetailsScreen extends StatelessWidget {
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Stack(children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.37,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   child: Image.network(
                     // selectedItem.imageUrl,
@@ -104,48 +105,56 @@ class ItemDetailsScreen extends StatelessWidget {
                 ),
               ]),
               // buildingSectionTitle(context, selectedItem.title),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  selectedItem.title,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  padding: EdgeInsets.only(top: 5),
+                  child: Text(
+                    selectedItem.title,
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                  ),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
-              RatingBar.builder(
-                initialRating: 3,
-                // initialRating: selectedItem.ratings,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  ratingValues.add(rating);
-                  print(ratingValues);
-                  print(rating);
-                  print(arraySum(ratingValues) / ratingValues.length);
-                },
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 5),
-                child: Text(
-                  "Ratings" + " (10)",
-                  style: TextStyle(
-                    fontFamily: "RobotoCondensed-Light",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
+              Center(
+                child: RatingBar.builder(
+                  itemSize: 25,
+                  initialRating: 3,
+                  // initialRating: selectedItem.ratings,
+                  minRating: 1,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
                   ),
-                  textAlign: TextAlign.center,
+                  onRatingUpdate: (rating) {
+                    ratingValues.add(rating);
+                    print(ratingValues);
+                    print(rating);
+                    print(arraySum(ratingValues) / ratingValues.length);
+                  },
+                ),
+              ),
+              Center(
+                child: Container(
+                  margin: EdgeInsets.only(top: 3, bottom: 15),
+                  child: Text(
+                    "Ratings" + " (10)",
+                    style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[600]
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.only(left: 25, bottom: 5),
                 child: Text(
                   "Plot Summary",
                   style: TextStyle(
@@ -153,20 +162,26 @@ class ItemDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   selectedItem.description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 15),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]
+                  ),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
                 child: Text(
                   "Cast",
                   style: TextStyle(
@@ -174,12 +189,12 @@ class ItemDetailsScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: 20,
                   ),
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 5, left: 10, right: 10),
-                padding: EdgeInsets.only(top: 5, left: 10, right: 10),
+                margin: EdgeInsets.only(top: 5, left: 2, right: 2),
+                padding: EdgeInsets.only(left: 2, right: 2),
                 height: 150,
                 width: 400,
                 child: ListView.builder(
@@ -193,14 +208,14 @@ class ItemDetailsScreen extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               child: CircleAvatar(
                                 backgroundImage: NetworkImage(selectedCast[index].imageUrl),
-                                maxRadius: 45,
+                                maxRadius: 30,
                               ),
                             ),
                             Container(
                               width: 100,
                               child: Text(
                                 selectedCast[index].name,
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
                                 textAlign: TextAlign.center,
                               ),
                             )
