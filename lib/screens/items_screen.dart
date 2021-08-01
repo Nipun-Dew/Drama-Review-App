@@ -159,8 +159,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               i,
                               fit: BoxFit.cover,
                             ),
-                          );
-                        },
+                          );},
                       );
                     }).toList(),
                   ),
@@ -266,26 +265,24 @@ class ItemDetailsScreen extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedCast.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(selectedCast[index].imageUrl),
-                                maxRadius: 40,
-                              ),
+                      return Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(selectedCast[index].imageUrl),
+                              maxRadius: 40,
                             ),
-                            Container(
-                              width: 100,
-                              child: Text(
-                                selectedCast[index].name,
-                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                          Container(
+                            width: 100,
+                            child: Text(
+                              selectedCast[index].name,
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
                       );
                     }),
               ),
@@ -306,115 +303,102 @@ class ItemDetailsScreen extends StatelessWidget {
               //     // },
               //   ),
               // ),
-
-
-              //
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
                 height: 150,
                 width: 400,
                 child: SingleChildScrollView(scrollDirection: Axis.horizontal,
-                  child: Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              ...selectedDirector.map((director) {
-                              return Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 120,
-                                      margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Director",
-                                        style: TextStyle(
-                                          fontFamily: "RobotoCondensed-Light",
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(director.imageUrl),
-                                        maxRadius: 40,
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      child: Text(
-                                        director.name,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey[600]
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                )
-                              );
-                              }),
-                              ...selectedProducer.map((producer) {
-                                return Container(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        width: 120,
-                                        margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          "Producer",
-                                          style: TextStyle(
-                                            fontFamily: "RobotoCondensed-Light",
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 17,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                                        padding: EdgeInsets.only(left: 2, right: 2),
-                                        width: 120,
-                                        child: Container(
-                                          child: Column(
-                                            children: <Widget>[
-                                              Padding(
-                                                padding: EdgeInsets.all(5),
-                                                child: CircleAvatar(
-                                                  backgroundImage: NetworkImage(producer.imageUrl),
-                                                  maxRadius: 40,
-                                                ),
-                                              ),
-                                              Container(
-                                                width: 120,
-                                                child: Text(
-                                                  producer.name,
-                                                  style: TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Colors.grey[600]
-                                                  ),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              })
-                            ],
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ...selectedDirector.map((director) {
+                      return Column(
+                        children: [
+                          Container(
+                            width: 120,
+                            margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Director",
+                              style: TextStyle(
+                                fontFamily: "RobotoCondensed-Light",
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(director.imageUrl),
+                              maxRadius: 40,
+                            ),
+                          ),
+                          Container(
+                            width: 120,
+                            child: Text(
+                              director.name,
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      );
+                      }),
+                      ...selectedProducer.map((producer) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Producer",
+                                style: TextStyle(
+                                  fontFamily: "RobotoCondensed-Light",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                              padding: EdgeInsets.only(left: 2, right: 2),
+                              width: 120,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(producer.imageUrl),
+                                      maxRadius: 40,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                      producer.name,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.grey[600]
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),],
+                        );})
+                    ],
+                  ),
                 )
               ),
               SizedBox(
