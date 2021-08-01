@@ -1,9 +1,11 @@
 import 'package:drama_app/providers/cast_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/providers/role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final String id;
@@ -55,12 +57,14 @@ class ItemDetailsScreen extends StatelessWidget {
     final castData = Provider.of<Casts>(context);
     final itemsCast = castData.items;
 
-    final roleData = Provider.of<Casts>(context);
+    final roleData = Provider.of<Roles>(context);
     final itemsRoles = roleData.items;
 
     final selectedItem = items.firstWhere((item) => item.id == id);
 
     final selectedCast = [];
+    final selectedProducer = [];
+    final selectedDirector = [];
 
     itemsCast.forEach((cast) {
       selectedItem.cast.forEach((item) {
@@ -70,8 +74,21 @@ class ItemDetailsScreen extends StatelessWidget {
       });
     });
 
-    final selectedProducer = itemsRoles.where((item) => item.id == selectedItem.producer);
-    final selectedDirector = itemsRoles.where((item) => item.id == selectedItem.director);
+    itemsRoles.forEach((role) {
+      selectedItem.producer.forEach((item) {
+        if (role.id == item) {
+          selectedProducer.add(role);
+        }
+      });
+    });
+
+    itemsRoles.forEach((role) {
+      selectedItem.director.forEach((item) {
+        if (role.id == item) {
+          selectedDirector.add(role);
+        }
+      });
+    });
 
     return Scaffold(
       body: Container(
@@ -84,11 +101,46 @@ class ItemDetailsScreen extends StatelessWidget {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
-                  child: Image.network(
-                    // selectedItem.imageUrl,
-                    imageUrl,
-                    fit: BoxFit.cover,
+                  ///////////////////////////////////////////////////////////////////////////////////
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      height: 400.0,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enableInfiniteScroll: true,
+                      viewportFraction: 1.0,
+                      aspectRatio: 16 / 9,
+                    ),
+                    items: [
+                      "https://m.media-amazon.com/images/M/MV5BZDMzMGRlMmYtNmU1YS00Y2Y5LWEzMmItZjNjYjQ5ZjFhNzM2XkEyXkFqcGdeQXVyMTE3MTI4NTI2._V1_.jpg",
+                      "https://www.itntv.lk/wp-content/uploads/2020/04/thanamalvila-kollek-episode-28-2.jpg",
+                      "https://www.itntv.lk/wp-content/uploads/2020/04/thanamalvila-kollek-episode-26-2.jpg",
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKwtNQ7JWzugWVx__wcBa97phJ4TuAQV3K2nyU79s-UhrGigAz5Bhq471hHR70V_BFi34&usqp=CAU",
+                      "https://www.itntv.lk/wp-content/uploads/2020/04/thanamalvila-kollek-episode-28-2.jpg"
+                    ].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(color: Colors.amber),
+                            child: Image.network(
+                              i,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList(),
                   ),
+                  // child: Image.network(
+                  //   // selectedItem.imageUrl,
+                  //   imageUrl,
+                  //   fit: BoxFit.cover,
+                  // ),
                 ),
                 Container(
                   padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
@@ -142,13 +194,8 @@ class ItemDetailsScreen extends StatelessWidget {
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    "Ratings" + " (10)",
-                    style: TextStyle(
-                      fontFamily: "RobotoCondensed-Light",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      color: Colors.grey[600]
-                    ),
+                    "4.5/5" + " (10)",
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -170,12 +217,7 @@ class ItemDetailsScreen extends StatelessWidget {
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontFamily: "RobotoCondensed-Light",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      color: Colors.grey[700]
-                  ),
+                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +237,7 @@ class ItemDetailsScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
+                // alignment: Alignment.center,
                 height: 150,
                 width: 400,
                 child: ListView.builder(
@@ -208,7 +251,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               child: CircleAvatar(
                                 backgroundImage: NetworkImage(selectedCast[index].imageUrl),
-                                maxRadius: 30,
+                                maxRadius: 40,
                               ),
                             ),
                             Container(
@@ -226,7 +269,8 @@ class ItemDetailsScreen extends StatelessWidget {
               ),
               //buildingSectionTitle(context, "Director"),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.only(left: 25, right: 25, bottom: 2),
+                alignment: Alignment.center,
                 child: Text(
                   "Director",
                   style: TextStyle(
@@ -237,15 +281,43 @@ class ItemDetailsScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Text(
-                selectedItem.director,
-                //selectedDirector.name,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+              //
+              Container(
+                margin: EdgeInsets.only(top: 5, left: 2, right: 2),
+                padding: EdgeInsets.only(left: 2, right: 2),
+                height: 150,
+                width: 400,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: selectedDirector.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(selectedDirector[index].imageUrl),
+                                maxRadius: 40,
+                              ),
+                            ),
+                            Container(
+                              width: 300,
+                              child: Text(
+                                selectedDirector[index].name,
+                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
               ),
               // buildingSectionTitle(context, "Producer"),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.only(left: 25, right: 25, bottom: 2),
+                alignment: Alignment.center,
                 child: Text(
                   "Producer",
                   style: TextStyle(
@@ -256,10 +328,37 @@ class ItemDetailsScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Text(
-                selectedItem.producer,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 20),
+              Container(
+                margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                padding: EdgeInsets.only(left: 2, right: 2),
+                height: 120,
+                width: 400,
+                child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: selectedProducer.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(selectedProducer[index].imageUrl),
+                                maxRadius: 40,
+                              ),
+                            ),
+                            Container(
+                              width: 300,
+                              child: Text(
+                                selectedProducer[index].name,
+                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
               ),
               SizedBox(
                 height: 40,

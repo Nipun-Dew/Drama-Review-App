@@ -9,8 +9,8 @@ class Item {
   final String imageUrl;
   final String description;
   final List<String> cast;
-  final String director;
-  final String producer;
+  final List<String> director;
+  final List<String> producer;
   final Genre genre;
   final bool isFavourite;
   final List<String> comments;
