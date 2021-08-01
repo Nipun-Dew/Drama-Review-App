@@ -14,7 +14,7 @@ class Roles with ChangeNotifier {
     Role(id: "P1", name: "Chamara Samarawickrama", imageUrl: "http://news.starfriends.lk/wp-content/uploads/2018/04/19510250_1148843151928007_3508492931387696191_n-1-780x405.jpg"),
     Role(
         id: "P2",
-        name: "Saddhamangala Sooriyabandara",
+        name: "Saddha Mangala",
         imageUrl: "https://1.bp.blogspot.com/-l8RK9DWoquk/YDOLvIQU1II/AAAAAAAAD6U/2L8Ij9HgvE4DRvUQx27F-4j3mj3TYXvQQCLcBGAsYHQ/s320/IMG-20210217-WA0007.jpg"),
     Role(id: "P3", name: "Kalani Dodantenna", imageUrl: "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg"),
   ];

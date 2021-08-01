@@ -143,7 +143,7 @@ class ItemDetailsScreen extends StatelessWidget {
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enlargeCenterPage: true,
                       enableInfiniteScroll: true,
-                      viewportFraction: 1.0,
+                      viewportFraction: 1.1,
                       aspectRatio: 16 / 9,
                     ),
                     items: [
@@ -307,97 +307,115 @@ class ItemDetailsScreen extends StatelessWidget {
               //   ),
               // ),
 
-              Container(
-                margin: EdgeInsets.only(left: 25, right: 25, bottom: 2),
-                alignment: Alignment.center,
-                child: Text(
-                  "Director",
-                  style: TextStyle(
-                    fontFamily: "RobotoCondensed-Light",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+
               //
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
                 height: 150,
                 width: 400,
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: selectedDirector.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(selectedDirector[index].imageUrl),
-                                maxRadius: 40,
-                              ),
-                            ),
-                            Container(
-                              width: 300,
-                              child: Text(
-                                selectedDirector[index].name,
-                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
+                child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+                  child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              ...selectedDirector.map((director) {
+                              return Container(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 120,
+                                      margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Director",
+                                        style: TextStyle(
+                                          fontFamily: "RobotoCondensed-Light",
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 17,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(director.imageUrl),
+                                        maxRadius: 40,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 120,
+                                      child: Text(
+                                        director.name,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey[600]
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                )
+                              );
+                              }),
+                              ...selectedProducer.map((producer) {
+                                return Container(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: 120,
+                                        margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          "Producer",
+                                          style: TextStyle(
+                                            fontFamily: "RobotoCondensed-Light",
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                                        padding: EdgeInsets.only(left: 2, right: 2),
+                                        width: 120,
+                                        child: Container(
+                                          child: Column(
+                                            children: <Widget>[
+                                              Padding(
+                                                padding: EdgeInsets.all(5),
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(producer.imageUrl),
+                                                  maxRadius: 40,
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 120,
+                                                child: Text(
+                                                  producer.name,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Colors.grey[600]
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              })
+                            ],
+                          ),
                         ),
-                      );
-                    }),
-              ),
-              // buildingSectionTitle(context, "Producer"),
-              Container(
-                margin: EdgeInsets.only(left: 25, right: 25, bottom: 2),
-                alignment: Alignment.center,
-                child: Text(
-                  "Producer",
-                  style: TextStyle(
-                    fontFamily: "RobotoCondensed-Light",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                padding: EdgeInsets.only(left: 2, right: 2),
-                height: 120,
-                width: 400,
-                child: ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: selectedProducer.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(selectedProducer[index].imageUrl),
-                                maxRadius: 40,
-                              ),
-                            ),
-                            Container(
-                              width: 300,
-                              child: Text(
-                                selectedProducer[index].name,
-                                style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    }),
+                )
               ),
               SizedBox(
                 height: 40,
