@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
   final String id;
@@ -48,6 +49,37 @@ class ItemDetailsScreen extends StatelessWidget {
     });
     return sum;
   }
+
+  // late PlayerState _playerState;
+  // late YoutubeMetaData _videoMetaData;
+  // bool _isPlayerReady = false;
+
+  // YoutubePlayerController _controller = YoutubePlayerController(
+  //   initialVideoId: YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=gMv_QGTX7OQ").toString(),
+  //   flags: const YoutubePlayerFlags(
+  //     mute: false,
+  //     autoPlay: true,
+  //     disableDragSeek: false,
+  //     loop: false,
+  //     isLive: false,
+  //     forceHD: false,
+  //     enableCaption: true,
+  //   ),
+  // );
+  // // ..addListener(listener);
+
+  // void dispose() {
+  //   _controller.dispose();
+  // }
+
+  // void listener() {
+  //   if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+  //     setState(() {
+  //       _playerState = _controller.value.playerState;
+  //       _videoMetaData = _controller.metadata;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -132,11 +164,6 @@ class ItemDetailsScreen extends StatelessWidget {
                       );
                     }).toList(),
                   ),
-                  // child: Image.network(
-                  //   // selectedItem.imageUrl,
-                  //   imageUrl,
-                  //   fit: BoxFit.cover,
-                  // ),
                 ),
                 Container(
                   padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
@@ -152,7 +179,6 @@ class ItemDetailsScreen extends StatelessWidget {
                   ),
                 ),
               ]),
-              // buildingSectionTitle(context, selectedItem.title),
               Center(
                 child: Container(
                   margin: EdgeInsets.symmetric(vertical: 10),
@@ -263,7 +289,24 @@ class ItemDetailsScreen extends StatelessWidget {
                       );
                     }),
               ),
-              //buildingSectionTitle(context, "Director"),
+              ///////////////////video Add/////////////////////////////////
+              // Container(
+              //   width: 350,
+              //   height: 200,
+              //   child: YoutubePlayer(
+              //     controller: _controller,
+              //     showVideoProgressIndicator: true,
+              //     // videoProgressIndicatorColor: Colors.amber,
+              //     // progressColors: ProgressColors(
+              //     //     playedColor: Colors.amber,
+              //     //     handleColor: Colors.amberAccent,
+              //     // ),
+              //     // onReady () {
+              //     //     _controller.addListener(listener);
+              //     // },
+              //   ),
+              // ),
+
               Container(
                 margin: EdgeInsets.only(left: 25, right: 25, bottom: 2),
                 alignment: Alignment.center,
