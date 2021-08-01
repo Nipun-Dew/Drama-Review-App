@@ -24,14 +24,7 @@ class CategoryItemScreen extends StatelessWidget {
     return Column(
       children: [
         ...displayItems.map((item) {
-          return ItemWidget(
-              id: item.id,
-              title: item.title,
-              imageUrl: item.imageUrl,
-              category: item.category,
-              genre: Genre.Action,
-              wholeItem: item
-          );
+          return ItemWidget(id: item.id, title: item.title, imageUrl: item.imageUrl[0], category: item.category, genre: Genre.Action, wholeItem: item);
         })
       ],
     );

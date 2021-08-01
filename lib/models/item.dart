@@ -6,7 +6,7 @@ class Item {
   final String id;
   final String category;
   final String title;
-  final String imageUrl;
+  final List<String> imageUrl;
   final String description;
   final List<String> cast;
   final List<String> director;
