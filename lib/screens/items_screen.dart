@@ -8,7 +8,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class ItemDetailsScreen extends StatelessWidget {
+class ItemDetailsScreen extends StatefulWidget {
   final String id;
   final String title;
   final String category;
@@ -16,6 +16,11 @@ class ItemDetailsScreen extends StatelessWidget {
 
   ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl);
 
+  @override
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
+}
+
+class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -50,36 +55,29 @@ class ItemDetailsScreen extends StatelessWidget {
     return sum;
   }
 
-  // late PlayerState _playerState;
-  // late YoutubeMetaData _videoMetaData;
-  // bool _isPlayerReady = false;
+  late YoutubePlayerController _controller;
 
-  // YoutubePlayerController _controller = YoutubePlayerController(
-  //   initialVideoId: YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=gMv_QGTX7OQ").toString(),
-  //   flags: const YoutubePlayerFlags(
-  //     mute: false,
-  //     autoPlay: true,
-  //     disableDragSeek: false,
-  //     loop: false,
-  //     isLive: false,
-  //     forceHD: false,
-  //     enableCaption: true,
-  //   ),
-  // );
-  // // ..addListener(listener);
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=gMv_QGTX7OQ").toString(),
+      flags: const YoutubePlayerFlags(
+        mute: false,
+        autoPlay: false,
+        disableDragSeek: false,
+        loop: false,
+        isLive: false,
+        forceHD: false,
+        enableCaption: false,
+      ),
+    );
+  }
 
-  // void dispose() {
-  //   _controller.dispose();
-  // }
-
-  // void listener() {
-  //   if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-  //     setState(() {
-  //       _playerState = _controller.value.playerState;
-  //       _videoMetaData = _controller.metadata;
-  //     });
-  //   }
-  // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +90,7 @@ class ItemDetailsScreen extends StatelessWidget {
     final roleData = Provider.of<Roles>(context);
     final itemsRoles = roleData.items;
 
-    final selectedItem = items.firstWhere((item) => item.id == id);
+    final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
     final selectedCast = [];
     final selectedRoles = [];
@@ -158,7 +156,8 @@ class ItemDetailsScreen extends StatelessWidget {
                               i,
                               fit: BoxFit.cover,
                             ),
-                          );},
+                          );
+                        },
                       );
                     }).toList(),
                   ),
@@ -285,82 +284,87 @@ class ItemDetailsScreen extends StatelessWidget {
                       );
                     }),
               ),
-              ///////////////////video Add/////////////////////////////////
-              // Container(
-              //   width: 350,
-              //   height: 200,
-              //   child: YoutubePlayer(
-              //     controller: _controller,
-              //     showVideoProgressIndicator: true,
-              //     // videoProgressIndicatorColor: Colors.amber,
-              //     // progressColors: ProgressColors(
-              //     //     playedColor: Colors.amber,
-              //     //     handleColor: Colors.amberAccent,
-              //     // ),
-              //     // onReady () {
-              //     //     _controller.addListener(listener);
-              //     // },
-              //   ),
-              // ),
+              ///////////////////video Add///////////////////////////////////////////
               Container(
-                margin: EdgeInsets.only(top: 5, left: 2, right: 2),
-                padding: EdgeInsets.only(left: 2, right: 2),
-                height: 150,
-                width: 400,
-                child: SingleChildScrollView(scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      ...selectedRoles.map((role) {
-                        return Column(
-                          children: [
-                            Container(
-                              width: 120,
-                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                              alignment: Alignment.center,
-                              child: Text(
-                                role.id[0]=="P" ? "Producer" : "Director",
-                                style: TextStyle(
-                                  fontFamily: "RobotoCondensed-Light",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                              padding: EdgeInsets.only(left: 2, right: 2),
-                              width: 120,
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(role.imageUrl),
-                                      maxRadius: 40,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 120,
-                                    child: Text(
-                                      role.name,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w600,
-                                          color: Colors.grey[600]
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),],
-                        );})
-                    ],
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Watch Trailer",
+                  style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
                   ),
-                )
+                  textAlign: TextAlign.left,
+                ),
               ),
+
+              Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
+
+              ///////////////////////////////////////////////////////////////////////
+              Container(
+                  margin: EdgeInsets.only(top: 5, left: 2, right: 2),
+                  padding: EdgeInsets.only(left: 2, right: 2),
+                  height: 150,
+                  width: 400,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        ...selectedRoles.map((role) {
+                          return Column(
+                            children: [
+                              Container(
+                                width: 120,
+                                margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  role.id[0] == "P" ? "Producer" : "Director",
+                                  style: TextStyle(
+                                    fontFamily: "RobotoCondensed-Light",
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 17,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                                padding: EdgeInsets.only(left: 2, right: 2),
+                                width: 120,
+                                child: Column(
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.all(5),
+                                      child: CircleAvatar(
+                                        backgroundImage: NetworkImage(role.imageUrl),
+                                        maxRadius: 40,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 120,
+                                      child: Text(
+                                        role.name,
+                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        })
+                      ],
+                    ),
+                  )),
               SizedBox(
                 height: 40,
               )
