@@ -13,10 +13,10 @@ class ItemDetailsScreen extends StatefulWidget {
   final String title;
   final String category;
   final String imageUrl;
-  final String ytubeLink;
+  final String youtubeLink;
 
   ItemDetailsScreen(
-      this.id, this.title, this.category, this.imageUrl, this.ytubeLink);
+      this.id, this.title, this.category, this.imageUrl, this.youtubeLink);
 
   @override
   _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
@@ -46,7 +46,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   }
 
   final ratingValues = [4.5, 3, 5];
-
   final initialRatingValue = 1;
 
   arraySum(List arr) {
@@ -62,7 +61,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.ytubeLink).toString(),
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.youtubeLink).toString(),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: false,
@@ -129,7 +128,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
-                  ///////////////////////////////////////////////////////////////////////////////////
+                  ///////////////////////////photo-slider////////////////////////////////////////////////////////
                   child: CarouselSlider(
                     options: CarouselOptions(
                       height: 400.0,
@@ -161,6 +160,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     }).toList(),
                   ),
                 ),
+                //////////////////////////////////arrow-down////////////////////////////
                 Container(
                   padding:
                       EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
@@ -189,7 +189,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
               ),
-              ////////////////////////////////////////////////////////////////////////////////////////////////
+              /////////////////////////////////rating-star//////////////////////////////////////////////
               Center(
                 child: RatingBar.builder(
                   itemSize: 25,
@@ -250,8 +250,28 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       fontSize: 15,
                       color: Colors.grey[700]),
                 ),
+              ),///////////////////////////////video Add///////////////////////////////////////////
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Watch Trailer",
+                  style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
               ),
-              ////////////////////////////////////////////////////////////////////////////////////////////////
+              Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
+              ////////////////////////////////cast///////////////////////////////////////////////////////////
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.only(left: 25),
@@ -299,30 +319,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       );
                     }),
               ),
-              ///////////////////video Add///////////////////////////////////////////
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5),
-                padding: EdgeInsets.only(left: 25),
-                child: Text(
-                  "Watch Trailer",
-                  style: TextStyle(
-                    fontFamily: "RobotoCondensed-Light",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-
-              Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                ),
-              ),
-
-              ///////////////////////////////////////////////////////////////////////
+              ///////////////////////////roles////////////////////////////////////////////////
               Container(
                   margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                   padding: EdgeInsets.only(left: 2, right: 2),
@@ -387,8 +384,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     ),
                   )),
               SizedBox(
-                height: 40,
-              )
+                height: 30,
+              ),
             ],
           ),
         ),
