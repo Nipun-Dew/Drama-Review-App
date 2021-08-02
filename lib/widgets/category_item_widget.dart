@@ -12,14 +12,22 @@ class ItemWidget extends StatelessWidget {
   final String imageUrl;
   final Genre genre;
   final Item wholeItem;
+  final String ytubeLink;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre});
+  ItemWidget(
+      {required this.wholeItem,
+      required this.id,
+      required this.title,
+      required this.imageUrl,
+      required this.category,
+      required this.genre,
+      required this.ytubeLink});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrl);
+          return ItemDetailsScreen(id, title, category, imageUrl, ytubeLink);
         },
       ),
     );
@@ -54,7 +62,9 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    bool isFavourite = Provider.of<Items>(context, listen: true)
+        .getFavItems
+        .contains(wholeItem);
 
     return Container(
       child: Card(
@@ -132,7 +142,8 @@ class ItemWidget extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -148,7 +159,8 @@ class ItemWidget extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (_) {
                         return CommentScreen(id, imageUrl, wholeItem);
                       }));
                     },
@@ -157,7 +169,8 @@ class ItemWidget extends StatelessWidget {
                       children: <Widget>[
                         IconButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) {
                               return CommentScreen(id, imageUrl, wholeItem);
                             }));
                           },
@@ -174,7 +187,8 @@ class ItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                          onPressed: () => favBtnTap(isFavourite, context, wholeItem),
+                          onPressed: () =>
+                              favBtnTap(isFavourite, context, wholeItem),
                           icon: isFavourite
                               ? Icon(
                                   Icons.favorite,
