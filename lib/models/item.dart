@@ -17,6 +17,7 @@ class Item {
   // final List<String> likedUsers;
   final List<double> ratingValues;
   final double ratings;
+  final String ytubeLink;
 
   const Item({
     required this.id,
@@ -32,5 +33,6 @@ class Item {
     required this.comments,
     required this.ratingValues,
     this.ratings = 0.0,
+    required this.ytubeLink,
   });
 }

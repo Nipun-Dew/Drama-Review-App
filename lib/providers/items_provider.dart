@@ -32,6 +32,7 @@ class Items with ChangeNotifier {
       comments: ["Great Teledrama ❤️", "Best Acting 🔥", "kukulai kikili patiyai 😂😂😂", "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡", "Amboo ape Malan aiyya dena athal nm..."],
       ratingValues: [],
       ratings: 0,
+      ytubeLink: "https://www.youtube.com/watch?v=gMv_QGTX7OQ",
     ),
     Item(
       id: "I2",
@@ -56,6 +57,7 @@ class Items with ChangeNotifier {
       genre: Genre.Drama,
       comments: ["Great story", "Superb camera shots"], ratingValues: [],
       ratings: 1,
+      ytubeLink: "https://www.youtube.com/watch?v=L4DRwfjjnCw",
     ),
     Item(
       id: "I3",
@@ -72,6 +74,7 @@ class Items with ChangeNotifier {
       comments: ["Waiting for Episode2", "Good initiative"],
       ratingValues: [],
       ratings: 1,
+      ytubeLink: "https://www.youtube.com/watch?v=fD_f0PsHCKA",
     ),
     Item(
       id: "I4",
@@ -87,6 +90,7 @@ class Items with ChangeNotifier {
       comments: ["hahahaaaa", "mara dial tikk neh mun"],
       ratingValues: [],
       ratings: 1,
+      ytubeLink: "https://www.youtube.com/watch?v=HaYaf4KpAkU",
     ),
   ];
 
