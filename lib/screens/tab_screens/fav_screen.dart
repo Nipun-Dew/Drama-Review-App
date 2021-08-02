@@ -20,7 +20,7 @@ class FavouriteScreen extends StatelessWidget {
             category: item.category,
             genre: Genre.Action,
             wholeItem: item,
-            ytubeLink: item.ytubeLink,
+            trailerVideoUrl: item.trailerVideoUrl,
           );
         })
       ],

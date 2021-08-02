@@ -13,16 +13,19 @@ class ItemDetailsScreen extends StatefulWidget {
   final String title;
   final String category;
   final String imageUrl;
-  final String youtubeLink;
+  final String trailerVideoUrl;
 
-  ItemDetailsScreen(
-      this.id, this.title, this.category, this.imageUrl, this.youtubeLink);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
+  final String trailerVideoUrl;
+
+  _ItemDetailsScreenState({required this.trailerVideoUrl});
+
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -46,6 +49,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   }
 
   final ratingValues = [4.5, 3, 5];
+
   final initialRatingValue = 1;
 
   arraySum(List arr) {
@@ -58,10 +62,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   late YoutubePlayerController _controller;
 
-  void initState() {
+  initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.youtubeLink).toString(),
+      initialVideoId: YoutubePlayer.convertUrlToId(trailerVideoUrl).toString(),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: false,
@@ -110,6 +114,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           selectedRoles.add(role);
         }
       });
+    });
+
+    itemsRoles.forEach((role) {
       selectedItem.producer.forEach((item) {
         if (role.id == item) {
           selectedRoles.add(role);
@@ -128,7 +135,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 Container(
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
-                  ///////////////////////////photo-slider////////////////////////////////////////////////////////
+                  ///////////////////////////////////////////////////////////////////////////////////
                   child: CarouselSlider(
                     options: CarouselOptions(
                       height: 400.0,
@@ -160,10 +167,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     }).toList(),
                   ),
                 ),
-                //////////////////////////////////arrow-down////////////////////////////
                 Container(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -182,14 +187,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     selectedItem.title,
-                    style: TextStyle(
-                        fontFamily: "RobotoCondensed-Light",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
                   ),
                 ),
               ),
-              /////////////////////////////////rating-star//////////////////////////////////////////////
+              ////////////////////////////////////////////////////////////////////////////////////////////////
               Center(
                 child: RatingBar.builder(
                   itemSize: 25,
@@ -217,11 +219,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
                     "4.5/5" + " (10)",
-                    style: TextStyle(
-                        fontFamily: "RobotoCondensed-Light",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.grey[600]),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -239,18 +237,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontFamily: "RobotoCondensed-Light",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      color: Colors.grey[700]),
+                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
                 ),
-              ),///////////////////////////////video Add///////////////////////////////////////////
+              ),
+              ////////////////////////////////////////////////////////////////////////////////////////////////
+              ///
+              /////////////////////////video Add///////////////////////////////////////////
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.only(left: 25),
@@ -264,6 +260,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   textAlign: TextAlign.left,
                 ),
               ),
+
               Padding(
                 padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
                 child: YoutubePlayer(
@@ -271,7 +268,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   showVideoProgressIndicator: true,
                 ),
               ),
-              ////////////////////////////////cast///////////////////////////////////////////////////////////
+
+              ///////////////////////////////////////////////////////////////////////
+
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.only(left: 25),
@@ -300,8 +299,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(selectedCast[index].imageUrl),
+                              backgroundImage: NetworkImage(selectedCast[index].imageUrl),
                               maxRadius: 40,
                             ),
                           ),
@@ -309,9 +307,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             width: 100,
                             child: Text(
                               selectedCast[index].name,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[600]),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           )
@@ -319,73 +315,69 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       );
                     }),
               ),
-              ///////////////////////////roles////////////////////////////////////////////////
+
               Container(
-                  margin: EdgeInsets.only(top: 5, left: 2, right: 2),
-                  padding: EdgeInsets.only(left: 2, right: 2),
-                  height: 150,
-                  width: 400,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        ...selectedRoles.map((role) {
-                          return Column(
-                            children: [
-                              Container(
-                                width: 120,
-                                margin: EdgeInsets.only(
-                                    left: 5, right: 5, bottom: 2),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  role.id[0] == "P" ? "Producer" : "Director",
-                                  style: TextStyle(
-                                    fontFamily: "RobotoCondensed-Light",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 17,
-                                  ),
-                                  textAlign: TextAlign.center,
+                margin: EdgeInsets.only(top: 5, left: 2, right: 2),
+                padding: EdgeInsets.only(left: 2, right: 2),
+                height: 150,
+                width: 400,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ...selectedRoles.map((role) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                              alignment: Alignment.center,
+                              child: Text(
+                                role.id[0] == "P" ? "Producer" : "Director",
+                                style: TextStyle(
+                                  fontFamily: "RobotoCondensed-Light",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              Container(
-                                margin:
-                                    EdgeInsets.only(top: 2, left: 2, right: 2),
-                                padding: EdgeInsets.only(left: 2, right: 2),
-                                width: 120,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(role.imageUrl),
-                                        maxRadius: 40,
-                                      ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                              padding: EdgeInsets.only(left: 2, right: 2),
+                              width: 120,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(role.imageUrl),
+                                      maxRadius: 40,
                                     ),
-                                    Container(
-                                      width: 120,
-                                      child: Text(
-                                        role.name,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.grey[600]),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                      role.name,
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          );
-                        })
-                      ],
-                    ),
-                  )),
-              SizedBox(
-                height: 30,
+                            ),
+                          ],
+                        );
+                      })
+                    ],
+                  ),
+                ),
               ),
+
+              SizedBox(
+                height: 40,
+              )
             ],
           ),
         ),
