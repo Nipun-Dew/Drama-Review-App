@@ -111,9 +111,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           selectedRoles.add(role);
         }
       });
-    });
-
-    itemsRoles.forEach((role) {
       selectedItem.producer.forEach((item) {
         if (role.id == item) {
           selectedRoles.add(role);
