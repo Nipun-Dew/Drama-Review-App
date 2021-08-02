@@ -14,12 +14,13 @@ class FavouriteScreen extends StatelessWidget {
       children: [
         ...items.map((item) {
           return ItemWidget(
-              id: item.id,
-              title: item.title,
-              imageUrl: item.imageUrl,
-              category: item.category,
-              genre: Genre.Action,
-              wholeItem: item
+            id: item.id,
+            title: item.title,
+            imageUrl: item.imageUrl[0],
+            category: item.category,
+            genre: Genre.Action,
+            wholeItem: item,
+            trailerVideoUrl: item.trailerVideoUrl,
           );
         })
       ],

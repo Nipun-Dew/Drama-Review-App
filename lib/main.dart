@@ -1,5 +1,7 @@
+import 'package:drama_app/providers/cast_provider.dart';
 import 'package:drama_app/providers/categories_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/providers/role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +14,8 @@ void main() {
       ChangeNotifierProvider(create: (_) => DramaDetails()),
       ChangeNotifierProvider(create: (_) => Categories()),
       ChangeNotifierProvider(create: (_) => Items()),
+      ChangeNotifierProvider(create: (_) => Casts()),
+      ChangeNotifierProvider(create: (_) => Roles()),
     ],
     child: MyApp(),
   ));
@@ -30,17 +34,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Raleway',
         textTheme: TextTheme(
           headline2: TextStyle(
-              fontFamily: 'RobotoCondensed',
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+            fontFamily: 'RobotoCondensed',
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          headline6: TextStyle(
-              fontFamily: 'RobotoCondensed',
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-          ),
+          headline6: TextStyle(fontFamily: 'RobotoCondensed', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
       ),
       home: TabScreen(),
