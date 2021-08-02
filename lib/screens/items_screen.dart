@@ -13,8 +13,10 @@ class ItemDetailsScreen extends StatefulWidget {
   final String title;
   final String category;
   final String imageUrl;
+  final String ytubeLink;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl);
+  ItemDetailsScreen(
+      this.id, this.title, this.category, this.imageUrl, this.ytubeLink);
 
   @override
   _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
@@ -60,7 +62,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=gMv_QGTX7OQ").toString(),
+      initialVideoId: YoutubePlayer.convertUrlToId(widget.ytubeLink).toString(),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: false,
@@ -163,7 +165,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -182,7 +185,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     selectedItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
                   ),
                 ),
               ),
@@ -214,7 +220,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
                     "4.5/5" + " (10)",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -232,11 +242,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +283,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index].imageUrl),
+                              backgroundImage:
+                                  NetworkImage(selectedCast[index].imageUrl),
                               maxRadius: 40,
                             ),
                           ),
@@ -276,7 +292,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             width: 100,
                             child: Text(
                               selectedCast[index].name,
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           )
@@ -323,7 +341,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             children: [
                               Container(
                                 width: 120,
-                                margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                                margin: EdgeInsets.only(
+                                    left: 5, right: 5, bottom: 2),
                                 alignment: Alignment.center,
                                 child: Text(
                                   role.id[0] == "P" ? "Producer" : "Director",
@@ -336,7 +355,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                                margin:
+                                    EdgeInsets.only(top: 2, left: 2, right: 2),
                                 padding: EdgeInsets.only(left: 2, right: 2),
                                 width: 120,
                                 child: Column(
@@ -344,7 +364,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                     Padding(
                                       padding: EdgeInsets.all(5),
                                       child: CircleAvatar(
-                                        backgroundImage: NetworkImage(role.imageUrl),
+                                        backgroundImage:
+                                            NetworkImage(role.imageUrl),
                                         maxRadius: 40,
                                       ),
                                     ),
@@ -352,7 +373,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                       width: 120,
                                       child: Text(
                                         role.name,
-                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.grey[600]),
                                         textAlign: TextAlign.center,
                                       ),
                                     )
