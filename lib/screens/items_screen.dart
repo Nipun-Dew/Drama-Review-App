@@ -95,8 +95,7 @@ class ItemDetailsScreen extends StatelessWidget {
     final selectedItem = items.firstWhere((item) => item.id == id);
 
     final selectedCast = [];
-    final selectedProducer = [];
-    final selectedDirector = [];
+    final selectedRoles = [];
 
     itemsCast.forEach((cast) {
       selectedItem.cast.forEach((item) {
@@ -107,17 +106,17 @@ class ItemDetailsScreen extends StatelessWidget {
     });
 
     itemsRoles.forEach((role) {
-      selectedItem.producer.forEach((item) {
+      selectedItem.director.forEach((item) {
         if (role.id == item) {
-          selectedProducer.add(role);
+          selectedRoles.add(role);
         }
       });
     });
 
     itemsRoles.forEach((role) {
-      selectedItem.director.forEach((item) {
+      selectedItem.producer.forEach((item) {
         if (role.id == item) {
-          selectedDirector.add(role);
+          selectedRoles.add(role);
         }
       });
     });
@@ -312,46 +311,7 @@ class ItemDetailsScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      ...selectedDirector.map((director) {
-                      return Column(
-                        children: [
-                          Container(
-                            width: 120,
-                            margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Director",
-                              style: TextStyle(
-                                fontFamily: "RobotoCondensed-Light",
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(director.imageUrl),
-                              maxRadius: 40,
-                            ),
-                          ),
-                          Container(
-                            width: 120,
-                            child: Text(
-                              director.name,
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey[600]
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        ],
-                      );
-                      }),
-                      ...selectedProducer.map((producer) {
+                      ...selectedRoles.map((role) {
                         return Column(
                           children: [
                             Container(
@@ -359,7 +319,7 @@ class ItemDetailsScreen extends StatelessWidget {
                               margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
                               alignment: Alignment.center,
                               child: Text(
-                                "Producer",
+                                role.id[0]=="P" ? "Producer" : "Director",
                                 style: TextStyle(
                                   fontFamily: "RobotoCondensed-Light",
                                   fontWeight: FontWeight.w500,
@@ -377,14 +337,14 @@ class ItemDetailsScreen extends StatelessWidget {
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                     child: CircleAvatar(
-                                      backgroundImage: NetworkImage(producer.imageUrl),
+                                      backgroundImage: NetworkImage(role.imageUrl),
                                       maxRadius: 40,
                                     ),
                                   ),
                                   Container(
                                     width: 120,
                                     child: Text(
-                                      producer.name,
+                                      role.name,
                                       style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w600,
