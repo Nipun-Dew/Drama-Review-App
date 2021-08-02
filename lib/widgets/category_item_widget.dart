@@ -12,14 +12,15 @@ class ItemWidget extends StatelessWidget {
   final String imageUrl;
   final Genre genre;
   final Item wholeItem;
+  final String trailerVideoUrl;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre, required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrl);
+          return ItemDetailsScreen(id, title, category, imageUrl, trailerVideoUrl);
         },
       ),
     );

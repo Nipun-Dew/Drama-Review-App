@@ -13,14 +13,19 @@ class ItemDetailsScreen extends StatefulWidget {
   final String title;
   final String category;
   final String imageUrl;
+  final String trailerVideoUrl;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState();
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
+  final String trailerVideoUrl;
+
+  _ItemDetailsScreenState({required this.trailerVideoUrl});
+
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -57,10 +62,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   late YoutubePlayerController _controller;
 
-  void initState() {
+  initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId("https://www.youtube.com/watch?v=gMv_QGTX7OQ").toString(),
+      initialVideoId: YoutubePlayer.convertUrlToId(trailerVideoUrl).toString(),
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: false,
@@ -240,6 +245,32 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
+              ///
+              /////////////////////////video Add///////////////////////////////////////////
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Watch Trailer",
+                  style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
+
+              ///////////////////////////////////////////////////////////////////////
+
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.only(left: 25),
@@ -284,87 +315,66 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       );
                     }),
               ),
-              ///////////////////video Add///////////////////////////////////////////
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 5),
-                padding: EdgeInsets.only(left: 25),
-                child: Text(
-                  "Watch Trailer",
-                  style: TextStyle(
-                    fontFamily: "RobotoCondensed-Light",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
 
-              Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                ),
-              ),
-
-              ///////////////////////////////////////////////////////////////////////
               Container(
-                  margin: EdgeInsets.only(top: 5, left: 2, right: 2),
-                  padding: EdgeInsets.only(left: 2, right: 2),
-                  height: 150,
-                  width: 400,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        ...selectedRoles.map((role) {
-                          return Column(
-                            children: [
-                              Container(
-                                width: 120,
-                                margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                                alignment: Alignment.center,
-                                child: Text(
-                                  role.id[0] == "P" ? "Producer" : "Director",
-                                  style: TextStyle(
-                                    fontFamily: "RobotoCondensed-Light",
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 17,
-                                  ),
-                                  textAlign: TextAlign.center,
+                margin: EdgeInsets.only(top: 5, left: 2, right: 2),
+                padding: EdgeInsets.only(left: 2, right: 2),
+                height: 150,
+                width: 400,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ...selectedRoles.map((role) {
+                        return Column(
+                          children: [
+                            Container(
+                              width: 120,
+                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
+                              alignment: Alignment.center,
+                              child: Text(
+                                role.id[0] == "P" ? "Producer" : "Director",
+                                style: TextStyle(
+                                  fontFamily: "RobotoCondensed-Light",
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 17,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              Container(
-                                margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                                padding: EdgeInsets.only(left: 2, right: 2),
-                                width: 120,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.all(5),
-                                      child: CircleAvatar(
-                                        backgroundImage: NetworkImage(role.imageUrl),
-                                        maxRadius: 40,
-                                      ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
+                              padding: EdgeInsets.only(left: 2, right: 2),
+                              width: 120,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImage(role.imageUrl),
+                                      maxRadius: 40,
                                     ),
-                                    Container(
-                                      width: 120,
-                                      child: Text(
-                                        role.name,
-                                        style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    width: 120,
+                                    child: Text(
+                                      role.name,
+                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          );
-                        })
-                      ],
-                    ),
-                  )),
+                            ),
+                          ],
+                        );
+                      })
+                    ],
+                  ),
+                ),
+              ),
+
               SizedBox(
                 height: 40,
               )
