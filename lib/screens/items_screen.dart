@@ -114,9 +114,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           selectedRoles.add(role);
         }
       });
-    });
-
-    itemsRoles.forEach((role) {
       selectedItem.producer.forEach((item) {
         if (role.id == item) {
           selectedRoles.add(role);
@@ -244,8 +241,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
                 ),
               ),
-              ////////////////////////////////////////////////////////////////////////////////////////////////
-              ///
               /////////////////////////video Add///////////////////////////////////////////
               Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
