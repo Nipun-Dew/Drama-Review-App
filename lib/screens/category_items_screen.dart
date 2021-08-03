@@ -15,6 +15,7 @@ class CategoryItemScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final itemData = Provider.of<Items>(context);
+    Provider.of<Items>(context).fetchMovies();
     final items = itemData.items;
 
     displayItems = items.where((item) {
@@ -24,7 +25,14 @@ class CategoryItemScreen extends StatelessWidget {
     return Column(
       children: [
         ...displayItems.map((item) {
-          return ItemWidget(id: item.id, title: item.title, imageUrl: item.imageUrl[0], category: item.category, trailerVideoUrl: item.trailerVideoUrl, genre: Genre.Action, wholeItem: item);
+          return ItemWidget(
+              id: item.id,
+              title: item.title,
+              imageUrl: item.imageUrl[0],
+              category: item.category,
+              trailerVideoUrl: item.trailerVideoUrl,
+              genre: Genre.Action,
+              wholeItem: item);
         })
       ],
     );

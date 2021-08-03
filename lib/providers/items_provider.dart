@@ -1,6 +1,8 @@
 import 'package:drama_app/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Items with ChangeNotifier {
   List<Item> _items = [
@@ -90,6 +92,12 @@ class Items with ChangeNotifier {
         ratings: 1,
         trailerVideoUrl: "https://www.youtube.com/watch?v=kW9ijxpZc-0"),
   ];
+
+  void fetchMovies() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/movies/all");
+    var responce = await http.get(url);
+    print(json.decode(responce.body));
+  }
 
   List<Item> get items {
     return [..._items];
