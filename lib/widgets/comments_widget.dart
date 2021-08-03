@@ -8,7 +8,6 @@ class CommentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double phoneWidth = MediaQuery.of(context).size.width;
-    final double phoneHeight = MediaQuery.of(context).size.height;
 
     return Container(
       child: Row(
