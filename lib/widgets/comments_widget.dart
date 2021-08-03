@@ -7,6 +7,9 @@ class CommentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double phoneWidth = MediaQuery.of(context).size.width;
+    final double phoneHeight = MediaQuery.of(context).size.height;
+
     return Container(
       child: Row(
         children: <Widget>[
@@ -19,8 +22,7 @@ class CommentItem extends StatelessWidget {
             ),
           ),
           Container(
-            width: 330,
-            height: 80,
+            width: phoneWidth * 0.83,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -30,7 +32,7 @@ class CommentItem extends StatelessWidget {
                 ),
               ),
               elevation: 4,
-              margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+              margin: EdgeInsets.only(top: 5, bottom: 15, left: 10, right: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +45,7 @@ class CommentItem extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 15, top: 3),
+                    padding: EdgeInsets.only(left: 15, right: 7, top: 7, bottom: 10),
                     child: Text(
                       comment,
                       textAlign: TextAlign.left,
