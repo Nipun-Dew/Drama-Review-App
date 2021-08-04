@@ -28,6 +28,20 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     _imageCount = 1;
   }
 
+  String dropdownValue = 'Sajitha Anthoney';
+
+  final dropdownItemList = <String>[
+    'Sajitha Anthoney',
+    'Meena Kumari',
+    'Thumidu Dodanthenna',
+    'Giriraj Kushalya',
+  ].map<DropdownMenuItem<String>>((String value) {
+    return DropdownMenuItem<String>(
+      value: value,
+      child: Text(value),
+    );
+  }).toList();
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -151,7 +165,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                               itemCount: _castCount,
                               itemBuilder: (context, index) {
                                 return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Container(
                                       width: screenWidth * 0.4,
@@ -165,9 +179,16 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     ),
                                     Container(
                                       width: screenWidth * 0.4,
-                                      child: TextFormField(
-                                        decoration: InputDecoration(labelText: 'Actor name'),
-                                        textInputAction: TextInputAction.next,
+                                      child: DropdownButton<String>(
+                                        value: dropdownValue,
+                                        elevation: 16,
+                                        style: const TextStyle(color: Colors.deepPurple, fontSize: 12),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue!;
+                                          });
+                                        },
+                                        items: dropdownItemList,
                                       ),
                                     ),
                                     Container(
@@ -198,12 +219,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                               itemCount: _roleCount,
                               itemBuilder: (context, index) {
                                 return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: <Widget>[
                                     Container(
                                       width: screenWidth * 0.4,
                                       child: TextFormField(
-                                        decoration: InputDecoration(labelText: 'Name'),
+                                        decoration: InputDecoration(labelText: 'Role'),
                                         textInputAction: TextInputAction.next,
                                       ),
                                     ),
@@ -212,9 +233,16 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     ),
                                     Container(
                                       width: screenWidth * 0.4,
-                                      child: TextFormField(
-                                        decoration: InputDecoration(labelText: 'Role'),
-                                        textInputAction: TextInputAction.next,
+                                      child: DropdownButton<String>(
+                                        value: dropdownValue,
+                                        elevation: 16,
+                                        style: const TextStyle(color: Colors.deepPurple, fontSize: 12),
+                                        onChanged: (String? newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue!;
+                                          });
+                                        },
+                                        items: dropdownItemList,
                                       ),
                                     ),
                                     Container(
