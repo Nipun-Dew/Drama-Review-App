@@ -15,14 +15,14 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     super.dispose();
   }
 
-  late int _genreCount;
+  // late int _genreCount;
   late int _roleCount;
   late int _castCount;
   late int _imageCount;
 
   void initState() {
     super.initState();
-    _genreCount = 1;
+    // _genreCount = 1;
     _roleCount = 1;
     _castCount = 1;
     _imageCount = 1;
@@ -41,6 +41,15 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       child: Text(value),
     );
   }).toList();
+
+  bool _checkboxAction = false;
+  bool _checkboxRomance = false;
+  bool _checkboxHorror = false;
+  bool _checkboxThriller = false;
+  bool _checkboxBiography = false;
+  bool _checkboxDrama = false;
+  bool _checkboxComody = false;
+  bool _checkboxFiction = false;
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +95,11 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         maxLines: 3,
                         // textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.multiline,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Video Url'),
+                        keyboardType: TextInputType.url,
+                        textInputAction: TextInputAction.next,
                       ),
                       Container(
                         width: screenWidth,
@@ -264,36 +278,160 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         ),
                       ),
                       Container(
-                        // swidth: 250,
+                        child: Text("Genre Types"),
+                        padding: EdgeInsets.only(top: 15),
+                      ),
+                      // Container(
+                      //   // swidth: 250,
+                      //   child: Column(
+                      //     children: <Widget>[
+                      //       ListView.builder(
+                      //         physics: NeverScrollableScrollPhysics(),
+                      //         shrinkWrap: true,
+                      //         itemCount: _genreCount,
+                      //         itemBuilder: (context, index) {
+                      //           return Row(children: <Widget>[
+                      //             Container(
+                      //               width: screenWidth * 0.85,
+                      //               child: TextFormField(
+                      //                 decoration: InputDecoration(labelText: 'Genre Type'),
+                      //                 textInputAction: TextInputAction.next,
+                      //               ),
+                      //             ),
+                      //             Container(
+                      //               width: screenWidth * 0.05,
+                      //               child: IconButton(
+                      //                 icon: Icon(Icons.plus_one),
+                      //                 onPressed: () async {
+                      //                   setState(() {
+                      //                     _genreCount++;
+                      //                   });
+                      //                 },
+                      //               ),
+                      //             )
+                      //           ]);
+                      //         },
+                      //       )
+                      //     ],
+                      //   ),
+                      // ),
+                      Container(
+                        width: screenWidth,
+                        // height: 300,
                         child: Column(
-                          children: <Widget>[
-                            ListView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: _genreCount,
-                              itemBuilder: (context, index) {
-                                return Row(children: <Widget>[
-                                  Container(
-                                    width: screenWidth * 0.85,
-                                    child: TextFormField(
-                                      decoration: InputDecoration(labelText: 'Genre Type'),
-                                      textInputAction: TextInputAction.next,
-                                    ),
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Action'),
+                                    value: _checkboxAction,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxAction = !_checkboxAction;
+                                      });
+                                    },
                                   ),
-                                  Container(
-                                    width: screenWidth * 0.05,
-                                    child: IconButton(
-                                      icon: Icon(Icons.plus_one),
-                                      onPressed: () async {
-                                        setState(() {
-                                          _genreCount++;
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ]);
-                              },
-                            )
+                                ),
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Romance'),
+                                    value: _checkboxRomance,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxRomance = !_checkboxRomance;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Horror'),
+                                    value: _checkboxHorror,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxHorror = !_checkboxHorror;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Thriller'),
+                                    value: _checkboxThriller,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxThriller = !_checkboxThriller;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Biography'),
+                                    value: _checkboxBiography,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxBiography = !_checkboxBiography;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Drama'),
+                                    value: _checkboxDrama,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxDrama = !_checkboxDrama;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Comedy'),
+                                    value: _checkboxComody,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxComody = !_checkboxComody;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: CheckboxListTile(
+                                    controlAffinity: ListTileControlAffinity.leading,
+                                    title: Text('Fiction'),
+                                    value: _checkboxFiction,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _checkboxFiction = !_checkboxFiction;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -303,7 +441,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           style: ButtonStyle(),
                           onPressed: () {
                             setState(() {
-                              _genreCount = 1;
+                              // _genreCount = 1;
                               _castCount = 1;
                               _roleCount = 1;
                               _imageCount = 1;
