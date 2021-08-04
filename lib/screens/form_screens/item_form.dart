@@ -51,6 +51,13 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   bool _checkboxComody = false;
   bool _checkboxFiction = false;
 
+  final _form = GlobalKey<FormState>();
+
+  void _saveForm() {
+    // Should build
+    _form.currentState!.save();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -84,6 +91,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                 margin: EdgeInsets.only(left: 15, right: 15),
                 width: screenWidth,
                 child: Form(
+                  key: _form,
                   child: Column(
                     children: <Widget>[
                       TextFormField(
@@ -440,12 +448,14 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         child: ElevatedButton(
                           style: ButtonStyle(),
                           onPressed: () {
+                            /// Check This
                             setState(() {
                               // _genreCount = 1;
                               _castCount = 1;
                               _roleCount = 1;
                               _imageCount = 1;
                             });
+                            _saveForm();
                           },
                           child: const Text('Submit'),
                         ),
