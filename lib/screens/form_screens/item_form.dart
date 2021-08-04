@@ -262,6 +262,21 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         ],
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                        style: ButtonStyle(),
+                        onPressed: () {
+                          setState(() {
+                            _genreCount = 1;
+                            _castCount = 1;
+                            _roleCount = 1;
+                            _imageCount = 1;
+                          });
+                        },
+                        child: const Text('Submit'),
+                      ),
+                    ),
                   ],
                 ),
               ),
