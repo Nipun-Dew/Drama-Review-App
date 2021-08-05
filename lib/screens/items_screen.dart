@@ -146,7 +146,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       aspectRatio: 16 / 9,
                     ),
                     items: [
-                      ...selectedItem.imageUrl,
+                      ...selectedItem.imageUrls,
                     ].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -294,7 +294,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index].imageUrl),
+                              backgroundImage: NetworkImage(selectedCast[index].imageUrls),
                               maxRadius: 40,
                             ),
                           ),
@@ -347,7 +347,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                     child: CircleAvatar(
-                                      backgroundImage: NetworkImage(role.imageUrl),
+                                      backgroundImage: NetworkImage(role.imageUrls),
                                       maxRadius: 40,
                                     ),
                                   ),

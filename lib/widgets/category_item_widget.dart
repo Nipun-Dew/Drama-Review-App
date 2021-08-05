@@ -9,18 +9,18 @@ class ItemWidget extends StatelessWidget {
   final String id;
   final String title;
   final String category;
-  final String imageUrl;
+  final String imageUrls;
   final List<String> genres;
   final Item wholeItem;
   final String trailerVideoUrl;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genres, required this.trailerVideoUrl});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrl, trailerVideoUrl);
+          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl);
         },
       ),
     );
@@ -58,7 +58,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                     child: Image.network(
                       //imageUrl,
-                      imageUrl,
+                      imageUrls,
                       height: 250,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -132,7 +132,7 @@ class ItemWidget extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                        return CommentScreen(id, imageUrl, wholeItem);
+                        return CommentScreen(id, imageUrls, wholeItem);
                       }));
                     },
                     child: Row(
@@ -141,7 +141,7 @@ class ItemWidget extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                              return CommentScreen(id, imageUrl, wholeItem);
+                              return CommentScreen(id, imageUrls, wholeItem);
                             }));
                           },
                           icon: Icon(
