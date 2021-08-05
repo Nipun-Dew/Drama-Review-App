@@ -8,7 +8,7 @@ class Items with ChangeNotifier {
         id: "I1",
         category: "C1",
         title: "Nadagamkarayo",
-        imageUrl: [
+        imageUrls: [
           "https://steemitimages.com/p/TZjG7hXReeVoAvXt2X6pMxYAb3q65xMju8wryWxKrsghkLoEqpouqCt7QGaJSv8qX8FaMW8RPeeL3tyhpXaTGBZSDLGft3WXaxBBR9fFksjUiNZH9wsBe3nTQye4TPJHqPiCs7bCHDF2W2?format=match&mode=fit&width=800",
           "https://i2.wp.com/nadagamkarayo.com/wp-content/uploads/2021/07/Epi-130.jpg?fit=300%2C171&ssl=1",
           "https://i0.wp.com/nadagamkarayo.com/wp-content/uploads/2021/07/Epi-129.jpg?fit=300%2C171&ssl=1",
@@ -25,19 +25,26 @@ class Items with ChangeNotifier {
         // ],
         cast: ["A1", "A2", "A3", "A4", "A5"],
         // director: "Jayaprakash Sivagurunadan",
-        director: ["D1"],
-        producer: ["P1", "P2"],
+        directors: ["D1"],
+        producers: ["P1", "P2"],
         // producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
-        genre: Genre.Drama,
-        comments: ["Great Teledrama ❤️", "Best Acting 🔥", "kukulai kikili patiyai 😂😂😂", "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡", "Amboo ape Malan aiyya dena athal nm..."],
+        genres: ["Drama"],
+        reviews: {
+          "userId1": "Great Teledrama ❤️",
+          "userId2": "Best Acting 🔥",
+          "userId3": "kukulai kikili patiyai 😂😂😂",
+          "userId4": "කැකුලා සරාගෙන් කනවා බලන්න ආස අය කෝ.. 😡",
+          "userId5": "Amboo ape Malan aiyya dena athal nm..."
+        },
         ratingValues: [],
         ratings: 0,
-        trailerVideoUrl: "https://www.youtube.com/watch?v=gMv_QGTX7OQ&list=RDgMv_QGTX7OQ&start_radio=1"),
+        youtubeURL:
+            "https://www.youtube.com/watch?v=gMv_QGTX7OQ&list=RDgMv_QGTX7OQ&start_radio=1"),
     Item(
         id: "I2",
         category: "C1",
         title: "Thnamalvila Kollek",
-        imageUrl: [
+        imageUrls: [
           "https://i.ytimg.com/vi/nSe4hW60FNI/maxresdefault.jpg",
           "https://m.media-amazon.com/images/M/MV5BZDMzMGRlMmYtNmU1YS00Y2Y5LWEzMmItZjNjYjQ5ZjFhNzM2XkEyXkFqcGdeQXVyMTE3MTI4NTI2._V1_.jpg",
           "https://www.itntv.lk/wp-content/uploads/2020/04/thanamalvila-kollek-episode-28-2.jpg",
@@ -51,44 +58,49 @@ class Items with ChangeNotifier {
         cast: ["A6", "A7", "A8", "A9"],
         // director: "Roshan Ravindra",
         // producer: "Fahim Maujude",
-        director: ["D1"],
-        producer: ["P2"],
-        genre: Genre.Drama,
-        comments: ["Great story", "Superb camera shots"],
+        directors: ["D1"],
+        producers: ["P2"],
+        genres: ["Drama"],
+        reviews: {"userId1": "Great story", "userId2": "Superb camera shots"},
         ratingValues: [],
         ratings: 1,
-        trailerVideoUrl: "https://www.youtube.com/watch?v=L4DRwfjjnCw"),
+        youtubeURL: "https://www.youtube.com/watch?v=L4DRwfjjnCw"),
     Item(
         id: "I3",
         category: "C2",
         title: "Agoha",
-        imageUrl: ["https://i.ytimg.com/vi/Jb4Z-MvRGPU/maxresdefault.jpg"],
+        imageUrls: ["https://i.ytimg.com/vi/Jb4Z-MvRGPU/maxresdefault.jpg"],
         description: "Agohsa is a.....",
         cast: [],
         // director: "Director",
         // producer: "Producer",
-        director: ["D1"],
-        producer: ["P2"],
-        genre: Genre.Thriller,
-        comments: ["Waiting for Episode2", "Good initiative"],
+        directors: ["D1"],
+        producers: ["P2"],
+        genres: ["Thriller"],
+        reviews: {
+          "userId1": "Waiting for Episode2",
+          "userId2": "Good initiative"
+        },
         ratingValues: [],
         ratings: 1,
-        trailerVideoUrl: "https://www.youtube.com/watch?v=esU2KhThkzc"),
+        youtubeURL: "https://www.youtube.com/watch?v=esU2KhThkzc"),
     Item(
         id: "I4",
         category: "C3",
         title: "Machan",
-        imageUrl: ["https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"],
+        imageUrls: [
+          "https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"
+        ],
         description: "Machan is a movie.....",
         cast: [],
         //
-        director: ["D1"],
-        producer: ["P2"],
-        genre: Genre.Drama,
-        comments: ["hahahaaaa", "mara dial tikk neh mun"],
+        directors: ["D1"],
+        producers: ["P2"],
+        genres: ["Drama"],
+        reviews: {"userId1": "hahahaaaa", "userId2": "mara dial tikk neh mun"},
         ratingValues: [],
         ratings: 1,
-        trailerVideoUrl: "https://www.youtube.com/watch?v=kW9ijxpZc-0"),
+        youtubeURL: "https://www.youtube.com/watch?v=kW9ijxpZc-0"),
   ];
 
   List<Item> get items {

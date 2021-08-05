@@ -9,18 +9,18 @@ class ItemWidget extends StatelessWidget {
   final String id;
   final String title;
   final String category;
-  final String imageUrl;
-  final Genre genre;
+  final String imageUrls;
+  final List<String> genres;
   final Item wholeItem;
   final String trailerVideoUrl;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre, required this.trailerVideoUrl});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrl, trailerVideoUrl);
+          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl);
         },
       ),
     );
@@ -31,25 +31,6 @@ class ItemWidget extends StatelessWidget {
       Provider.of<Items>(context, listen: false).delFavItems = item;
     } else {
       Provider.of<Items>(context, listen: false).addFavItems = item;
-    }
-  }
-
-  String get genreText {
-    switch (genre) {
-      case Genre.Action:
-        return 'Action';
-      case Genre.Commody:
-        return 'comody';
-      case Genre.Drama:
-        return 'Drama';
-      case Genre.Horror:
-        return 'Horror';
-      case Genre.Romamce:
-        return 'Romance';
-      case Genre.Thriller:
-        return 'Thriller';
-      default:
-        return 'unknown';
     }
   }
 
@@ -77,7 +58,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                     child: Image.network(
                       //imageUrl,
-                      imageUrl,
+                      imageUrls,
                       height: 250,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -115,13 +96,14 @@ class ItemWidget extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  Text(
-                    genreText,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  // TODO - display the list of genres
+                  // Text(
+                  //   genreText,
+                  //   style: TextStyle(
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -150,7 +132,7 @@ class ItemWidget extends StatelessWidget {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                        return CommentScreen(id, imageUrl, wholeItem);
+                        return CommentScreen(id, imageUrls, wholeItem);
                       }));
                     },
                     child: Row(
@@ -159,7 +141,7 @@ class ItemWidget extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                              return CommentScreen(id, imageUrl, wholeItem);
+                              return CommentScreen(id, imageUrls, wholeItem);
                             }));
                           },
                           icon: Icon(
