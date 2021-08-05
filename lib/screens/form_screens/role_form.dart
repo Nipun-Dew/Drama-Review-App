@@ -6,10 +6,16 @@ class RoleFormScreen extends StatefulWidget {
 }
 
 class _RoleFormScreenState extends State<RoleFormScreen> {
-  final _imageEditingCOntroler = TextEditingController();
+  List<TextEditingController> controllers = [
+    TextEditingController()
+  ];
+  //final _imageEditingCOntroler = TextEditingController();
 
   void dispose() {
-    _imageEditingCOntroler.dispose();
+    controllers.forEach((element) {
+      element.dispose();
+    });
+    //_imageEditingCOntroler.dispose();
     super.dispose();
   }
 
@@ -31,11 +37,11 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
         child: Column(
           children: <Widget>[
             Container(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.05),
               child: InkWell(
                 child: Icon(
                   Icons.keyboard_arrow_down,
-                  color: Colors.black,
+                  color: Theme.of(context).primaryColor,
                   size: 50,
                 ),
                 onTap: () {
@@ -88,7 +94,7 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                       child: TextFormField(
                                         decoration: InputDecoration(labelText: 'Image Url'),
                                         keyboardType: TextInputType.url,
-                                        controller: _imageEditingCOntroler, // Meken thami awla enne
+                                        controller: controllers[index], // TODO controller issue
                                         textInputAction: TextInputAction.next,
                                       ),
                                     ),
@@ -102,7 +108,7 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                         border: Border.all(width: 1, color: Colors.black),
                                       ),
                                       child: FittedBox(
-                                        child: _imageEditingCOntroler.text.isEmpty
+                                        child: controllers[index].text.isEmpty
                                             ? Padding(
                                                 padding: EdgeInsets.all(10),
                                                 child: Text(
@@ -110,15 +116,16 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                                   style: TextStyle(fontSize: 5),
                                                 ),
                                               )
-                                            : Image.network(_imageEditingCOntroler.text),
+                                            : Image.network(controllers[index].text),
                                       ),
                                     ),
                                     Container(
                                       width: screenWidth * 0.05,
                                       child: IconButton(
-                                        icon: Icon(Icons.plus_one),
+                                        icon: Icon(Icons.add, color: Theme.of(context).primaryColor,),
                                         onPressed: () async {
                                           setState(() {
+                                            controllers.add(TextEditingController());
                                             _imageCount++;
                                           });
                                         },
