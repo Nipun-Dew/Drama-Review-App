@@ -15,10 +15,12 @@ class ItemDetailsScreen extends StatefulWidget {
   final String imageUrl;
   final String trailerVideoUrl;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl,
+      this.trailerVideoUrl);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
+  _ItemDetailsScreenState createState() =>
+      _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
@@ -29,7 +31,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Text(text, style: Theme.of(context).textTheme.headline2),
+      child: Text(text, style: Theme
+          .of(context)
+          .textTheme
+          .headline2),
     );
   }
 
@@ -89,8 +94,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final itemData = Provider.of<Items>(context);
     final items = itemData.items;
 
-    final castData = Provider.of<Casts>(context);
-    final itemsCast = castData.items;
+    //final castData = Provider.of<Casts>(context);
+    //final itemsCast = castData.items;
 
     final roleData = Provider.of<Roles>(context);
     final itemsRoles = roleData.items;
@@ -100,22 +105,19 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final selectedCast = [];
     final selectedRoles = [];
 
-    itemsCast.forEach((cast) {
+    itemsRoles.forEach((role) {
       selectedItem.cast.forEach((item) {
-        if (cast.name == item) {
-          selectedCast.add(cast);
+        if (role.starID == item["starID"] && role.role == item["role"]) {
+          selectedCast.add(role);
         }
       });
-    });
-
-    itemsRoles.forEach((role) {
       selectedItem.directors.forEach((item) {
-        if (role.id == item) {
+        if (role.role == "director" && role.starID == item["starID"]) {
           selectedRoles.add(role);
         }
       });
       selectedItem.producers.forEach((item) {
-        if (role.id == item) {
+        if (role.role == "producer" && role.starID == item["starID"]) {
           selectedRoles.add(role);
         }
       });
@@ -123,14 +125,20 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        margin: EdgeInsets.only(top: MediaQuery
+            .of(context)
+            .padding
+            .top),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Stack(children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.35,
                   width: double.infinity,
                   ///////////////////////////////////////////////////////////////////////////////////
                   child: CarouselSlider(
@@ -151,7 +159,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       return Builder(
                         builder: (BuildContext context) {
                           return Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: MediaQuery
+                                .of(context)
+                                .size
+                                .width,
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(color: Colors.amber),
                             child: Image.network(
@@ -165,7 +176,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -184,7 +198,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     selectedItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
                   ),
                 ),
               ),
@@ -199,10 +215,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
+                  itemBuilder: (context, _) =>
+                      Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
                   onRatingUpdate: (rating) {
                     ratingValues.add(rating);
                     print(ratingValues);
@@ -216,7 +233,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
                     "4.5/5" + " (10)",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -234,11 +254,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]),
                 ),
               ),
               /////////////////////////video Add///////////////////////////////////////////
@@ -294,15 +318,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index].imageUrls[0]),
+                              backgroundImage: NetworkImage(
+                                  selectedCast[index].imageUrl),
                               maxRadius: 40,
                             ),
                           ),
                           Container(
                             width: 100,
                             child: Text(
-                              selectedCast[index].name,
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              selectedCast[index].starID,
+                              style: TextStyle(fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           )
@@ -329,7 +355,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
                               alignment: Alignment.center,
                               child: Text(
-                                role.id[0] == "P" ? "Producer" : "Director",
+                                role.role,
                                 style: TextStyle(
                                   fontFamily: "RobotoCondensed-Light",
                                   fontWeight: FontWeight.w500,
@@ -347,14 +373,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   Padding(
                                     padding: EdgeInsets.all(5),
                                     child: CircleAvatar(
-                                      backgroundImage: NetworkImage(role.imageUrls),
+                                      backgroundImage: NetworkImage(role.imageUrl),
                                       maxRadius: 40,
                                     ),
                                   ),
                                   Container(
                                     width: 120,
                                     child: Text(
-                                      role.name,
+                                      role.starID,
                                       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
                                       textAlign: TextAlign.center,
                                     ),

@@ -1,7 +1,7 @@
 class Role {
-  final String id;
-  final String name;
-  final String imageUrls;
+  final String role;
+  final String starID;
+  final String imageUrl;
 
-  const Role({required this.id, required this.name, required this.imageUrls});
+  const Role({required this.role, required this.starID, required this.imageUrl});
 }

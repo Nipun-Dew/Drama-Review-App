@@ -6,9 +6,9 @@ class Item {
   final String title;
   final List<String> imageUrls;
   final String description;
-  final List<String> cast;
-  final List<String> directors;
-  final List<String> producers;
+  final List<Map<String, String>> cast;
+  final List<Map<String, String>> directors;
+  final List<Map<String, String>> producers;
   final List<String> genres;
   final bool isFavourite;
   final Map<String, String> reviews;

@@ -24,15 +24,20 @@ class Items with ChangeNotifier {
         //   "Kukula Lakuna - Giriraj Kaushalya"
         // ],
         cast: [
-          "Sajitha Anthoney",
-          "Kokila Pawan",
-          "Giriraj Kaushalya",
-          "Senali Fonseka",
-          "Praveena Disanayake"
+          {"role": "Sara", "starID": "Sajitha Anthoney"},
+          {"role": "Malan", "starID": "Kokila Pawan"},
+          {"role": "Kabral", "starID": "Giriraj Kaushalya"},
+          {"role": "Patali", "starID": "Senali Fonseka"},
+          {"role": "Geethika", "starID": "Praveena Disanayake"}
         ],
         // director: "Jayaprakash Sivagurunadan",
-        directors: ["D1"],
-        producers: ["P1", "P2"],
+        directors: [
+          {"role": "director", "starID": "Kokila Pawan"}
+        ],
+        producers: [
+          {"role": "producer", "starID": "Giriraj Kaushalya"},
+          {"role": "producer", "starID": "Sajitha Anthoney"}
+        ],
         // producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
         genres: ["Drama"],
         reviews: {
@@ -63,15 +68,19 @@ class Items with ChangeNotifier {
             "Thnamalvila kollek a life story of a village boy who is struggeling with many problems as a person in a rural area. This teledrama shows how win his life and make a succefull artist. THis teledrama shows calm and peacefullnes of the village as well as the dark side of the village life as poverty and how people are strugling to win their lives",
         // cast: ["Deeptha - Dhanuka Dilshan", "kithula - Xavier Kanishka", "koora - Nilanka Sepala Dahanayake", "Yashodhara - Yashoda Wimaladharma"],
         cast: [
-          "Kalani Dodantenna",
-          "Yashoda Wimalaweera",
-          "Danuka Dilshan",
-          "Hemasiri Liyanage"
+          {"role": "Amasha", "starID": "Kalani Dodantenna"},
+          {"role": "Yashoda", "starID": "Yashoda Wimalaweera"},
+          {"role": "Deeptha", "starID": "Danuka Dilshan"},
+          {"role": "Deepthas Father", "starID": "Hemasiri Liyanage"}
         ],
         // director: "Roshan Ravindra",
         // producer: "Fahim Maujude",
-        directors: ["D1"],
-        producers: ["P2"],
+        directors: [
+          {"role": "director", "starID": "Sajitha Anthoney"}
+        ],
+        producers: [
+          {"role": "producer", "starID": "Kokila Pawan"}
+        ],
         genres: ["Drama"],
         reviews: {"userId1": "Great story", "userId2": "Superb camera shots"},
         ratingValues: [],
@@ -87,8 +96,12 @@ class Items with ChangeNotifier {
         cast: [],
         // director: "Director",
         // producer: "Producer",
-        directors: ["D1"],
-        producers: ["P2"],
+        directors: [
+          {"role": "director", "starID": "Jayaprakash Sivagurunadan"}
+        ],
+        producers: [
+          {"role": "producer", "starID": "Chamara Samarawickrama"}
+        ],
         genres: ["Thriller"],
         reviews: {
           "userId1": "Waiting for Episode2",
@@ -108,8 +121,12 @@ class Items with ChangeNotifier {
         description: "Machan is a movie.....",
         cast: [],
         //
-        directors: ["D1"],
-        producers: ["P2"],
+        directors: [
+          {"role": "director", "starID": "Jayaprakash Sivagurunadan"}
+        ],
+        producers: [
+          {"role": "producer", "starID": "Chamara Samarawickrama"}
+        ],
         genres: ["Drama"],
         reviews: {"userId1": "hahahaaaa", "userId2": "mara dial tikk neh mun"},
         ratingValues: [],
