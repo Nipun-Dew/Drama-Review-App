@@ -18,7 +18,7 @@ class FavouriteScreen extends StatelessWidget {
             title: item.title,
             imageUrl: item.imageUrl[0],
             category: item.category,
-            genre: Genre.Action,
+            genres: item.genres,
             wholeItem: item,
             trailerVideoUrl: item.trailerVideoUrl,
           );

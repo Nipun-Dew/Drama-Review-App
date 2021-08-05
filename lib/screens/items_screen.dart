@@ -109,12 +109,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     });
 
     itemsRoles.forEach((role) {
-      selectedItem.director.forEach((item) {
+      selectedItem.directors.forEach((item) {
         if (role.id == item) {
           selectedRoles.add(role);
         }
       });
-      selectedItem.producer.forEach((item) {
+      selectedItem.producers.forEach((item) {
         if (role.id == item) {
           selectedRoles.add(role);
         }

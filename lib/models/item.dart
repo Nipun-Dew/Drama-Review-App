@@ -1,7 +1,5 @@
 import 'dart:ffi';
 
-enum Genre { Drama, Thriller, Horror, Romamce, Action, Commody }
-
 class Item {
   final String id;
   final String category;
@@ -9,9 +7,9 @@ class Item {
   final List<String> imageUrl;
   final String description;
   final List<String> cast;
-  final List<String> director;
-  final List<String> producer;
-  final Genre genre;
+  final List<String> directors;
+  final List<String> producers;
+  final List<String> genres;
   final bool isFavourite;
   final List<String> comments;
   // final List<String> likedUsers;
@@ -26,9 +24,9 @@ class Item {
     required this.imageUrl,
     required this.description,
     required this.cast,
-    required this.director,
-    required this.producer,
-    required this.genre,
+    required this.directors,
+    required this.producers,
+    required this.genres,
     this.isFavourite = false,
     required this.comments,
     required this.ratingValues,

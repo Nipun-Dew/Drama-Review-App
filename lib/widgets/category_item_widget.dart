@@ -10,11 +10,11 @@ class ItemWidget extends StatelessWidget {
   final String title;
   final String category;
   final String imageUrl;
-  final Genre genre;
+  final List<String> genres;
   final Item wholeItem;
   final String trailerVideoUrl;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genre, required this.trailerVideoUrl});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrl, required this.category, required this.genres, required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx) {
     Navigator.of(ctx).push(
@@ -31,25 +31,6 @@ class ItemWidget extends StatelessWidget {
       Provider.of<Items>(context, listen: false).delFavItems = item;
     } else {
       Provider.of<Items>(context, listen: false).addFavItems = item;
-    }
-  }
-
-  String get genreText {
-    switch (genre) {
-      case Genre.Action:
-        return 'Action';
-      case Genre.Commody:
-        return 'comody';
-      case Genre.Drama:
-        return 'Drama';
-      case Genre.Horror:
-        return 'Horror';
-      case Genre.Romamce:
-        return 'Romance';
-      case Genre.Thriller:
-        return 'Thriller';
-      default:
-        return 'unknown';
     }
   }
 
@@ -115,13 +96,14 @@ class ItemWidget extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
-                  Text(
-                    genreText,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  // TODO - display the list of genres
+                  // Text(
+                  //   genreText,
+                  //   style: TextStyle(
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
