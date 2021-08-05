@@ -23,7 +23,13 @@ class Items with ChangeNotifier {
         //   "Malan - Kokila Pawan Jayasooriya",
         //   "Kukula Lakuna - Giriraj Kaushalya"
         // ],
-        cast: ["A1", "A2", "A3", "A4", "A5"],
+        cast: [
+          "Sajitha Anthoney",
+          "Kokila Pawan",
+          "Giriraj Kaushalya",
+          "Senali Fonseka",
+          "Praveena Disanayake"
+        ],
         // director: "Jayaprakash Sivagurunadan",
         directors: ["D1"],
         producers: ["P1", "P2"],
@@ -37,6 +43,7 @@ class Items with ChangeNotifier {
           "userId5": "Amboo ape Malan aiyya dena athal nm..."
         },
         ratingValues: [],
+        rateMap: {},
         ratings: 0,
         youtubeURL:
             "https://www.youtube.com/watch?v=gMv_QGTX7OQ&list=RDgMv_QGTX7OQ&start_radio=1"),
@@ -55,7 +62,12 @@ class Items with ChangeNotifier {
         description:
             "Thnamalvila kollek a life story of a village boy who is struggeling with many problems as a person in a rural area. This teledrama shows how win his life and make a succefull artist. THis teledrama shows calm and peacefullnes of the village as well as the dark side of the village life as poverty and how people are strugling to win their lives",
         // cast: ["Deeptha - Dhanuka Dilshan", "kithula - Xavier Kanishka", "koora - Nilanka Sepala Dahanayake", "Yashodhara - Yashoda Wimaladharma"],
-        cast: ["A6", "A7", "A8", "A9"],
+        cast: [
+          "Kalani Dodantenna",
+          "Yashoda Wimalaweera",
+          "Danuka Dilshan",
+          "Hemasiri Liyanage"
+        ],
         // director: "Roshan Ravindra",
         // producer: "Fahim Maujude",
         directors: ["D1"],
@@ -63,6 +75,7 @@ class Items with ChangeNotifier {
         genres: ["Drama"],
         reviews: {"userId1": "Great story", "userId2": "Superb camera shots"},
         ratingValues: [],
+        rateMap: {},
         ratings: 1,
         youtubeURL: "https://www.youtube.com/watch?v=L4DRwfjjnCw"),
     Item(
@@ -82,6 +95,7 @@ class Items with ChangeNotifier {
           "userId2": "Good initiative"
         },
         ratingValues: [],
+        rateMap: {},
         ratings: 1,
         youtubeURL: "https://www.youtube.com/watch?v=esU2KhThkzc"),
     Item(
@@ -99,6 +113,7 @@ class Items with ChangeNotifier {
         genres: ["Drama"],
         reviews: {"userId1": "hahahaaaa", "userId2": "mara dial tikk neh mun"},
         ratingValues: [],
+        rateMap: {},
         ratings: 1,
         youtubeURL: "https://www.youtube.com/watch?v=kW9ijxpZc-0"),
   ];

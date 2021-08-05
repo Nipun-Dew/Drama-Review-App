@@ -102,7 +102,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     itemsCast.forEach((cast) {
       selectedItem.cast.forEach((item) {
-        if (cast.id == item) {
+        if (cast.name == item) {
           selectedCast.add(cast);
         }
       });
@@ -294,7 +294,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index].imageUrls),
+                              backgroundImage: NetworkImage(selectedCast[index].imageUrls[0]),
                               maxRadius: 40,
                             ),
                           ),

@@ -1,7 +1,7 @@
 class Cast {
-  final String id;
   final String name;
-  final String imageUrls;
+  final String description;
+  final List<String> imageUrls;
 
-  const Cast({required this.id, required this.name, required this.imageUrls});
+  const Cast({required this.name, required this.description, required this.imageUrls});
 }
