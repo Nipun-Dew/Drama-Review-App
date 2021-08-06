@@ -32,7 +32,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     _imageCount = 1;
   }
 
-  
+  List<String> dropDownValCast = ['Sajitha Anthoney'];
+
+  List<String> dropDownValRole = ['Sajitha Anthoney'];
 
   bool _checkboxAction = false;
   bool _checkboxRomance = false;
@@ -40,13 +42,13 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   bool _checkboxThriller = false;
   bool _checkboxBiography = false;
   bool _checkboxDrama = false;
-  bool _checkboxComedy = false;
+  bool _checkboxComody = false;
   bool _checkboxFiction = false;
 
   final _form = GlobalKey<FormState>();
 
   void _saveForm() {
-    // TODO Should build
+    // Should build
     _form.currentState!.save();
   }
 
@@ -61,9 +63,6 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
         child: Text(value),
       );
     }).toList();
-    
-    List<String> dropDownValCast = [itemList[0].name];
-    List<String> dropDownValRole = [itemList[0].name];
 
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -460,10 +459,10 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       controlAffinity:
                                           ListTileControlAffinity.leading,
                                       title: Text('Comedy'),
-                                      value: _checkboxComedy,
+                                      value: _checkboxComody,
                                       onChanged: (value) {
                                         setState(() {
-                                          _checkboxComedy = !_checkboxComedy;
+                                          _checkboxComody = !_checkboxComody;
                                         });
                                       },
                                     ),
