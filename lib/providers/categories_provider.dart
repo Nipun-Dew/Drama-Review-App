@@ -12,7 +12,8 @@ class Categories with ChangeNotifier {
     DramaCategory(
         id: "C1",
         title: "Teledramas",
-        imageUrl: "https://www.itntv.lk/wp-content/uploads/2020/06/thanamalvila-kollek-episode-40-2-407x229.jpg"),
+        imageUrl:
+            "https://www.itntv.lk/wp-content/uploads/2020/06/thanamalvila-kollek-episode-40-2-407x229.jpg"),
     DramaCategory(
         id: "C2",
         title: "Web Series",
@@ -23,16 +24,19 @@ class Categories with ChangeNotifier {
         imageUrl: "https://i.ytimg.com/vi/qGeVRCI2P-0/maxresdefault.jpg"),
     DramaCategory(
         id: "C4",
-        title: "Documentries",
-        imageUrl: "https://www.cinnamonnaturetrails.com/wp-content/uploads/2017/12/asian-elephant-2.jpg"),
+        title: "Short Movies",
+        imageUrl:
+            "https://lh3.googleusercontent.com/proxy/FKAKQDlFo7VOUCU_U25WcbTvBiciXRxlZ6y2NFB_jF38ZmBvM3JkA6LQwqxc6qBWnlH0c05BpUtzKZZ9nZyYHXvk1LljF8o0DpeU1ZLFoGZTwD_ztGIE"),
     DramaCategory(
         id: "C5",
-        title: "Cartoons",
-        imageUrl: "https://images.squarespace-cdn.com/content/v1/51cdafc4e4b09eb676a64e68/1618598239038-1QA2Y4IJD2G8KPFD3JB7/rat_ot1.jpg"),
+        title: "Mini Series",
+        imageUrl:
+            "http://www.derana.lk/image/cache/data/Podu/1609070027thumb_podu_e10-362x132.jpg"),
     DramaCategory(
         id: "C6",
-        title: "Educational",
-        imageUrl: "https://i0.wp.com/www.colombotelegraph.com/wp-content/uploads/2021/01/Shukra-Munawwar.jpg?ssl=1"),
+        title: "Old Hits",
+        imageUrl:
+            "https://images.mubicdn.net/images/film/276178/cache-577198-1597510846/image-w1280.jpg?size=740x"),
   ];
 
   List<DramaCategory> get items {
