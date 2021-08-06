@@ -37,7 +37,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   List<String> dropDownValRole = ['Sajitha Anthoney'];
 
   String dropDownValType = 'TeleDrama';
-  String dropDownValRoleType = 'Director';
+  List<String> dropDownValRoleType = ['Director'];
 
   bool _checkboxAction = false;
   bool _checkboxRomance = false;
@@ -308,12 +308,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       Container(
                                         width: screenWidth * 0.4,
                                         child: DropdownButton<String>(
-                                          value: dropDownValRoleType,
+                                          value: dropDownValRoleType[index],
                                           elevation: 16,
                                           style: const TextStyle(color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValRoleType = newValue!;
+                                              dropDownValRoleType[index] = newValue!;
                                             });
                                           },
                                           items: dropdownRoleList,
@@ -343,6 +343,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           onPressed: () async {
                                             setState(() {
                                               dropDownValRole.add('Sajitha Anthoney');
+                                              dropDownValRoleType.add('Director');
                                               _roleCount++;
                                             });
                                           },
