@@ -37,6 +37,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   List<String> dropDownValRole = ['Sajitha Anthoney'];
 
   String dropDownValType = 'TeleDrama';
+  String dropDownValRoleType = 'Director';
 
   bool _checkboxAction = false;
   bool _checkboxRomance = false;
@@ -66,6 +67,13 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     }).toList();
 
     final dropdownItemTypeList = ['TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList();
+
+    final dropdownRoleList = ['Director', 'Producer'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
