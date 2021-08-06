@@ -63,9 +63,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     }).toList();
     
     List<String> dropDownValCast = [itemList[0].name];
-
     List<String> dropDownValRole = [itemList[0].name];
-    
 
     final screenWidth = MediaQuery.of(context).size.width;
 
