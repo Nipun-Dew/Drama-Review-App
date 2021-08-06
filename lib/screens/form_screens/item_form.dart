@@ -36,6 +36,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
   List<String> dropDownValRole = ['Sajitha Anthoney'];
 
+  String dropDownValType = 'TeleDrama';
+
   bool _checkboxAction = false;
   bool _checkboxRomance = false;
   bool _checkboxHorror = false;
@@ -56,8 +58,14 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
 
-    final dropdownItemList = [...itemList.map((cast) => cast.name)]
-        .map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemList = [...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList();
+
+    final dropdownItemTypeList = ['TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
@@ -75,8 +83,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -106,12 +113,41 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           textInputAction: TextInputAction.next,
                         ),
                         TextFormField(
-                          decoration:
-                              InputDecoration(labelText: 'Item Description'),
+                          decoration: InputDecoration(labelText: 'Item Description'),
                           maxLines: 3,
                           // textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.multiline,
                         ),
+
+                        Container(
+                          width: screenWidth,
+                          padding: EdgeInsets.only(top: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                width: screenWidth * 0.4,
+                                child: Text("Item Type"),
+                                padding: EdgeInsets.only(top: 15),
+                              ),
+                              Container(
+                                width: screenWidth * 0.4,
+                                child: DropdownButton<String>(
+                                  value: dropDownValType,
+                                  elevation: 16,
+                                  style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      dropDownValType = newValue!;
+                                    });
+                                  },
+                                  items: dropdownItemTypeList,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Video Url'),
                           keyboardType: TextInputType.url,
@@ -132,20 +168,16 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       height: 150,
                                       width: screenWidth * 0.4,
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
                                             width: screenWidth * 0.4,
                                             height: 150,
                                             child: TextFormField(
-                                              decoration: InputDecoration(
-                                                  labelText: 'Image Url'),
+                                              decoration: InputDecoration(labelText: 'Image Url'),
                                               keyboardType: TextInputType.url,
-                                              controller:
-                                                  imageControllers[index],
-                                              textInputAction:
-                                                  TextInputAction.next,
+                                              controller: imageControllers[index],
+                                              textInputAction: TextInputAction.next,
                                             ),
                                           ),
                                           SizedBox(
@@ -155,26 +187,18 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             width: screenWidth * 0.4,
                                             height: 150,
                                             decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: Colors.black),
+                                              border: Border.all(width: 1, color: Colors.black),
                                             ),
                                             child: FittedBox(
-                                              child: imageControllers[index]
-                                                      .text
-                                                      .isEmpty
+                                              child: imageControllers[index].text.isEmpty
                                                   ? Padding(
-                                                      padding:
-                                                          EdgeInsets.all(10),
+                                                      padding: EdgeInsets.all(10),
                                                       child: Text(
                                                         "Add Image Url",
-                                                        style: TextStyle(
-                                                            fontSize: 5),
+                                                        style: TextStyle(fontSize: 5),
                                                       ),
                                                     )
-                                                  : Image.network(
-                                                      imageControllers[index]
-                                                          .text),
+                                                  : Image.network(imageControllers[index].text),
                                             ),
                                           ),
                                           Container(
@@ -183,8 +207,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               icon: Icon(Icons.plus_one),
                                               onPressed: () async {
                                                 setState(() {
-                                                  imageControllers.add(
-                                                      TextEditingController());
+                                                  imageControllers.add(TextEditingController());
                                                   _imageCount++;
                                                 });
                                               },
@@ -214,8 +237,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       Container(
                                         width: screenWidth * 0.4,
                                         child: TextFormField(
-                                          decoration: InputDecoration(
-                                              labelText: 'Cast Name'),
+                                          decoration: InputDecoration(labelText: 'Cast Name'),
                                           textInputAction: TextInputAction.next,
                                         ),
                                       ),
@@ -227,12 +249,10 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         child: DropdownButton<String>(
                                           value: dropDownValCast[index],
                                           elevation: 16,
-                                          style: const TextStyle(
-                                              color: Colors.pink, fontSize: 12),
+                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValCast[index] =
-                                                  newValue!;
+                                              dropDownValCast[index] = newValue!;
                                             });
                                           },
                                           items: dropdownItemList,
@@ -244,8 +264,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           icon: Icon(Icons.add),
                                           onPressed: () async {
                                             setState(() {
-                                              dropDownValCast
-                                                  .add('Sajitha Anthoney');
+                                              dropDownValCast.add('Sajitha Anthoney');
                                               _castCount++;
                                             });
                                           },
@@ -273,8 +292,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       Container(
                                         width: screenWidth * 0.4,
                                         child: TextFormField(
-                                          decoration: InputDecoration(
-                                              labelText: 'Role'),
+                                          decoration: InputDecoration(labelText: 'Role'),
                                           textInputAction: TextInputAction.next,
                                         ),
                                       ),
@@ -286,12 +304,10 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         child: DropdownButton<String>(
                                           value: dropDownValRole[index],
                                           elevation: 16,
-                                          style: const TextStyle(
-                                              color: Colors.pink, fontSize: 12),
+                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValRole[index] =
-                                                  newValue!;
+                                              dropDownValRole[index] = newValue!;
                                             });
                                           },
                                           items: dropdownItemList,
@@ -303,8 +319,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           icon: Icon(Icons.plus_one),
                                           onPressed: () async {
                                             setState(() {
-                                              dropDownValRole
-                                                  .add('Sajitha Anthoney');
+                                              dropDownValRole.add('Sajitha Anthoney');
                                               _roleCount++;
                                             });
                                           },
@@ -364,8 +379,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Action'),
                                       value: _checkboxAction,
                                       onChanged: (value) {
@@ -377,8 +391,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Romance'),
                                       value: _checkboxRomance,
                                       onChanged: (value) {
@@ -394,8 +407,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Horror'),
                                       value: _checkboxHorror,
                                       onChanged: (value) {
@@ -407,14 +419,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Thriller'),
                                       value: _checkboxThriller,
                                       onChanged: (value) {
                                         setState(() {
-                                          _checkboxThriller =
-                                              !_checkboxThriller;
+                                          _checkboxThriller = !_checkboxThriller;
                                         });
                                       },
                                     ),
@@ -425,22 +435,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Biography'),
                                       value: _checkboxBiography,
                                       onChanged: (value) {
                                         setState(() {
-                                          _checkboxBiography =
-                                              !_checkboxBiography;
+                                          _checkboxBiography = !_checkboxBiography;
                                         });
                                       },
                                     ),
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Drama'),
                                       value: _checkboxDrama,
                                       onChanged: (value) {
@@ -456,8 +463,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Comedy'),
                                       value: _checkboxComody,
                                       onChanged: (value) {
@@ -469,8 +475,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity:
-                                          ListTileControlAffinity.leading,
+                                      controlAffinity: ListTileControlAffinity.leading,
                                       title: Text('Fiction'),
                                       value: _checkboxFiction,
                                       onChanged: (value) {
