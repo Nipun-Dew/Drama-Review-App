@@ -240,7 +240,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 itemCount: _castCount,
                                 itemBuilder: (context, index) {
                                   return Row(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         width: screenWidth * 0.4,
@@ -287,6 +287,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         ),
                         Container(
                           // swidth: 250,
+                          padding: EdgeInsets.only(top: 10),
                           child: Column(
                             children: <Widget>[
                               ListView.builder(
@@ -297,11 +298,25 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   return Row(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget>[
+                                      // Container(
+                                      //   width: screenWidth * 0.4,
+                                      //   child: TextFormField(
+                                      //     decoration: InputDecoration(labelText: 'Role'),
+                                      //     textInputAction: TextInputAction.next,
+                                      //   ),
+                                      // ),
                                       Container(
                                         width: screenWidth * 0.4,
-                                        child: TextFormField(
-                                          decoration: InputDecoration(labelText: 'Role'),
-                                          textInputAction: TextInputAction.next,
+                                        child: DropdownButton<String>(
+                                          value: dropDownValRoleType,
+                                          elevation: 16,
+                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                          onChanged: (String? newValue) {
+                                            setState(() {
+                                              dropDownValRoleType = newValue!;
+                                            });
+                                          },
+                                          items: dropdownRoleList,
                                         ),
                                       ),
                                       SizedBox(
