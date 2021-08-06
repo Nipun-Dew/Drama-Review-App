@@ -204,7 +204,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           Container(
                                             width: screenWidth * 0.05,
                                             child: IconButton(
-                                              icon: Icon(Icons.plus_one),
+                                              icon: Icon(Icons.add),
                                               onPressed: () async {
                                                 setState(() {
                                                   imageControllers.add(TextEditingController());
@@ -316,7 +316,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       Container(
                                         width: screenWidth * 0.05,
                                         child: IconButton(
-                                          icon: Icon(Icons.plus_one),
+                                          icon: Icon(Icons.add),
                                           onPressed: () async {
                                             setState(() {
                                               dropDownValRole.add('Sajitha Anthoney');
