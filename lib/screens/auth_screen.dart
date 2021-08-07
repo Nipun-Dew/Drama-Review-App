@@ -28,14 +28,15 @@ class _AuthScreenState extends State<AuthScreen> {
     authData['uname'] = unameController.text;
 
     if(isLoginState) {
-      // TODO
+      await Provider.of<Auth>(context, listen: false).login(authData['uname']!, authData['password']!);
     } else {
       await Provider.of<Auth>(context, listen: false).signup(authData['uname']!, authData['email']!, authData['password']!);
     }
-
-    emailController.clear();
-    passwordController.clear();
-    unameController.clear();
+    setState(() {
+      emailController.clear();
+      passwordController.clear();
+      unameController.clear();
+    });
   }
 
   @override
@@ -72,7 +73,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: phoneWidth * 0.17,
                     ),
-                    !isLoginState ? Center(
+                    Center(
                       child: Container(
                         width: phoneWidth * 0.8,
                         margin: EdgeInsets.all(
@@ -100,8 +101,8 @@ class _AuthScreenState extends State<AuthScreen> {
                               labelText: "Enter Username"),
                         ),
                       ),
-                    ) : SizedBox(),
-                    Center(
+                    ),
+                    !isLoginState ? Center(
                       child: Container(
                         width: phoneWidth * 0.8,
                         margin: EdgeInsets.all(
@@ -129,7 +130,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               labelText: "Enter Email"),
                         ),
                       ),
-                    ),
+                    ) : SizedBox(),
                     Center(
                       child: Container(
                         width: phoneWidth * 0.8,

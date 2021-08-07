@@ -22,4 +22,17 @@ class Auth with ChangeNotifier {
         ), headers: {"content-type" : "application/json"});
     print(json.decode(responce.body));
   }
+
+  Future<void> login(String username, String password) async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/login");
+    var responce = await http.post(url,
+        body: json.encode(
+          {
+            "username": username,
+            "password": password,
+          },
+        ), headers: {"content-type" : "application/json"});
+    token = json.decode(responce.body)['jwt'];
+    print(token);
+  }
 }
