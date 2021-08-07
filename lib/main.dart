@@ -1,7 +1,6 @@
 import 'package:drama_app/providers/cast_provider.dart';
 import 'package:drama_app/providers/categories_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/providers/role_provider.dart';
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +15,6 @@ void main() {
       ChangeNotifierProvider(create: (_) => Categories()),
       ChangeNotifierProvider(create: (_) => Items()),
       ChangeNotifierProvider(create: (_) => Casts()),
-      ChangeNotifierProvider(create: (_) => Roles()),
       ChangeNotifierProvider(create: (_) => Auth()),
     ],
     child: MyApp(),
