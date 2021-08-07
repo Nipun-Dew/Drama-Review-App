@@ -306,7 +306,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
                 // alignment: Alignment.center,
-                height: 200,
+                height: 170,
                 width: 400,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -344,6 +344,19 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     }),
               ),
 
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Roles",
+                  style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
