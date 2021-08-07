@@ -163,9 +163,15 @@ class Items with ChangeNotifier {
 
     _items.add(newItem);
 
+    print(newItem.title);
+    print(newItem.description);
+    print(newItem.category);
+    print(newItem.youtubeURL);
+    print(newItem.imageUrls);
     print(newItem.cast);
     print(newItem.directors);
     print(newItem.producers);
+    print(newItem.genres);
 
     notifyListeners();
   }

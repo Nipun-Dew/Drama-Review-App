@@ -53,8 +53,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
   final _form = GlobalKey<FormState>();
 
-  // final selectedDirectors = [];
-  // final selectedProducers = [];
+  List<String> selectedGenere = [];
 
   var _editedItem = Item(
     id: "",
@@ -206,7 +205,41 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   style: const TextStyle(color: Colors.pink, fontSize: 12),
                                   onChanged: (String? newValue) {
                                     setState(() {
+                                      String categoryType = '';
+
                                       dropDownValType = newValue!;
+                                      if (dropDownValType.toString() == 'TeleDrama') {
+                                        categoryType = 'teledrama';
+                                      }
+                                      if (dropDownValType.toString() == 'Movie') {
+                                        categoryType = 'movie';
+                                      }
+                                      if (dropDownValType.toString() == 'Short Movie') {
+                                        categoryType = 'short-movie';
+                                      }
+                                      if (dropDownValType.toString() == 'Web Series') {
+                                        categoryType = 'web-series';
+                                      }
+                                      if (dropDownValType.toString() == 'Mini Series') {
+                                        categoryType = 'mini-series';
+                                      }
+
+                                      _editedItem = Item(
+                                        id: _editedItem.id,
+                                        category: categoryType.toString(),
+                                        title: _editedItem.title,
+                                        imageUrls: _editedItem.imageUrls,
+                                        description: _editedItem.description,
+                                        cast: _editedItem.cast,
+                                        directors: _editedItem.directors,
+                                        producers: _editedItem.producers,
+                                        genres: _editedItem.genres,
+                                        reviews: _editedItem.reviews,
+                                        ratingValues: _editedItem.ratingValues,
+                                        rateMap: _editedItem.rateMap,
+                                        ratings: _editedItem.ratings,
+                                        youtubeURL: _editedItem.youtubeURL,
+                                      );
                                     });
                                   },
                                   items: dropdownItemTypeList,
@@ -586,6 +619,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxAction = !_checkboxAction;
+                                          if (_checkboxAction) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Action"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Action");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -598,6 +668,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxRomance = !_checkboxRomance;
+                                          if (_checkboxRomance) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Romance"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Romance");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -614,6 +721,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxHorror = !_checkboxHorror;
+                                          if (_checkboxHorror) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Horror"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Horror");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -626,6 +770,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxThriller = !_checkboxThriller;
+                                          if (_checkboxThriller) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Thriller"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Thriller");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -642,6 +823,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxBiography = !_checkboxBiography;
+                                          if (_checkboxBiography) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Biography"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Biography");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -654,6 +872,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxDrama = !_checkboxDrama;
+                                          if (_checkboxDrama) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Drama"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Drama");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -670,6 +925,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxComody = !_checkboxComody;
+                                          if (_checkboxComody) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Comedy"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Comedy");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
@@ -682,6 +974,43 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       onChanged: (value) {
                                         setState(() {
                                           _checkboxFiction = !_checkboxFiction;
+                                          if (_checkboxFiction) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: [..._editedItem.genres, "Fiction"],
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          } else {
+                                            _editedItem.genres.removeWhere((element) => element.toString() == "Fiction");
+
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: _editedItem.cast,
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          }
                                         });
                                       },
                                     ),
