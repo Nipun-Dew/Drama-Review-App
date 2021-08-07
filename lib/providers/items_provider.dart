@@ -143,4 +143,30 @@ class Items with ChangeNotifier {
   List<Item> get getFavItems {
     return [..._favItems];
   }
+
+  void addItem(Item item) {
+    final newItem = Item(
+      id: DateTime.now().toString(),
+      category: item.category,
+      title: item.title,
+      imageUrls: item.imageUrls,
+      description: item.description,
+      cast: item.cast,
+      directors: item.directors,
+      producers: item.producers,
+      genres: item.genres,
+      reviews: item.reviews,
+      ratingValues: item.ratingValues,
+      rateMap: item.rateMap,
+      youtubeURL: item.youtubeURL,
+    );
+
+    _items.add(newItem);
+
+    print(newItem.cast);
+    print(newItem.directors);
+    print(newItem.producers);
+
+    notifyListeners();
+  }
 }

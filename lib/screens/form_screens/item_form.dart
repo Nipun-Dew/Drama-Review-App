@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:drama_app/models/cast.dart';
+import 'package:drama_app/models/item.dart';
+import 'package:drama_app/providers/items_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +39,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   List<String> dropDownValRole = ['Sajitha Anthoney'];
 
   String dropDownValType = 'TeleDrama';
+
   List<String> dropDownValRoleType = ['Director'];
 
   bool _checkboxAction = false;
@@ -50,9 +53,30 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
   final _form = GlobalKey<FormState>();
 
+  // final selectedDirectors = [];
+  // final selectedProducers = [];
+
+  var _editedItem = Item(
+    id: "",
+    category: "",
+    title: "",
+    imageUrls: [],
+    description: "",
+    cast: [],
+    directors: [],
+    producers: [],
+    genres: [],
+    reviews: {},
+    ratingValues: [],
+    rateMap: {},
+    ratings: 0,
+    youtubeURL: "",
+  );
+
   void _saveForm() {
-    // Should build
     _form.currentState!.save();
+    Provider.of<Items>(context, listen: false).addItem(_editedItem);
+    // Navigator.of(context).pop();
   }
 
   @override
@@ -119,12 +143,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Item name'),
                           textInputAction: TextInputAction.next,
+                          onSaved: (value) {
+                            _editedItem = Item(
+                              id: _editedItem.id,
+                              category: _editedItem.category,
+                              title: value.toString(),
+                              imageUrls: _editedItem.imageUrls,
+                              description: _editedItem.description,
+                              cast: _editedItem.cast,
+                              directors: _editedItem.directors,
+                              producers: _editedItem.producers,
+                              genres: _editedItem.genres,
+                              reviews: _editedItem.reviews,
+                              ratingValues: _editedItem.ratingValues,
+                              rateMap: _editedItem.rateMap,
+                              ratings: _editedItem.ratings,
+                              youtubeURL: _editedItem.youtubeURL,
+                            );
+                          },
                         ),
                         TextFormField(
                           decoration: InputDecoration(labelText: 'Item Description'),
                           maxLines: 3,
                           // textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.multiline,
+                          onSaved: (value) {
+                            _editedItem = Item(
+                              id: _editedItem.id,
+                              category: _editedItem.category,
+                              title: _editedItem.title,
+                              imageUrls: _editedItem.imageUrls,
+                              description: value.toString(),
+                              cast: _editedItem.cast,
+                              directors: _editedItem.directors,
+                              producers: _editedItem.producers,
+                              genres: _editedItem.genres,
+                              reviews: _editedItem.reviews,
+                              ratingValues: _editedItem.ratingValues,
+                              rateMap: _editedItem.rateMap,
+                              ratings: _editedItem.ratings,
+                              youtubeURL: _editedItem.youtubeURL,
+                            );
+                          },
                         ),
 
                         Container(
@@ -160,6 +220,24 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           decoration: InputDecoration(labelText: 'Video Url'),
                           keyboardType: TextInputType.url,
                           textInputAction: TextInputAction.next,
+                          onSaved: (value) {
+                            _editedItem = Item(
+                              id: _editedItem.id,
+                              category: _editedItem.category,
+                              title: _editedItem.title,
+                              imageUrls: _editedItem.imageUrls,
+                              description: _editedItem.description,
+                              cast: _editedItem.cast,
+                              directors: _editedItem.directors,
+                              producers: _editedItem.producers,
+                              genres: _editedItem.genres,
+                              reviews: _editedItem.reviews,
+                              ratingValues: _editedItem.ratingValues,
+                              rateMap: _editedItem.rateMap,
+                              ratings: _editedItem.ratings,
+                              youtubeURL: value.toString(),
+                            );
+                          },
                         ),
                         Container(
                           width: screenWidth,
@@ -186,6 +264,24 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               keyboardType: TextInputType.url,
                                               controller: imageControllers[index],
                                               textInputAction: TextInputAction.next,
+                                              onSaved: (value) {
+                                                _editedItem = Item(
+                                                  id: _editedItem.id,
+                                                  category: _editedItem.category,
+                                                  title: _editedItem.title,
+                                                  imageUrls: [..._editedItem.imageUrls, value.toString()],
+                                                  description: _editedItem.description,
+                                                  cast: _editedItem.cast,
+                                                  directors: _editedItem.directors,
+                                                  producers: _editedItem.producers,
+                                                  genres: _editedItem.genres,
+                                                  reviews: _editedItem.reviews,
+                                                  ratingValues: _editedItem.ratingValues,
+                                                  rateMap: _editedItem.rateMap,
+                                                  ratings: _editedItem.ratings,
+                                                  youtubeURL: _editedItem.youtubeURL,
+                                                );
+                                              },
                                             ),
                                           ),
                                           SizedBox(
@@ -247,6 +343,30 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         child: TextFormField(
                                           decoration: InputDecoration(labelText: 'Cast Name'),
                                           textInputAction: TextInputAction.next,
+                                          onSaved: (value) {
+                                            _editedItem = Item(
+                                              id: _editedItem.id,
+                                              category: _editedItem.category,
+                                              title: _editedItem.title,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
+                                              cast: [
+                                                ..._editedItem.cast,
+                                                {
+                                                  "role": value.toString(),
+                                                  "name": dropDownValCast[index].toString(),
+                                                }
+                                              ],
+                                              directors: _editedItem.directors,
+                                              producers: _editedItem.producers,
+                                              genres: _editedItem.genres,
+                                              reviews: _editedItem.reviews,
+                                              ratingValues: _editedItem.ratingValues,
+                                              rateMap: _editedItem.rateMap,
+                                              ratings: _editedItem.ratings,
+                                              youtubeURL: _editedItem.youtubeURL,
+                                            );
+                                          },
                                         ),
                                       ),
                                       SizedBox(
@@ -331,6 +451,63 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           onChanged: (String? newValue) {
                                             setState(() {
                                               dropDownValRole[index] = newValue!;
+
+                                              if (dropDownValRoleType[index].toString() == 'Director') {
+                                                // selectedDirectors.add({
+                                                //   "role": dropDownValRoleType[index],
+                                                //   "starID": dropDownValRole[index],
+                                                // });
+                                                _editedItem = Item(
+                                                  id: _editedItem.id,
+                                                  category: _editedItem.category,
+                                                  title: _editedItem.title,
+                                                  imageUrls: _editedItem.imageUrls,
+                                                  description: _editedItem.description,
+                                                  cast: _editedItem.cast,
+                                                  directors: [
+                                                    ..._editedItem.directors,
+                                                    {
+                                                      "role": dropDownValRoleType[index],
+                                                      "starID": dropDownValRole[index],
+                                                    }
+                                                  ],
+                                                  producers: _editedItem.producers,
+                                                  genres: _editedItem.genres,
+                                                  reviews: _editedItem.reviews,
+                                                  ratingValues: _editedItem.ratingValues,
+                                                  rateMap: _editedItem.rateMap,
+                                                  ratings: _editedItem.ratings,
+                                                  youtubeURL: _editedItem.youtubeURL,
+                                                );
+                                              }
+                                              if (dropDownValRoleType[index].toString() == 'Producer') {
+                                                // selectedProducers.add({
+                                                //   "role": dropDownValRoleType[index],
+                                                //   "starID": dropDownValRole[index],
+                                                // });
+                                                _editedItem = Item(
+                                                  id: _editedItem.id,
+                                                  category: _editedItem.category,
+                                                  title: _editedItem.title,
+                                                  imageUrls: _editedItem.imageUrls,
+                                                  description: _editedItem.description,
+                                                  cast: _editedItem.cast,
+                                                  directors: _editedItem.directors,
+                                                  producers: [
+                                                    ..._editedItem.producers,
+                                                    {
+                                                      "role": dropDownValRoleType[index],
+                                                      "starID": dropDownValRole[index],
+                                                    }
+                                                  ],
+                                                  genres: _editedItem.genres,
+                                                  reviews: _editedItem.reviews,
+                                                  ratingValues: _editedItem.ratingValues,
+                                                  rateMap: _editedItem.rateMap,
+                                                  ratings: _editedItem.ratings,
+                                                  youtubeURL: _editedItem.youtubeURL,
+                                                );
+                                              }
                                             });
                                           },
                                           items: dropdownItemList,
@@ -518,16 +695,17 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           padding: EdgeInsets.only(top: 20),
                           child: ElevatedButton(
                             style: ButtonStyle(),
-                            onPressed: () {
-                              /// Check This
-                              setState(() {
-                                // _genreCount = 1;
-                                _castCount = 1;
-                                _roleCount = 1;
-                                _imageCount = 1;
-                              });
-                              _saveForm();
-                            },
+                            onPressed: _saveForm,
+                            // () {
+                            //   /// Check This
+                            //   setState(() {
+                            //     // _genreCount = 1;
+                            //     _castCount = 1;
+                            //     _roleCount = 1;
+                            //     _imageCount = 1;
+                            //   });
+                            //   _saveForm();
+                            // },
                             child: const Text('Submit'),
                           ),
                         ),
