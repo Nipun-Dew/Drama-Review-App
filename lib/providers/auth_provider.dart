@@ -17,10 +17,10 @@ class Auth with ChangeNotifier {
           {
             "username": username,
             "useremail": useremail,
-            "password": password,
-          },
+            "password": password
+          }
         ), headers: {"content-type" : "application/json"});
-    print(json.decode(responce.body));
+    print(responce.body);
   }
 
   Future<void> login(String username, String password) async {
@@ -29,8 +29,8 @@ class Auth with ChangeNotifier {
         body: json.encode(
           {
             "username": username,
-            "password": password,
-          },
+            "password": password
+          }
         ), headers: {"content-type" : "application/json"});
     token = json.decode(responce.body)['jwt'];
     print(token);

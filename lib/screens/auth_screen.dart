@@ -9,14 +9,11 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-
-  Map<String, String> authData  = {
-    "email": "",
-    "password": "",
-    "uname": ""
-  };
+  Map<String, String> authData = {"email": "", "password": "", "uname": ""};
 
   bool isLoginState = true;
+
+  bool isLoading = false;
 
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
@@ -26,13 +23,18 @@ class _AuthScreenState extends State<AuthScreen> {
     authData['email'] = emailController.text;
     authData['password'] = passwordController.text;
     authData['uname'] = unameController.text;
-
-    if(isLoginState) {
-      await Provider.of<Auth>(context, listen: false).login(authData['uname']!, authData['password']!);
+    setState(() {
+      isLoading = true;
+    });
+    if (isLoginState) {
+      await Provider.of<Auth>(context, listen: false)
+          .login(authData['uname']!, authData['password']!);
     } else {
-      await Provider.of<Auth>(context, listen: false).signup(authData['uname']!, authData['email']!, authData['password']!);
+      await Provider.of<Auth>(context, listen: false).signup(
+          authData['uname']!, authData['email']!, authData['password']!);
     }
     setState(() {
+      isLoading = false;
       emailController.clear();
       passwordController.clear();
       unameController.clear();
@@ -45,7 +47,12 @@ class _AuthScreenState extends State<AuthScreen> {
 
     return Scaffold(
         body: SingleChildScrollView(
-          child: Container(
+      child: isLoading
+          ? Center(child:
+      Container(
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
+          child: CircularProgressIndicator()))
+          : Container(
               margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,46 +98,51 @@ class _AuthScreenState extends State<AuthScreen> {
                               prefixIcon: Icon(Icons.account_circle),
                               border: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(50)),
+                                    BorderRadius.all(Radius.circular(50)),
                                 borderSide: BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               labelText: "Enter Username"),
                         ),
                       ),
                     ),
-                    !isLoginState ? Center(
-                      child: Container(
-                        width: phoneWidth * 0.8,
-                        margin: EdgeInsets.all(
-                          phoneWidth * 0.05,
-                        ),
-                        child: TextFormField(
-                          controller: emailController,
-                          cursorHeight: 27,
-                          style: TextStyle(decoration: TextDecoration.none),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  top: 1, left: 25, right: 20, bottom: 1),
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              prefixIcon: Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(50)),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
+                    !isLoginState
+                        ? Center(
+                            child: Container(
+                              width: phoneWidth * 0.8,
+                              margin: EdgeInsets.all(
+                                phoneWidth * 0.05,
                               ),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              labelText: "Enter Email"),
-                        ),
-                      ),
-                    ) : SizedBox(),
+                              child: TextFormField(
+                                controller: emailController,
+                                cursorHeight: 27,
+                                style:
+                                    TextStyle(decoration: TextDecoration.none),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(
+                                        top: 1, left: 25, right: 20, bottom: 1),
+                                    fillColor: Colors.grey[300],
+                                    filled: true,
+                                    prefixIcon: Icon(Icons.email),
+                                    border: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(50)),
+                                      borderSide: BorderSide(
+                                        width: 0,
+                                        style: BorderStyle.none,
+                                      ),
+                                    ),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    labelText: "Enter Email"),
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
                     Center(
                       child: Container(
                         width: phoneWidth * 0.8,
@@ -150,18 +162,21 @@ class _AuthScreenState extends State<AuthScreen> {
                               prefixIcon: Icon(Icons.password),
                               border: OutlineInputBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(50)),
+                                    BorderRadius.all(Radius.circular(50)),
                                 borderSide: BorderSide(
                                   width: 0,
                                   style: BorderStyle.none,
                                 ),
                               ),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
                               labelText: "Enter Password"),
                         ),
                       ),
                     ),
-                    SizedBox(height: phoneWidth * 0.07,),
+                    SizedBox(
+                      height: phoneWidth * 0.07,
+                    ),
                     Center(
                       child: ElevatedButton(
                         style: ButtonStyle(
@@ -171,7 +186,9 @@ class _AuthScreenState extends State<AuthScreen> {
                         child: Text(isLoginState ? "Login" : "SignUp"),
                       ),
                     ),
-                    SizedBox(height: phoneWidth * 0.03,),
+                    SizedBox(
+                      height: phoneWidth * 0.03,
+                    ),
                     Center(
                       child: InkWell(
                         highlightColor: Colors.transparent,
@@ -185,13 +202,15 @@ class _AuthScreenState extends State<AuthScreen> {
                           });
                         },
                         child: Text(
-                          isLoginState ? "Dont have an account? Create a new account" :
-                          "Have an account? Go to Login Screen...",
-                          style: TextStyle(color: Theme.of(context).primaryColor),
+                          isLoginState
+                              ? "Dont have an account? Create a new account"
+                              : "Have an account? Go to Login Screen...",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),
                   ])),
-        ));
+    ));
   }
 }
