@@ -1,6 +1,5 @@
 import 'package:drama_app/providers/cast_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/providers/role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,12 +14,10 @@ class ItemDetailsScreen extends StatefulWidget {
   final String imageUrl;
   final String trailerVideoUrl;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl,
-      this.trailerVideoUrl);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
 
   @override
-  _ItemDetailsScreenState createState() =>
-      _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
@@ -31,10 +28,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Text(text, style: Theme
-          .of(context)
-          .textTheme
-          .headline2),
+      child: Text(text, style: Theme.of(context).textTheme.headline2),
     );
   }
 
@@ -94,51 +88,71 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final itemData = Provider.of<Items>(context);
     final items = itemData.items;
 
-    //final castData = Provider.of<Casts>(context);
-    //final itemsCast = castData.items;
-
-    final roleData = Provider.of<Roles>(context);
-    final itemsRoles = roleData.items;
+    final castData = Provider.of<Casts>(context);
+    final itemsCasts = castData.items;
 
     final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
-    final selectedCast = [];
-    final selectedRoles = [];
+    // String name = '';
+    // String roleName = '';
+    // String imageUrl = '';
 
-    itemsRoles.forEach((role) {
-      selectedItem.cast.forEach((item) {
-        if (role.starID == item["starID"] && role.role == item["role"]) {
-          selectedCast.add(role);
-        }
-      });
-      selectedItem.directors.forEach((item) {
-        if (role.role == "director" && role.starID == item["starID"]) {
-          selectedRoles.add(role);
-        }
-      });
-      selectedItem.producers.forEach((item) {
-        if (role.role == "producer" && role.starID == item["starID"]) {
-          selectedRoles.add(role);
+    final selectedCast = [
+      // {
+      //   "name": name,
+      //   "roleName": roleName,
+      //   "imageUrls": imageUrl,
+      // }
+    ];
+
+    final selectedRoles = [
+      // {
+      //   "name": name,
+      //   "roleName": roleName,
+      //   "imageUrls": imageUrl,
+      // }
+    ];
+
+    selectedItem.cast.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
+          // print(item["starID"].toString());
+          // print(item["role"].toString());
         }
       });
     });
 
+    print(selectedCast);
+
+    selectedItem.directors.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
+        }
+      });
+    });
+
+    selectedItem.producers.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
+        }
+      });
+    });
+
+    // print(selectedRoles);
+
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: MediaQuery
-            .of(context)
-            .padding
-            .top),
+        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Stack(children: [
                 Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   ///////////////////////////////////////////////////////////////////////////////////
                   child: CarouselSlider(
@@ -159,10 +173,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       return Builder(
                         builder: (BuildContext context) {
                           return Container(
-                            width: MediaQuery
-                                .of(context)
-                                .size
-                                .width,
+                            width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(color: Colors.amber),
                             child: Image.network(
@@ -176,10 +187,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -198,9 +206,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     selectedItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 25),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
                   ),
                 ),
               ),
@@ -215,11 +221,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   allowHalfRating: true,
                   itemCount: 5,
                   itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-                  itemBuilder: (context, _) =>
-                      Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
                   onRatingUpdate: (rating) {
                     ratingValues.add(rating);
                     print(ratingValues);
@@ -233,10 +238,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
                     "4.5/5" + " (10)",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light",
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                        color: Colors.grey[600]),
+                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -254,15 +256,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   selectedItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light",
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                      color: Colors.grey[700]),
+                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
                 ),
               ),
               /////////////////////////video Add///////////////////////////////////////////
@@ -303,11 +301,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   textAlign: TextAlign.left,
                 ),
               ),
+
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
                 // alignment: Alignment.center,
-                height: 150,
+                height: 200,
                 width: 400,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -315,23 +314,31 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedCast[index]["name"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  selectedCast[index].imageUrl),
+                              backgroundImage: NetworkImage(selectedCast[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
                           Container(
                             width: 100,
+                            height: 40,
                             child: Text(
-                              selectedCast[index].starID,
-                              style: TextStyle(fontWeight: FontWeight.w600,
-                                  color: Colors.grey[600]),
+                              selectedCast[index]["roleName"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
-                          )
+                          ),
                         ],
                       );
                     }),
@@ -340,60 +347,43 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
-                height: 150,
+                // alignment: Alignment.center,
+                height: 200,
                 width: 400,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      ...selectedRoles.map((role) {
-                        return Column(
-                          children: [
-                            Container(
-                              width: 120,
-                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                              alignment: Alignment.center,
-                              child: Text(
-                                role.role,
-                                style: TextStyle(
-                                  fontFamily: "RobotoCondensed-Light",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: selectedRoles.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedRoles[index]["name"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                              padding: EdgeInsets.only(left: 2, right: 2),
-                              width: 120,
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(role.imageUrl),
-                                      maxRadius: 40,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 120,
-                                    child: Text(
-                                      role.starID,
-                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ],
-                              ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(selectedRoles[index]["imageUrl"]),
+                              maxRadius: 40,
                             ),
-                          ],
-                        );
-                      })
-                    ],
-                  ),
-                ),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedRoles[index]["roleName"].toString().toUpperCase(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
               ),
 
               SizedBox(

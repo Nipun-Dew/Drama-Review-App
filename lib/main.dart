@@ -15,7 +15,6 @@ void main() {
       ChangeNotifierProvider(create: (_) => Categories()),
       ChangeNotifierProvider(create: (_) => Items()),
       ChangeNotifierProvider(create: (_) => Casts()),
-      ChangeNotifierProvider(create: (_) => Roles()),
     ],
     child: MyApp(),
   ));

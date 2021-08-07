@@ -16,13 +16,6 @@ class Items with ChangeNotifier {
         ],
         description:
             "Nadagamkarayo is a drama based on a village life. Sara, Kiriputha, Kawadiya, Sudda are four young boys who sell toddy for living. Master is the musician in that village. First half of the story goes with the Vesak drama which is produced by the Master. Kukula lakuna is the rowdy of that village who is determined to be a politician",
-        // cast: [
-        //   "Sara - Sajith Anthoney",
-        //   "Patali - Senali Fonseka",
-        //   "Master - Prasannajith Abeysuriya",
-        //   "Malan - Kokila Pawan Jayasooriya",
-        //   "Kukula Lakuna - Giriraj Kaushalya"
-        // ],
         cast: [
           {"role": "Sara", "starID": "Sajitha Anthoney"},
           {"role": "Malan", "starID": "Kokila Pawan"},
@@ -30,7 +23,6 @@ class Items with ChangeNotifier {
           {"role": "Patali", "starID": "Senali Fonseka"},
           {"role": "Geethika", "starID": "Praveena Disanayake"}
         ],
-        // director: "Jayaprakash Sivagurunadan",
         directors: [
           {"role": "director", "starID": "Kokila Pawan"}
         ],
@@ -38,7 +30,6 @@ class Items with ChangeNotifier {
           {"role": "producer", "starID": "Giriraj Kaushalya"},
           {"role": "producer", "starID": "Sajitha Anthoney"}
         ],
-        // producer: "Chamara Samarawickrama  Saddhamangala Sooriyabandara",
         genres: ["Drama"],
         reviews: {
           "userId1": "Great Teledrama ❤️",
@@ -50,8 +41,7 @@ class Items with ChangeNotifier {
         ratingValues: [],
         rateMap: {},
         ratings: 0,
-        youtubeURL:
-            "https://www.youtube.com/watch?v=gMv_QGTX7OQ&list=RDgMv_QGTX7OQ&start_radio=1"),
+        youtubeURL: "https://www.youtube.com/watch?v=gMv_QGTX7OQ&list=RDgMv_QGTX7OQ&start_radio=1"),
     Item(
         id: "I2",
         category: "C1",
@@ -103,10 +93,7 @@ class Items with ChangeNotifier {
           {"role": "producer", "starID": "Chamara Samarawickrama"}
         ],
         genres: ["Thriller"],
-        reviews: {
-          "userId1": "Waiting for Episode2",
-          "userId2": "Good initiative"
-        },
+        reviews: {"userId1": "Waiting for Episode2", "userId2": "Good initiative"},
         ratingValues: [],
         rateMap: {},
         ratings: 1,
@@ -115,9 +102,7 @@ class Items with ChangeNotifier {
         id: "I4",
         category: "C3",
         title: "Machan",
-        imageUrls: [
-          "https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"
-        ],
+        imageUrls: ["https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"],
         description: "Machan is a movie.....",
         cast: [],
         //
