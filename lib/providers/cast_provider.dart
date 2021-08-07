@@ -23,4 +23,19 @@ class Casts with ChangeNotifier {
   List<Cast> get items {
     return [..._items];
   }
+
+  void addRole(Cast role) {
+    final newRole = Cast(
+      id: DateTime.now().toString(),
+      name: role.name,
+      description: role.description,
+      imageUrls: role.imageUrls,
+    );
+    _items.add(newRole);
+    notifyListeners();
+
+    // print(newRole.name);
+    // print(newRole.description);
+    // print(newRole.imageUrls);
+  }
 }
