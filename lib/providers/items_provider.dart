@@ -171,18 +171,6 @@ class Items with ChangeNotifier {
         "genres": item.genres,
         "youtubeURL": item.youtubeURL,
       }),
-
-      // body: json.encode({
-      //   "title": item.title.toString(),
-      //   "category": item.category.toString(),
-      //   "imageUrls": item.imageUrls.toList(),
-      //   "description": item.description.toString(),
-      //   "cast": item.cast.toList(),
-      //   "directors": item.directors.toList(),
-      //   "producers": item.producers.toList(),
-      //   "genres": item.genres.toList(),
-      //   "youtubeURL": item.youtubeURL.toString(),
-      // }),
     )
         .then((response) {
       final newItem = Item(
@@ -201,8 +189,10 @@ class Items with ChangeNotifier {
         youtubeURL: item.youtubeURL,
       );
 
-      _items.add(newItem);
-      notifyListeners();
+      if (response.statusCode.toString() == "200") {
+        _items.add(newItem);
+        notifyListeners();
+      }
 
       print(response.statusCode);
       print(response.body);
