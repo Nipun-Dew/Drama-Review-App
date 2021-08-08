@@ -93,10 +93,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
-    // String name = '';
-    // String roleName = '';
-    // String imageUrl = '';
-
     final selectedCast = [
       // {
       //   "name": name,
@@ -105,25 +101,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       // }
     ];
 
-    final selectedRoles = [
-      // {
-      //   "name": name,
-      //   "roleName": roleName,
-      //   "imageUrls": imageUrl,
-      // }
-    ];
+    final selectedRoles = [];
 
     selectedItem.cast.forEach((item) {
       itemsCasts.forEach((role) {
         if (role.name.toString() == item["starID"].toString()) {
           selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-          // print(item["starID"].toString());
-          // print(item["role"].toString());
         }
       });
     });
-
-    print(selectedCast);
 
     selectedItem.directors.forEach((item) {
       itemsCasts.forEach((role) {
@@ -140,8 +126,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         }
       });
     });
-
-    // print(selectedRoles);
 
     return Scaffold(
       body: Container(
