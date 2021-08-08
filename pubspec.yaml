@@ -34,7 +34,6 @@ dependencies:
   carousel_slider: ^4.0.0
   chewie: ^1.2.2
   youtube_player_flutter: ^8.0.0
-  wakelock: ^0.5.3+3
 
 dev_dependencies:
   flutter_test:
