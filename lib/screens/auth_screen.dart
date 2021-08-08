@@ -20,25 +20,45 @@ class _AuthScreenState extends State<AuthScreen> {
   final unameController = TextEditingController();
 
   Future<void> submit() async {
-    authData['email'] = emailController.text;
-    authData['password'] = passwordController.text;
-    authData['uname'] = unameController.text;
-    setState(() {
-      isLoading = true;
-    });
-    if (isLoginState) {
-      await Provider.of<Auth>(context, listen: false)
-          .login(authData['uname']!, authData['password']!);
-    } else {
-      await Provider.of<Auth>(context, listen: false).signup(
-          authData['uname']!, authData['email']!, authData['password']!);
+    try {
+      authData['email'] = emailController.text;
+      authData['password'] = passwordController.text;
+      authData['uname'] = unameController.text;
+      setState(() {
+        isLoading = true;
+      });
+      if (isLoginState) {
+        await Provider.of<Auth>(context, listen: false)
+            .login(authData['email']!, authData['password']!);
+      } else {
+        await Provider.of<Auth>(context, listen: false).signup(
+            authData['uname']!, authData['email']!, authData['password']!);
+      }
+    } catch (error) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text("Error!"),
+              content: Text(error.toString()),
+              actions: [
+                Center(
+                  child: ElevatedButton(
+                      onPressed: () => Navigator.of(ctx).pop(),
+                      child: Text("Close")),
+                )
+              ],
+            );
+          });
+      print(error);
+    } finally {
+      setState(() {
+        isLoading = false;
+        emailController.clear();
+        passwordController.clear();
+        unameController.clear();
+      });
     }
-    setState(() {
-      isLoading = false;
-      emailController.clear();
-      passwordController.clear();
-      unameController.clear();
-    });
   }
 
   @override
@@ -48,10 +68,11 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
         body: SingleChildScrollView(
       child: isLoading
-          ? Center(child:
-      Container(
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
-          child: CircularProgressIndicator()))
+          ? Center(
+              child: Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.5),
+                  child: CircularProgressIndicator()))
           : Container(
               margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Column(
@@ -80,36 +101,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: phoneWidth * 0.17,
                     ),
-                    Center(
-                      child: Container(
-                        width: phoneWidth * 0.8,
-                        margin: EdgeInsets.all(
-                          phoneWidth * 0.05,
-                        ),
-                        child: TextFormField(
-                          controller: unameController,
-                          cursorHeight: 27,
-                          style: TextStyle(decoration: TextDecoration.none),
-                          decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(
-                                  top: 1, left: 25, right: 20, bottom: 1),
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              prefixIcon: Icon(Icons.account_circle),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: "Enter Username"),
-                        ),
-                      ),
-                    ),
                     !isLoginState
                         ? Center(
                             child: Container(
@@ -118,7 +109,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 phoneWidth * 0.05,
                               ),
                               child: TextFormField(
-                                controller: emailController,
+                                controller: unameController,
                                 cursorHeight: 27,
                                 style:
                                     TextStyle(decoration: TextDecoration.none),
@@ -127,7 +118,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                         top: 1, left: 25, right: 20, bottom: 1),
                                     fillColor: Colors.grey[300],
                                     filled: true,
-                                    prefixIcon: Icon(Icons.email),
+                                    prefixIcon: Icon(Icons.account_circle),
                                     border: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(50)),
@@ -138,11 +129,41 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                     floatingLabelBehavior:
                                         FloatingLabelBehavior.never,
-                                    labelText: "Enter Email"),
+                                    labelText: "Enter Username"),
                               ),
                             ),
                           )
                         : SizedBox(),
+                    Center(
+                      child: Container(
+                        width: phoneWidth * 0.8,
+                        margin: EdgeInsets.all(
+                          phoneWidth * 0.05,
+                        ),
+                        child: TextFormField(
+                          controller: emailController,
+                          cursorHeight: 27,
+                          style: TextStyle(decoration: TextDecoration.none),
+                          decoration: InputDecoration(
+                              contentPadding: EdgeInsets.only(
+                                  top: 1, left: 25, right: 20, bottom: 1),
+                              fillColor: Colors.grey[300],
+                              filled: true,
+                              prefixIcon: Icon(Icons.email),
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(50)),
+                                borderSide: BorderSide(
+                                  width: 0,
+                                  style: BorderStyle.none,
+                                ),
+                              ),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              labelText: "Enter Email"),
+                        ),
+                      ),
+                    ),
                     Center(
                       child: Container(
                         width: phoneWidth * 0.8,
