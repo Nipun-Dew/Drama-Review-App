@@ -66,10 +66,10 @@ class Casts with ChangeNotifier {
     return [..._items];
   }
 
-  void addRole(Cast role) {
+  Future<void> addRole(Cast role) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/star");
 
-    http
+    return http
         .post(
       url,
       headers: {

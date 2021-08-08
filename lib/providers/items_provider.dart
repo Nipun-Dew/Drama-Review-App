@@ -149,10 +149,10 @@ class Items with ChangeNotifier {
     return [..._favItems];
   }
 
-  void addItem(Item item) {
+  Future<void> addItem(Item item) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 
-    http
+    return http
         .post(
       url,
       headers: {
