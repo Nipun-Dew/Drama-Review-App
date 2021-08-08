@@ -41,7 +41,7 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
     // print(_editedRole.description);
 
     Provider.of<Casts>(context, listen: false).addRole(_editedRole);
-    Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   @override

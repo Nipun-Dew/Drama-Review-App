@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:drama_app/models/item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Items with ChangeNotifier {
   List<Item> _items = [
@@ -145,34 +150,62 @@ class Items with ChangeNotifier {
   }
 
   void addItem(Item item) {
-    final newItem = Item(
-      id: DateTime.now().toString(),
-      category: item.category,
-      title: item.title,
-      imageUrls: item.imageUrls,
-      description: item.description,
-      cast: item.cast,
-      directors: item.directors,
-      producers: item.producers,
-      genres: item.genres,
-      reviews: item.reviews,
-      ratingValues: item.ratingValues,
-      rateMap: item.rateMap,
-      youtubeURL: item.youtubeURL,
-    );
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 
-    _items.add(newItem);
+    http
+        .post(
+      url,
+      headers: {
+        HttpHeaders.authorizationHeader:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJleHAiOjE2Mjg2NjM4MDIsImlhdCI6MTYyODQ0NzgwMn0.pX96pYmXU-ZEtacqeDwSRbnWB_rNSF499NbweqGo5OI",
+        "content-type": "application/json"
+      },
+      body: json.encode({
+        "title": item.title,
+        "category": item.category,
+        "imageUrls": item.imageUrls,
+        "description": item.description,
+        "cast": item.cast,
+        "directors": item.directors,
+        "producers": item.producers,
+        "genres": item.genres,
+        "youtubeURL": item.youtubeURL,
+      }),
+    )
+        .then((response) {
+      final newItem = Item(
+        id: DateTime.now().toString(),
+        category: item.category,
+        title: item.title,
+        imageUrls: item.imageUrls,
+        description: item.description,
+        cast: item.cast,
+        directors: item.directors,
+        producers: item.producers,
+        genres: item.genres,
+        reviews: item.reviews,
+        ratingValues: item.ratingValues,
+        rateMap: item.rateMap,
+        youtubeURL: item.youtubeURL,
+      );
 
-    print(newItem.title);
-    print(newItem.description);
-    print(newItem.category);
-    print(newItem.youtubeURL);
-    print(newItem.imageUrls);
-    print(newItem.cast);
-    print(newItem.directors);
-    print(newItem.producers);
-    print(newItem.genres);
+      if (response.statusCode.toString() == "200") {
+        _items.add(newItem);
+        notifyListeners();
+      }
 
-    notifyListeners();
+      print(response.statusCode);
+      print(response.body);
+
+      // print(newItem.title);
+      // print(newItem.description);
+      // print(newItem.category);
+      // print(newItem.youtubeURL);
+      // print(newItem.imageUrls);
+      // print(newItem.cast);
+      // print(newItem.directors);
+      // print(newItem.producers);
+      // print(newItem.genres);
+    });
   }
 }
