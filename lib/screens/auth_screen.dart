@@ -35,7 +35,7 @@ class _AuthScreenState extends State<AuthScreen> {
         validateEmail = false;
         validateUname = false;
       });
-      if(passwordController.text.isEmpty || passwordController.text.length<6) {
+      if(passwordController.text.isEmpty || passwordController.text.length<4) {
         setState(() {
           validatePassword = true;
         });
