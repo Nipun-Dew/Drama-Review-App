@@ -43,7 +43,7 @@ class Auth with ChangeNotifier {
       throw HttpException(responce.body);
     } else {
       print(responce.body);
-      throw HttpException(responce.body);
+      throw HttpException("Error Occurred!");
     }
   }
 
@@ -60,6 +60,7 @@ class Auth with ChangeNotifier {
       token = json.decode(responce.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       print(decodedToken);
+      notifyListeners();
     } else if (responce.statusCode == 400) {
       print(responce.body);
       throw HttpException(responce.body);

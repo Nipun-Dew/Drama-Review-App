@@ -1,11 +1,14 @@
 import 'package:drama_app/screens/form_screens/item_form.dart';
 import 'package:drama_app/screens/form_screens/role_form.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 
 class DrawerScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Provider.of<Auth>(context).isAuth ? Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -30,6 +33,6 @@ class DrawerScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ) : SizedBox();
   }
 }

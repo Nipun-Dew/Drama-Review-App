@@ -40,7 +40,9 @@ class _AuthScreenState extends State<AuthScreen> {
           builder: (ctx) {
             return AlertDialog(
               title: Text("Error!"),
-              content: Text(error.toString()),
+              content: Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: Center(child: Text(error.toString()))),
               actions: [
                 Center(
                   child: ElevatedButton(
@@ -111,6 +113,11 @@ class _AuthScreenState extends State<AuthScreen> {
                               child: TextFormField(
                                 controller: unameController,
                                 cursorHeight: 27,
+                                validator: (val) {
+                                  if(val!.isEmpty) {
+                                    return 'value required!';
+                                  }
+                                },
                                 style:
                                     TextStyle(decoration: TextDecoration.none),
                                 decoration: InputDecoration(
