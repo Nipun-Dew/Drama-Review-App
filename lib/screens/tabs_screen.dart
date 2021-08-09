@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'tab_screens/drawer_screen.dart';
 import 'tab_screens/fav_screen.dart';
 import 'tab_screens/home_screen.dart';
-import 'tab_screens/notifications_screen.dart';
+import 'tab_screens/stars_screen.dart';
 import 'tab_screens/trending_screen.dart';
 import 'search_screen.dart';
 
@@ -20,14 +20,14 @@ class _TabScreenState extends State<TabScreen> {
     "DreamOn...",
     "Trending",
     "Favourites",
-    "Notifications",
+    "Stars",
     "More.."
   ];
   final List<Widget> _currentTab = [
     HomeScreen(),
     TrendingScreen(),
     FavouriteScreen(),
-    NotificationScreen(),
+    CinemaStarScreen(),
     DrawerScreen()
   ];
 
@@ -137,9 +137,9 @@ class _TabScreenState extends State<TabScreen> {
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.movie), label: "Trending"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: "Favourite"),
+                icon: Icon(Icons.favorite), label: "Wishlist"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notifications), label: "Notifications"),
+                icon: Icon(Icons.stars), label: "Stars"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.dehaze_rounded), label: "Drawer")
           ],

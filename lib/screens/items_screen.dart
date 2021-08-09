@@ -1,6 +1,5 @@
 import 'package:drama_app/providers/cast_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/providers/role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -90,33 +89,40 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final items = itemData.items;
 
     final castData = Provider.of<Casts>(context);
-    final itemsCast = castData.items;
-
-    final roleData = Provider.of<Roles>(context);
-    final itemsRoles = roleData.items;
+    final itemsCasts = castData.items;
 
     final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
-    final selectedCast = [];
+    final selectedCast = [
+      // {
+      //   "name": name,
+      //   "roleName": roleName,
+      //   "imageUrls": imageUrl,
+      // }
+    ];
+
     final selectedRoles = [];
 
-    itemsCast.forEach((cast) {
-      selectedItem.cast.forEach((item) {
-        if (cast.id == item) {
-          selectedCast.add(cast);
+    selectedItem.cast.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
         }
       });
     });
 
-    itemsRoles.forEach((role) {
-      selectedItem.director.forEach((item) {
-        if (role.id == item) {
-          selectedRoles.add(role);
+    selectedItem.directors.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
         }
       });
-      selectedItem.producer.forEach((item) {
-        if (role.id == item) {
-          selectedRoles.add(role);
+    });
+
+    selectedItem.producers.forEach((item) {
+      itemsCasts.forEach((role) {
+        if (role.name.toString() == item["starID"].toString()) {
+          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
         }
       });
     });
@@ -146,7 +152,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       aspectRatio: 16 / 9,
                     ),
                     items: [
-                      ...selectedItem.imageUrl,
+                      ...selectedItem.imageUrls,
                     ].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -279,11 +285,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   textAlign: TextAlign.left,
                 ),
               ),
+
               Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
                 // alignment: Alignment.center,
-                height: 150,
+                height: 170,
                 width: 400,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -291,83 +298,89 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     itemBuilder: (context, index) {
                       return Column(
                         children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedCast[index]["name"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index].imageUrl),
+                              backgroundImage: NetworkImage(selectedCast[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
                           Container(
                             width: 100,
+                            height: 40,
                             child: Text(
-                              selectedCast[index].name,
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              selectedCast[index]["roleName"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
-                          )
+                          ),
                         ],
                       );
                     }),
               ),
 
               Container(
+                margin: EdgeInsets.symmetric(vertical: 5),
+                padding: EdgeInsets.only(left: 25),
+                child: Text(
+                  "Roles",
+                  style: TextStyle(
+                    fontFamily: "RobotoCondensed-Light",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Container(
                 margin: EdgeInsets.only(top: 5, left: 2, right: 2),
                 padding: EdgeInsets.only(left: 2, right: 2),
-                height: 150,
+                // alignment: Alignment.center,
+                height: 200,
                 width: 400,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      ...selectedRoles.map((role) {
-                        return Column(
-                          children: [
-                            Container(
-                              width: 120,
-                              margin: EdgeInsets.only(left: 5, right: 5, bottom: 2),
-                              alignment: Alignment.center,
-                              child: Text(
-                                role.id[0] == "P" ? "Producer" : "Director",
-                                style: TextStyle(
-                                  fontFamily: "RobotoCondensed-Light",
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 17,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: selectedRoles.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: <Widget>[
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedRoles[index]["name"].toString(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              textAlign: TextAlign.center,
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 2, left: 2, right: 2),
-                              padding: EdgeInsets.only(left: 2, right: 2),
-                              width: 120,
-                              child: Column(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: EdgeInsets.all(5),
-                                    child: CircleAvatar(
-                                      backgroundImage: NetworkImage(role.imageUrl),
-                                      maxRadius: 40,
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 120,
-                                    child: Text(
-                                      role.name,
-                                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Colors.grey[600]),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                ],
-                              ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: CircleAvatar(
+                              backgroundImage: NetworkImage(selectedRoles[index]["imageUrl"]),
+                              maxRadius: 40,
                             ),
-                          ],
-                        );
-                      })
-                    ],
-                  ),
-                ),
+                          ),
+                          Container(
+                            width: 100,
+                            height: 40,
+                            child: Text(
+                              selectedRoles[index]["roleName"].toString().toUpperCase(),
+                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
               ),
 
               SizedBox(

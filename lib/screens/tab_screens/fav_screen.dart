@@ -16,11 +16,11 @@ class FavouriteScreen extends StatelessWidget {
           return ItemWidget(
             id: item.id,
             title: item.title,
-            imageUrl: item.imageUrl[0],
+            imageUrls: item.imageUrls[0],
             category: item.category,
-            genre: Genre.Action,
+            genres: item.genres,
             wholeItem: item,
-            trailerVideoUrl: item.trailerVideoUrl,
+            trailerVideoUrl: item.youtubeURL,
           );
         })
       ],

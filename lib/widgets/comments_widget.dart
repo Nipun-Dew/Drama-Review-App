@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class CommentItem extends StatelessWidget {
   final String comment;
+  final String userID;
 
-  CommentItem({required this.comment});
+  CommentItem({required this.comment, required this.userID});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class CommentItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 10, top: 2),
                     child: Text(
-                      "Name",
+                      userID,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
