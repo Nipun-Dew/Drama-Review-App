@@ -36,13 +36,13 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     _imageCount = 1;
   }
 
-  List<String> dropDownValCast = ['Sajitha Anthoney'];
+  List<String> dropDownValCast = ['Select Name'];
 
-  List<String> dropDownValRole = ['Sajitha Anthoney'];
+  List<String> dropDownValRole = ['Select Name'];
 
-  String dropDownValType = 'TeleDrama';
+  String dropDownValType = 'Select Category';
 
-  List<String> dropDownValRoleType = ['Director'];
+  List<String> dropDownValRoleType = ['Select Role'];
 
   bool _checkboxAction = false;
   bool _checkboxRomance = false;
@@ -75,14 +75,58 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   );
 
   void _saveForm() {
+    var isValid;
+
+    isValid = _form.currentState!.validate();
+
+    if (_editedItem.genres.length == 0) {
+      isValid = false;
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("No Genre Selected"),
+          content: Text("Please select a genre Type"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Ok"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        ),
+      );
+    }
+
+    if (!isValid) {
+      return;
+    }
     _form.currentState!.save();
     setState(() {
       _isLoading = true;
     });
-    Provider.of<Items>(context, listen: false).addItem(_editedItem).then((_) {
+    Provider.of<Items>(context, listen: false).addItem(_editedItem).catchError((error) {
+      return showDialog<Null>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error Occurred"),
+          content: Text("Something went Wrong"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Okay"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        ),
+      );
+    }).then((_) {
       setState(() {
         _isLoading = false;
       });
+
       Navigator.of(context).pop();
     });
   }
@@ -91,21 +135,21 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
 
-    final dropdownItemList = [...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownItemTypeList = ['TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemTypeList = ['Select Category', 'TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownRoleList = ['Director', 'Producer'].map<DropdownMenuItem<String>>((String value) {
+    final dropdownRoleList = ['Select Role', 'Director', 'Producer'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
@@ -173,6 +217,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     youtubeURL: _editedItem.youtubeURL,
                                   );
                                 },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Enter a Name";
+                                  }
+                                  return null;
+                                },
                               ),
                               TextFormField(
                                 decoration: InputDecoration(labelText: 'Item Description'),
@@ -197,6 +247,15 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     youtubeURL: _editedItem.youtubeURL,
                                   );
                                 },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Enter a Name";
+                                  }
+                                  if (value.length < 10) {
+                                    return ("Should be atleast 10 Characters");
+                                  }
+                                  return null;
+                                },
                               ),
 
                               Container(
@@ -212,7 +271,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     ),
                                     Container(
                                       width: screenWidth * 0.4,
-                                      child: DropdownButton<String>(
+                                      child: DropdownButtonFormField<String>(
                                         value: dropDownValType,
                                         elevation: 16,
                                         style: const TextStyle(color: Colors.pink, fontSize: 12),
@@ -255,6 +314,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             );
                                           });
                                         },
+                                        validator: (value) {
+                                          if (value.toString() == "Select Category") {
+                                            return "Select a Category";
+                                          }
+                                          return null;
+                                        },
                                         items: dropdownItemTypeList,
                                       ),
                                     ),
@@ -283,6 +348,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     ratings: _editedItem.ratings,
                                     youtubeURL: value.toString(),
                                   );
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return "Enter a Video URL";
+                                  }
+                                  return null;
                                 },
                               ),
                               Container(
@@ -328,6 +399,15 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                         youtubeURL: _editedItem.youtubeURL,
                                                       );
                                                     },
+                                                    validator: (value) {
+                                                      if (value!.isEmpty) {
+                                                        return "Enter a Image URL";
+                                                      }
+                                                      if (!value.startsWith("http") || !value.startsWith("https")) {
+                                                        return "Enter a Valid URL";
+                                                      }
+                                                      return null;
+                                                    },
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -340,7 +420,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                     border: Border.all(width: 1, color: Colors.black),
                                                   ),
                                                   child: FittedBox(
-                                                    child: imageControllers[index].text.isEmpty
+                                                    child: (imageControllers[index].text.isEmpty ||
+                                                            (!imageControllers[index].text.startsWith("http") || !imageControllers[index].text.startsWith("https")))
                                                         ? Padding(
                                                             padding: EdgeInsets.all(10),
                                                             child: Text(
@@ -413,6 +494,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                     youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 },
+                                                validator: (value) {
+                                                  if (value!.isEmpty) {
+                                                    return "Enter a Name";
+                                                  }
+                                                  return null;
+                                                },
                                               ),
                                             ),
                                             SizedBox(
@@ -420,7 +507,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             ),
                                             Container(
                                               width: screenWidth * 0.4,
-                                              child: DropdownButton<String>(
+                                              child: DropdownButtonFormField<String>(
                                                 value: dropDownValCast[index],
                                                 elevation: 16,
                                                 style: const TextStyle(color: Colors.pink, fontSize: 12),
@@ -430,6 +517,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                   });
                                                 },
                                                 items: dropdownItemList,
+                                                validator: (value) {
+                                                  if (value.toString() == "Select Name") {
+                                                    return "Select a Name";
+                                                  }
+                                                  return null;
+                                                },
                                               ),
                                             ),
                                             Container(
@@ -438,7 +531,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                 icon: Icon(Icons.add),
                                                 onPressed: () async {
                                                   setState(() {
-                                                    dropDownValCast.add('Sajitha Anthoney');
+                                                    dropDownValCast.add('Select Name');
                                                     _castCount++;
                                                   });
                                                 },
@@ -473,7 +566,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             // ),
                                             Container(
                                               width: screenWidth * 0.4,
-                                              child: DropdownButton<String>(
+                                              child: DropdownButtonFormField<String>(
                                                 value: dropDownValRoleType[index],
                                                 elevation: 16,
                                                 style: const TextStyle(color: Colors.pink, fontSize: 12),
@@ -481,6 +574,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                   setState(() {
                                                     dropDownValRoleType[index] = newValue!;
                                                   });
+                                                },
+                                                validator: (value) {
+                                                  if (value.toString() == "Select Role") {
+                                                    return "Select a Role";
+                                                  }
+                                                  return null;
                                                 },
                                                 items: dropdownRoleList,
                                               ),
@@ -490,7 +589,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             ),
                                             Container(
                                               width: screenWidth * 0.4,
-                                              child: DropdownButton<String>(
+                                              child: DropdownButtonFormField<String>(
                                                 value: dropDownValRole[index],
                                                 elevation: 16,
                                                 style: const TextStyle(color: Colors.pink, fontSize: 12),
@@ -556,6 +655,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                     }
                                                   });
                                                 },
+                                                validator: (value) {
+                                                  if (value.toString() == "Select Name") {
+                                                    return "Select a Name";
+                                                  }
+                                                  return null;
+                                                },
                                                 items: dropdownItemList,
                                               ),
                                             ),
@@ -565,8 +670,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                 icon: Icon(Icons.add),
                                                 onPressed: () async {
                                                   setState(() {
-                                                    dropDownValRole.add('Sajitha Anthoney');
-                                                    dropDownValRoleType.add('Director');
+                                                    dropDownValRole.add('Select Name');
+                                                    dropDownValRoleType.add('Select Role');
                                                     _roleCount++;
                                                   });
                                                 },
@@ -629,6 +734,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Action'),
                                             value: _checkboxAction,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxAction = !_checkboxAction;
@@ -678,6 +784,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Romance'),
                                             value: _checkboxRomance,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxRomance = !_checkboxRomance;
@@ -731,6 +838,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Horror'),
                                             value: _checkboxHorror,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxHorror = !_checkboxHorror;
@@ -780,6 +888,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Thriller'),
                                             value: _checkboxThriller,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxThriller = !_checkboxThriller;
@@ -833,6 +942,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Biography'),
                                             value: _checkboxBiography,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxBiography = !_checkboxBiography;
@@ -882,6 +992,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Drama'),
                                             value: _checkboxDrama,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxDrama = !_checkboxDrama;
@@ -935,6 +1046,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Comedy'),
                                             value: _checkboxComody,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxComody = !_checkboxComody;
@@ -984,6 +1096,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Fiction'),
                                             value: _checkboxFiction,
+                                            activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
                                                 _checkboxFiction = !_checkboxFiction;

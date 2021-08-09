@@ -92,16 +92,22 @@ class Casts with ChangeNotifier {
       );
 
       print(response.statusCode);
-      print(response.body);
+      // print(response.body);
 
       if (response.statusCode.toString() == "200") {
         _items.add(newRole);
         notifyListeners();
+        print("Item added");
+      } else {
+        print("Role not added");
       }
 
       // print(newRole.name);
       // print(newRole.description);
       // print(newRole.imageUrls);
+    }).catchError((error) {
+      print(error);
+      throw error;
     });
   }
 }

@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 
 class DrawerScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Provider.of<Auth>(context).isAuth ? Center(
+    // return Provider.of<Auth>(context).isAuth ? Center(
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -33,6 +33,8 @@ class DrawerScreen extends StatelessWidget {
           ),
         ],
       ),
-    ) : SizedBox();
+    );
+    // ),
+    // ) : SizedBox();
   }
 }
