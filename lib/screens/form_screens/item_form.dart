@@ -106,7 +106,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     setState(() {
       _isLoading = true;
     });
+
+    var isthrowError = false;
+
     Provider.of<Items>(context, listen: false).addItem(_editedItem).catchError((error) {
+      isthrowError = true;
+
       return showDialog<Null>(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -127,7 +132,31 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
         _isLoading = false;
       });
 
-      Navigator.of(context).pop();
+      if (!isthrowError) {
+        showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Sucsessfull"),
+            content: Text("Item Added Succesfully"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Awesome"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then((value) {
+          Navigator.of(context).pop();
+        });
+      }
+
+      if (isthrowError) {
+        Navigator.of(context).pop();
+      }
+
+      // Navigator.of(context).pop();
     });
   }
 

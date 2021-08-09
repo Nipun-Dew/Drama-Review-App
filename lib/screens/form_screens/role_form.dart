@@ -47,7 +47,11 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
       _isLoading = true;
     });
 
+    var isthrowError = false;
+
     Provider.of<Casts>(context, listen: false).addRole(_editedRole).catchError((error) {
+      isthrowError = true;
+
       return showDialog<Null>(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -67,7 +71,32 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
       setState(() {
         _isLoading = false;
       });
-      Navigator.of(context).pop();
+
+      if (!isthrowError) {
+        showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Sucsessfull"),
+            content: Text("Item Added Succesfully"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Awesome"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then((value) {
+          Navigator.of(context).pop();
+        });
+      }
+
+      if (isthrowError) {
+        Navigator.of(context).pop();
+      }
+
+      // Navigator.of(context).pop();
     });
   }
 

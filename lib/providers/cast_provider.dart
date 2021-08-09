@@ -97,14 +97,10 @@ class Casts with ChangeNotifier {
       if (response.statusCode.toString() == "200") {
         _items.add(newRole);
         notifyListeners();
-        print("Item added");
+        print("Role added");
       } else {
         print("Role not added");
       }
-
-      // print(newRole.name);
-      // print(newRole.description);
-      // print(newRole.imageUrls);
     }).catchError((error) {
       print(error);
       throw error;
