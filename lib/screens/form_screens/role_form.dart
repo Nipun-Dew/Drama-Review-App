@@ -56,7 +56,7 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
         context: context,
         builder: (ctx) => AlertDialog(
           title: Text("Error Occurred"),
-          content: Text("Something went Wrong"),
+          content: Text("Something went Wrong. Role Not Added!"),
           actions: <Widget>[
             TextButton(
               child: Text("Okay"),

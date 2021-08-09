@@ -608,6 +608,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                   if (value.toString() == "Select Role") {
                                                     return "Select a Role";
                                                   }
+                                                  if (_editedItem.producers.length == 0) {
+                                                    return "Add a Producer";
+                                                  }
+                                                  if (_editedItem.directors.length == 0) {
+                                                    return "Add a Director";
+                                                  }
                                                   return null;
                                                 },
                                                 items: dropdownRoleList,

@@ -198,23 +198,9 @@ class Items with ChangeNotifier {
         notifyListeners();
       } else {
         print("Item not added");
+        throw HttpException(response.body);
       }
-      // _items.add(newItem);
-      // notifyListeners();
-      // // print(response.statusCode);
-      // print(response.body);
-
-      // print(newItem.title);
-      // print(newItem.description);
-      // print(newItem.category);
-      // print(newItem.youtubeURL);
-      // print(newItem.imageUrls);
-      // print(newItem.cast);
-      // print(newItem.directors);
-      // print(newItem.producers);
-      // print(newItem.genres);
     }).catchError((error) {
-      print(error);
       throw error;
     });
   }
