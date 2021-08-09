@@ -60,9 +60,13 @@ class _AuthScreenState extends State<AuthScreen> {
         if (isLoginState) {
           await Provider.of<Auth>(context, listen: false)
               .login(authData['email']!, authData['password']!);
+          Navigator.of(context).pop();
         } else {
           await Provider.of<Auth>(context, listen: false).signup(
               authData['uname']!, authData['email']!, authData['password']!);
+          setState(() {
+            isLoginState = true;
+          });
         }
         emailController.clear();
         passwordController.clear();
