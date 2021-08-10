@@ -67,7 +67,7 @@ class Casts with ChangeNotifier {
   }
 
   Future<void> addRole(Cast role) {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/star");
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/starASDED");
 
     return http
         .post(
@@ -92,16 +92,18 @@ class Casts with ChangeNotifier {
       );
 
       print(response.statusCode);
-      print(response.body);
 
       if (response.statusCode.toString() == "200") {
         _items.add(newRole);
-        notifyListeners();
-      }
+        print("Role added");
 
-      // print(newRole.name);
-      // print(newRole.description);
-      // print(newRole.imageUrls);
+        notifyListeners();
+      } else {
+        print("Role not added");
+        throw HttpException(response.body);
+      }
+    }).catchError((error) {
+      throw error;
     });
   }
 }

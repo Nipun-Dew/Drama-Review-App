@@ -42,10 +42,7 @@ class DrawerScreen extends StatelessWidget {
                         builder: (ctx) {
                           return AlertDialog(
                             title: Text("Logout!"),
-                            content: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                                child: Center(child: Text("Do you want to logout?"))),
+                            content: Container(height: MediaQuery.of(context).size.height * 0.1, child: Center(child: Text("Do you want to logout?"))),
                             actions: [
                               Center(
                                 child: Row(
@@ -55,22 +52,22 @@ class DrawerScreen extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(ctx).pop();
                                           Provider.of<Auth>(context, listen: false).logout();
-                                          Navigator.of(context)
-                                              .pushReplacement(MaterialPageRoute(builder: (_) {
+                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
                                             return TabScreen();
                                           }));
                                         },
                                         child: Text("yes")),
-                                    ElevatedButton(onPressed: () {
-                                      Navigator.of(ctx).pop();
-                                    }, child: Text("no"))
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Text("no"))
                                   ],
                                 ),
                               )
                             ],
                           );
                         });
-
                   },
                   child: const Text('logout'),
                 ),
