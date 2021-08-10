@@ -189,23 +189,19 @@ class Items with ChangeNotifier {
         youtubeURL: item.youtubeURL,
       );
 
+      print(response.statusCode);
+
       if (response.statusCode.toString() == "200") {
         _items.add(newItem);
+        print("Item added");
+
         notifyListeners();
+      } else {
+        print("Item not added");
+        throw HttpException(response.body);
       }
-
-      print(response.statusCode);
-      print(response.body);
-
-      // print(newItem.title);
-      // print(newItem.description);
-      // print(newItem.category);
-      // print(newItem.youtubeURL);
-      // print(newItem.imageUrls);
-      // print(newItem.cast);
-      // print(newItem.directors);
-      // print(newItem.producers);
-      // print(newItem.genres);
+    }).catchError((error) {
+      throw error;
     });
   }
 }

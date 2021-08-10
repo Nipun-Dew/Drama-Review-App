@@ -19,20 +19,58 @@ class _AuthScreenState extends State<AuthScreen> {
   final emailController = TextEditingController();
   final unameController = TextEditingController();
 
+  bool validatePassword = false;
+  bool validateEmail = false;
+  bool validateUname = false;
+
+  bool emailChecker(String email) {
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    return emailValid;
+  }
+
   Future<void> submit() async {
     try {
-      authData['email'] = emailController.text;
-      authData['password'] = passwordController.text;
-      authData['uname'] = unameController.text;
       setState(() {
-        isLoading = true;
+        validatePassword = false;
+        validateEmail = false;
+        validateUname = false;
       });
-      if (isLoginState) {
-        await Provider.of<Auth>(context, listen: false)
-            .login(authData['email']!, authData['password']!);
-      } else {
-        await Provider.of<Auth>(context, listen: false).signup(
-            authData['uname']!, authData['email']!, authData['password']!);
+      if(passwordController.text.isEmpty || passwordController.text.length<4) {
+        setState(() {
+          validatePassword = true;
+        });
+      }
+      if(!emailChecker(emailController.text)) {
+        setState(() {
+          validateEmail = true;
+        });
+      }
+      if(unameController.text.isEmpty && !isLoginState) {
+        setState(() {
+          validateUname = true;
+        });
+      }
+      if(!validateUname && !validatePassword && !validateEmail) {
+        authData['email'] = emailController.text;
+        authData['password'] = passwordController.text;
+        authData['uname'] = unameController.text;
+        setState(() {
+          isLoading = true;
+        });
+        if (isLoginState) {
+          await Provider.of<Auth>(context, listen: false)
+              .login(authData['email']!, authData['password']!);
+          Navigator.of(context).pop();
+        } else {
+          await Provider.of<Auth>(context, listen: false).signup(
+              authData['uname']!, authData['email']!, authData['password']!);
+          setState(() {
+            isLoginState = true;
+          });
+        }
+        emailController.clear();
+        passwordController.clear();
+        unameController.clear();
       }
     } catch (error) {
       showDialog(
@@ -40,7 +78,9 @@ class _AuthScreenState extends State<AuthScreen> {
           builder: (ctx) {
             return AlertDialog(
               title: Text("Error!"),
-              content: Text(error.toString()),
+              content: Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  child: Center(child: Text(error.toString()))),
               actions: [
                 Center(
                   child: ElevatedButton(
@@ -54,9 +94,6 @@ class _AuthScreenState extends State<AuthScreen> {
     } finally {
       setState(() {
         isLoading = false;
-        emailController.clear();
-        passwordController.clear();
-        unameController.clear();
       });
     }
   }
@@ -114,6 +151,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 style:
                                     TextStyle(decoration: TextDecoration.none),
                                 decoration: InputDecoration(
+                                    errorText: validateUname ? 'invalid input' : null,
                                     contentPadding: EdgeInsets.only(
                                         top: 1, left: 25, right: 20, bottom: 1),
                                     fillColor: Colors.grey[300],
@@ -145,6 +183,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           cursorHeight: 27,
                           style: TextStyle(decoration: TextDecoration.none),
                           decoration: InputDecoration(
+                              errorText: validateEmail ? 'invalid input' : null,
                               contentPadding: EdgeInsets.only(
                                   top: 1, left: 25, right: 20, bottom: 1),
                               fillColor: Colors.grey[300],
@@ -176,6 +215,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           cursorHeight: 27,
                           style: TextStyle(decoration: TextDecoration.none),
                           decoration: InputDecoration(
+                              errorText: validatePassword ? 'invalid input' : null,
                               contentPadding: EdgeInsets.only(
                                   top: 1, left: 25, right: 20, bottom: 1),
                               fillColor: Colors.grey[300],

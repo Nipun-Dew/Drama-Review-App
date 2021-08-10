@@ -43,29 +43,37 @@ class Auth with ChangeNotifier {
       throw HttpException(responce.body);
     } else {
       print(responce.body);
-      throw HttpException(responce.body);
+      throw HttpException("Error Occurred!");
     }
   }
 
   Future<void> login(String useremail, String password) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/login");
-    var responce = await http.post(url,
+    var response = await http.post(url,
         body: json.encode(
           {
             "username": useremail,
             "password": password
           }
         ), headers: {"content-type" : "application/json"});
-    if (responce.statusCode == 200) {
-      token = json.decode(responce.body)['jwt'];
+    if (response.statusCode == 200) {
+      token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       print(decodedToken);
-    } else if (responce.statusCode == 400) {
-      print(responce.body);
-      throw HttpException(responce.body);
+      notifyListeners();
+    } else if (response.statusCode == 400) {
+      print(response.body);
+      throw HttpException(response.body);
     } else {
-      print(responce.body);
-      throw HttpException(responce.body);
+      print(response.body);
+      throw HttpException(response.body);
     }
+  }
+
+  void logout() {
+    token = "";
+    expireDate = "";
+    userId = "";
+    notifyListeners();
   }
 }

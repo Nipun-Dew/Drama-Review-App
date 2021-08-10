@@ -37,20 +37,66 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
   }
 
   void _saveForm() {
+    final isValid = _form.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
     _form.currentState!.save();
-    // print(_editedRole.imageUrls);
-    // print(_editedRole.name);
-    // print(_editedRole.description);
 
     setState(() {
       _isLoading = true;
     });
 
-    Provider.of<Casts>(context, listen: false).addRole(_editedRole).then((_) {
+    var isthrowError = false;
+
+    Provider.of<Casts>(context, listen: false).addRole(_editedRole).catchError((error) {
+      isthrowError = true;
+
+      return showDialog<Null>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error Occurred"),
+          content: Text("Something went Wrong. Role Not Added!"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("Okay"),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            )
+          ],
+        ),
+      );
+    }).then((_) {
       setState(() {
         _isLoading = false;
       });
-      Navigator.of(context).pop();
+
+      if (!isthrowError) {
+        showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Sucsessfull"),
+            content: Text("Item Added Succesfully"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("Awesome"),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        ).then((value) {
+          Navigator.of(context).pop();
+        });
+      }
+
+      if (isthrowError) {
+        Navigator.of(context).pop();
+      }
+
+      // Navigator.of(context).pop();
     });
   }
 
@@ -109,6 +155,12 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                         imageUrls: _editedRole.imageUrls,
                                       );
                                     },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Enter a Name";
+                                      }
+                                      return null;
+                                    },
                                   ),
                                   TextFormField(
                                     decoration: InputDecoration(labelText: 'About'),
@@ -122,6 +174,15 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                         description: value.toString(),
                                         imageUrls: _editedRole.imageUrls,
                                       );
+                                    },
+                                    validator: (value) {
+                                      if (value!.isEmpty) {
+                                        return "Enter a Description";
+                                      }
+                                      if (value.length < 10) {
+                                        return "Should at least 10 Characters";
+                                      }
+                                      return null;
                                     },
                                   ),
                                   Container(
@@ -158,6 +219,15 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                                             imageUrls: [..._editedRole.imageUrls, value.toString()],
                                                           );
                                                         },
+                                                        validator: (value) {
+                                                          if (value!.isEmpty) {
+                                                            return "Enter a image URL";
+                                                          }
+                                                          if (!value.startsWith("http") || !value.startsWith("https")) {
+                                                            return "Enter a Valid URL";
+                                                          }
+                                                          return null;
+                                                        },
                                                       ),
                                                     ),
                                                     SizedBox(
@@ -170,7 +240,7 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                                         border: Border.all(width: 1, color: Colors.black),
                                                       ),
                                                       child: FittedBox(
-                                                        child: controllers[index].text.isEmpty
+                                                        child: (controllers[index].text.isEmpty || (!controllers[index].text.startsWith("http") || !controllers[index].text.startsWith("https")))
                                                             ? Padding(
                                                                 padding: EdgeInsets.all(10),
                                                                 child: Text(
