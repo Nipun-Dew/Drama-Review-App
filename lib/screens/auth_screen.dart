@@ -36,15 +36,29 @@ class _AuthScreenState extends State<AuthScreen> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Text(title),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
             content: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
-                child: Center(child: Text(msg))),
+                child: Center(child: Text(msg,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 17,
+                    color: Colors.grey[700],
+                  ),
+                ))),
             actions: [
+              Center(child: Divider(thickness: 0.3, color: Colors.grey[600],),),
               Center(
-                child: ElevatedButton(
+                child: TextButton(
                     onPressed: () => Navigator.of(ctx).pop(),
-                    child: Text("Close")),
+                    child: Text("Close",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                      ),
+                    )),
               )
             ],
           );
@@ -294,12 +308,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                    Container(
-                      child: ElevatedButton(
-                        child: Text("Google Signin"),
-                        onPressed: googleSign,
-                      ),
-                    )
+                    // Container(
+                    //   child: ElevatedButton(
+                    //     child: Text("Google Signin"),
+                    //     onPressed: googleSign,
+                    //   ),
+                    // )
                   ])),
     ));
   }
