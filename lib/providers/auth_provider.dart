@@ -9,7 +9,7 @@ import 'dart:convert';
 
 class Auth with ChangeNotifier {
   String token = "";
-  DateTime expireTime = DateTime.now();
+  DateTime? expireTime = DateTime.now();
   String userId = "";
   Timer? authTimer;
 
@@ -52,7 +52,7 @@ class Auth with ChangeNotifier {
       token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
       expireTime = JwtDecoder.getExpirationDate(token);
-      print(expireTime.toString());
+      autoLogout();
       notifyListeners();
     } else if (response.statusCode == 400) {
       print(response.body);
@@ -74,7 +74,9 @@ class Auth with ChangeNotifier {
     if(authTimer != null) {
       authTimer!.cancel();
     }
-    var timeDuration = expireTime.difference(DateTime.now()).inSeconds;
-    authTimer = Timer(Duration(seconds: 3), logout);
+    var timeDuration = expireTime!.difference(DateTime.now()).inSeconds;
+    print("$timeDuration  $expireTime");
+    authTimer = Timer(Duration(seconds: timeDuration), logout);
+
   }
 }
