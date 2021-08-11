@@ -9,7 +9,7 @@ import '../../screens/auth_screen.dart';
 class DrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Provider.of<Auth>(context).isAuth
+    return Provider.of<Auth>(context, listen: true).isAuth
         ? Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
