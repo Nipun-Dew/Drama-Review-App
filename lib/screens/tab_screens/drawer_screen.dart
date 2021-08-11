@@ -9,6 +9,14 @@ import '../../screens/auth_screen.dart';
 class DrawerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var auth = Provider.of<Auth>(context, listen: true);
+
+    Widget loadingPage = Center(
+        child: Container(
+            margin:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
+            child: CircularProgressIndicator()));
+
     return Provider.of<Auth>(context, listen: true).isAuth
         ? Center(
             child: Column(
@@ -57,7 +65,12 @@ class DrawerScreen extends StatelessWidget {
                                   ),
                                 ))),
                             actions: [
-                              Center(child: Divider(thickness: 0.3, color: Colors.grey[600],),),
+                              Center(
+                                child: Divider(
+                                  thickness: 0.3,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
                               Center(
                                 child: Row(
                                   mainAxisAlignment:
@@ -74,7 +87,8 @@ class DrawerScreen extends StatelessWidget {
                                             return TabScreen();
                                           }));
                                         },
-                                        child: Text("yes",
+                                        child: Text(
+                                          "yes",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
@@ -84,7 +98,8 @@ class DrawerScreen extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.of(ctx).pop();
                                         },
-                                        child: Text("no",
+                                        child: Text(
+                                          "no",
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
@@ -102,19 +117,24 @@ class DrawerScreen extends StatelessWidget {
               ],
             ),
           )
-        : Center(
-            child: ElevatedButton(
-              child: Text("Login"),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) {
-                      return AuthScreen();
-                    },
-                  ),
-                );
-              },
-            ),
-          );
+        : FutureBuilder(
+            future: Provider.of<Auth>(context, listen: true).autoLogin(),
+            builder: (ctx, authResult) =>
+                authResult.connectionState == ConnectionState.waiting
+                    ? loadingPage
+                    : Center(
+                        child: ElevatedButton(
+                          child: Text("Login"),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) {
+                                  return AuthScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ));
   }
 }
