@@ -36,10 +36,8 @@ class Auth with ChangeNotifier {
         headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {
       print(response.body);
-    } else if (response.statusCode == 400) {
-      print(response.body);
-      throw HttpException(response.body);
-    } else {
+    }
+    else {
       print(response.body);
       throw HttpException("Error Occurred!");
     }
@@ -77,6 +75,6 @@ class Auth with ChangeNotifier {
       authTimer!.cancel();
     }
     var timeDuration = expireTime.difference(DateTime.now()).inSeconds;
-    authTimer = Timer(Duration(seconds: timeDuration), logout);
+    authTimer = Timer(Duration(seconds: 3), logout);
   }
 }

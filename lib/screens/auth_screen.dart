@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 import '../../providers/auth_provider.dart';
 
@@ -24,8 +25,41 @@ class _AuthScreenState extends State<AuthScreen> {
   bool validateUname = false;
 
   bool emailChecker(String email) {
-    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
+    bool emailValid = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
     return emailValid;
+  }
+
+  void showAlertBox(String title, String msg) {
+    showDialog(
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+            title: Text(title),
+            content: Container(
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Center(child: Text(msg))),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                    onPressed: () => Navigator.of(ctx).pop(),
+                    child: Text("Close")),
+              )
+            ],
+          );
+        });
+  }
+
+  void googleSign() async {
+    final result = await FlutterWebAuth.authenticate(
+        url:
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=https://sl-cinema.herokuapp.com/oauth2/callback/google",
+        callbackUrlScheme: "https://sl-cinema.herokuapp.com/oauth2/callback"
+    );
+    //print(result);
+    final token = Uri.parse(result).queryParameters['token'];
+    print(token);
   }
 
   Future<void> submit() async {
@@ -35,22 +69,23 @@ class _AuthScreenState extends State<AuthScreen> {
         validateEmail = false;
         validateUname = false;
       });
-      if(passwordController.text.isEmpty || passwordController.text.length<4) {
+      if (passwordController.text.isEmpty ||
+          passwordController.text.length < 4) {
         setState(() {
           validatePassword = true;
         });
       }
-      if(!emailChecker(emailController.text)) {
+      if (!emailChecker(emailController.text)) {
         setState(() {
           validateEmail = true;
         });
       }
-      if(unameController.text.isEmpty && !isLoginState) {
+      if (unameController.text.isEmpty && !isLoginState) {
         setState(() {
           validateUname = true;
         });
       }
-      if(!validateUname && !validatePassword && !validateEmail) {
+      if (!validateUname && !validatePassword && !validateEmail) {
         authData['email'] = emailController.text;
         authData['password'] = passwordController.text;
         authData['uname'] = unameController.text;
@@ -61,9 +96,11 @@ class _AuthScreenState extends State<AuthScreen> {
           await Provider.of<Auth>(context, listen: false)
               .login(authData['email']!, authData['password']!);
           Navigator.of(context).pop();
+          showAlertBox("Success!", "Login Successful!");
         } else {
           await Provider.of<Auth>(context, listen: false).signup(
               authData['uname']!, authData['email']!, authData['password']!);
+          showAlertBox("Success!", "Signup Successful!");
           setState(() {
             isLoginState = true;
           });
@@ -73,23 +110,7 @@ class _AuthScreenState extends State<AuthScreen> {
         unameController.clear();
       }
     } catch (error) {
-      showDialog(
-          context: context,
-          builder: (ctx) {
-            return AlertDialog(
-              title: Text("Error!"),
-              content: Container(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  child: Center(child: Text(error.toString()))),
-              actions: [
-                Center(
-                  child: ElevatedButton(
-                      onPressed: () => Navigator.of(ctx).pop(),
-                      child: Text("Close")),
-                )
-              ],
-            );
-          });
+      showAlertBox("Error!", "Error Occurred");
       print(error);
     } finally {
       setState(() {
@@ -151,7 +172,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                 style:
                                     TextStyle(decoration: TextDecoration.none),
                                 decoration: InputDecoration(
-                                    errorText: validateUname ? 'invalid input' : null,
+                                    errorText:
+                                        validateUname ? 'invalid input' : null,
                                     contentPadding: EdgeInsets.only(
                                         top: 1, left: 25, right: 20, bottom: 1),
                                     fillColor: Colors.grey[300],
@@ -215,12 +237,13 @@ class _AuthScreenState extends State<AuthScreen> {
                           cursorHeight: 27,
                           style: TextStyle(decoration: TextDecoration.none),
                           decoration: InputDecoration(
-                              errorText: validatePassword ? 'invalid input' : null,
+                              errorText:
+                                  validatePassword ? 'invalid input' : null,
                               contentPadding: EdgeInsets.only(
                                   top: 1, left: 25, right: 20, bottom: 1),
                               fillColor: Colors.grey[300],
                               filled: true,
-                              prefixIcon: Icon(Icons.password),
+                              prefixIcon: Icon(Icons.lock),
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(50)),
@@ -271,6 +294,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
+                    Container(
+                      child: ElevatedButton(
+                        child: Text("Google Signin"),
+                        onPressed: googleSign,
+                      ),
+                    )
                   ])),
     ));
   }
