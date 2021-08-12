@@ -19,15 +19,26 @@ class CommentScreen extends StatelessWidget {
 
     final selectedItem = items.firstWhere((item) => item.id == id);
 
+    List<Widget> commentWidgets = [];
+    selectedItem.reviews.forEach((user, comment) =>
+        commentWidgets.add(CommentItem(
+          comment: comment, userID: user,)));
+
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        margin: EdgeInsets.only(top: MediaQuery
+            .of(context)
+            .padding
+            .top),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Stack(children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.33,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.33,
                   width: double.infinity,
                   child: Image.network(
                     // selectedItem.imageUrl,
@@ -36,7 +47,10 @@ class CommentScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -55,7 +69,8 @@ class CommentScreen extends StatelessWidget {
                   cursorHeight: 27,
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                      contentPadding: EdgeInsets.only(
+                          top: 1, left: 25, right: 20, bottom: 1),
                       suffixIcon: Icon(Icons.send),
                       fillColor: Colors.grey[300],
                       filled: true,
@@ -74,7 +89,7 @@ class CommentScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 child: Column(
-                  children: [...selectedItem.comments.map((comment) => CommentItem(comment: comment))],
+                  children: commentWidgets,
                 ),
               ),
             ],

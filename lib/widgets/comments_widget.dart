@@ -2,39 +2,15 @@ import 'package:flutter/material.dart';
 
 class CommentItem extends StatelessWidget {
   final String comment;
+  final String userID;
 
-  CommentItem({required this.comment});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // ignore: unused_local_variable
-
-//     return Card(
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(15),
-//       ),
-//       elevation: 4,
-//       margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
-//       child: ListTile(
-//         leading: Icon(
-//           Icons.face,
-//           size: 20,
-//         ),
-//         title: Text(
-//           comment,
-//           style: TextStyle(
-//             fontFamily: 'RobotoCondensed',
-//             fontSize: 18,
-//             fontWeight: FontWeight.normal,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  CommentItem({required this.comment, required this.userID});
 
   @override
   Widget build(BuildContext context) {
+    final double phoneWidth = MediaQuery.of(context).size.width;
+    final double phoneHeight = MediaQuery.of(context).size.height;
+
     return Container(
       child: Row(
         children: <Widget>[
@@ -47,8 +23,7 @@ class CommentItem extends StatelessWidget {
             ),
           ),
           Container(
-            width: 330,
-            height: 80,
+            width: phoneWidth * 0.83,
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
@@ -58,7 +33,7 @@ class CommentItem extends StatelessWidget {
                 ),
               ),
               elevation: 4,
-              margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+              margin: EdgeInsets.only(top: 5, bottom: 15, left: 10, right: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,12 +41,12 @@ class CommentItem extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 10, top: 2),
                     child: Text(
-                      "Name",
+                      userID,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 15, top: 3),
+                    padding: EdgeInsets.only(left: 15, right: 7, top: 7, bottom: 10),
                     child: Text(
                       comment,
                       textAlign: TextAlign.left,
