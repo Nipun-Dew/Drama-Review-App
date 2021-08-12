@@ -253,6 +253,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   return null;
                                 },
                               ),
+                              SizedBox(
+                                height: 5,
+                              ),
                               TextFormField(
                                 decoration: InputDecoration(labelText: 'Item Description'),
                                 maxLines: 3,
@@ -286,7 +289,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   return null;
                                 },
                               ),
-
+                              SizedBox(
+                                height: 5,
+                              ),
                               Container(
                                 width: screenWidth,
                                 padding: EdgeInsets.only(top: 10),
@@ -355,7 +360,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   ],
                                 ),
                               ),
-
+                              SizedBox(
+                                height: 8,
+                              ),
                               TextFormField(
                                 decoration: InputDecoration(labelText: 'Video Url'),
                                 keyboardType: TextInputType.url,
@@ -384,6 +391,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   }
                                   return null;
                                 },
+                              ),
+                              SizedBox(
+                                height: 10,
                               ),
                               Container(
                                 width: screenWidth,
@@ -482,6 +492,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                   ],
                                 ),
                               ),
+                              SizedBox(
+                                height: 8,
+                              ),
                               Container(
                                 // swidth: 250,
                                 child: Column(
@@ -572,6 +585,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     )
                                   ],
                                 ),
+                              ),
+                              SizedBox(
+                                height: 8,
                               ),
                               Container(
                                 // swidth: 250,
@@ -718,6 +734,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     )
                                   ],
                                 ),
+                              ),
+                              SizedBox(
+                                height: 8,
                               ),
                               Container(
                                 child: Text("Genre Types"),

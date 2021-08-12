@@ -162,6 +162,9 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                       return null;
                                     },
                                   ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
                                   TextFormField(
                                     decoration: InputDecoration(labelText: 'About'),
                                     maxLines: 3,
@@ -184,6 +187,9 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                       }
                                       return null;
                                     },
+                                  ),
+                                  SizedBox(
+                                    height: 8,
                                   ),
                                   Container(
                                     width: screenWidth,
@@ -274,6 +280,9 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
                                         )
                                       ],
                                     ),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(top: 20),
