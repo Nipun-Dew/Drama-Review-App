@@ -75,9 +75,19 @@ class _AuthScreenState extends State<AuthScreen> {
   void googleSign() async {
     final result = await FlutterWebAuth.authenticate(
         url:
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
+        callbackUrlScheme: "myandroidapp");
+    //rint(result);
+    final token = Uri.parse(result).queryParameters['token'];
+    print(token);
+  }
+
+  void facebookSign() async {
+    final result = await FlutterWebAuth.authenticate(
+        url:
             "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
         callbackUrlScheme: "myandroidapp");
-    print(result);
+    //print(result);
     final token = Uri.parse(result).queryParameters['token'];
     print(token);
   }
@@ -315,9 +325,17 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                     Container(
-                      child: ElevatedButton(
-                        child: Text("Google Signin"),
-                        onPressed: googleSign,
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            child: Text("Google Signin"),
+                            onPressed: googleSign,
+                          ),
+                          ElevatedButton(
+                            child: Text("Facebook Signin"),
+                            onPressed: facebookSign,
+                          )
+                        ],
                       ),
                     )
                   ])),
