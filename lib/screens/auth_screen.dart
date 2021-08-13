@@ -303,11 +303,16 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: phoneWidth * 0.09,
+                    ),
                     Container(
-                      child: Column(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
-                            child: Text("Google Signin"),
+                            child: Text("Google Signin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                             onPressed: () async {
                               try{
                                 await Provider.of<Auth>(context, listen: false).googleSign();
@@ -319,9 +324,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                 print(err);
                               }
                             },
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
                           ),
                           ElevatedButton(
-                            child: Text("Facebook Signin"),
+                            child: Text("Facebook Signin", style: TextStyle(fontWeight: FontWeight.bold),),
                             onPressed: () {
                               try{
                                 Provider.of<Auth>(context, listen: false).facebookSign();
@@ -333,6 +339,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 print(err);
                               }
                             },
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[900])),
                           )
                         ],
                       ),
