@@ -72,26 +72,24 @@ class _AuthScreenState extends State<AuthScreen> {
         });
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void googleSign() async {
+    final result = await FlutterWebAuth.authenticate(
+        url:
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
+        callbackUrlScheme: "myandroidapp");
+    //rint(result);
+    final token = Uri.parse(result).queryParameters['token'];
+    print(token);
   }
 
-  void googleSign() async {
-    try{
-      print("start");
-      final result = await FlutterWebAuth.authenticate(
-          url:
-          "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
-          callbackUrlScheme: "myandroidapp");
-      print(result);
-      print("sdsdsdsdsds");
-      final token = Uri.parse(result).queryParameters['token'];
-      print(token);
-    }
-    catch(err) {
-      print(err);
-    }
+  void facebookSign() async {
+    final result = await FlutterWebAuth.authenticate(
+        url:
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
+        callbackUrlScheme: "myandroidapp");
+    //print(result);
+    final token = Uri.parse(result).queryParameters['token'];
+    print(token);
   }
 
   Future<void> submit() async {
@@ -327,9 +325,17 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                     Container(
-                      child: ElevatedButton(
-                        child: Text("Google Signin"),
-                        onPressed: googleSign,
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            child: Text("Google Signin"),
+                            onPressed: googleSign,
+                          ),
+                          ElevatedButton(
+                            child: Text("Facebook Signin"),
+                            onPressed: facebookSign,
+                          )
+                        ],
                       ),
                     )
                   ])),
