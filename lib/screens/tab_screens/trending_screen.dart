@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../screens/auth_screen.dart';
 import '../../providers/auth_provider.dart';
+import '../../screens/sign_btn_screen.dart';
 
 class TrendingScreen extends StatelessWidget {
   @override
@@ -14,7 +15,8 @@ class TrendingScreen extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (_) {
-                return AuthScreen();
+                //return AuthScreen();
+                return SignButtonScreen();
               },
             ),
           );
