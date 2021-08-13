@@ -36,12 +36,13 @@ class _AuthScreenState extends State<AuthScreen> {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-              ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             content: Container(
                 height: MediaQuery.of(context).size.height * 0.1,
-                child: Center(child: Text(msg,
+                child: Center(
+                    child: Text(
+                  msg,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 17,
@@ -49,11 +50,17 @@ class _AuthScreenState extends State<AuthScreen> {
                   ),
                 ))),
             actions: [
-              Center(child: Divider(thickness: 0.3, color: Colors.grey[600],),),
+              Center(
+                child: Divider(
+                  thickness: 0.3,
+                  color: Colors.grey[600],
+                ),
+              ),
               Center(
                 child: TextButton(
                     onPressed: () => Navigator.of(ctx).pop(),
-                    child: Text("Close",
+                    child: Text(
+                      "Close",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 17,
@@ -65,13 +72,19 @@ class _AuthScreenState extends State<AuthScreen> {
         });
   }
 
+  @override
+  void initState() {
+    super.initState();
+    googleSign();
+  }
+
   void googleSign() async {
     final result = await FlutterWebAuth.authenticate(
         url:
-            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=https://sl-cinema.herokuapp.com/oauth2/callback/google",
-        callbackUrlScheme: "https://sl-cinema.herokuapp.com/oauth2/callback"
-    );
-    //print(result);
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
+        callbackUrlScheme: "myandroidapp");
+    print(result);
+    print("sdsdsdsdsds");
     final token = Uri.parse(result).queryParameters['token'];
     print(token);
   }
@@ -308,12 +321,12 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                    // Container(
-                    //   child: ElevatedButton(
-                    //     child: Text("Google Signin"),
-                    //     onPressed: googleSign,
-                    //   ),
-                    // )
+                    Container(
+                      child: ElevatedButton(
+                        child: Text("Google Signin"),
+                        onPressed: googleSign,
+                      ),
+                    )
                   ])),
     ));
   }
