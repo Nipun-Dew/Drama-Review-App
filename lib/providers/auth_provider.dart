@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/http_exception.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 import 'dart:convert';
 
@@ -72,6 +73,40 @@ class Auth with ChangeNotifier {
       print(response.body);
       throw HttpException(response.body);
     }
+  }
+
+  Future<void> googleSign() async {
+    try{
+      final result = await FlutterWebAuth.authenticate(
+          url:
+          "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
+          callbackUrlScheme: "myandroidapp");
+
+      token = Uri.parse(result).queryParameters['token']!;
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      expireTime = JwtDecoder.getExpirationDate(token);
+      autoLogout();
+      notifyListeners();
+      print(token);
+      final prefs = await SharedPreferences.getInstance();
+      String data = json.encode({
+        "token": token,
+        "expireTime": expireTime!.toIso8601String(),
+      });
+      prefs.setString("dramaUser", data);
+    }
+    catch(err) {
+      throw HttpException("Error!");
+    }
+  }
+
+  Future<void> facebookSign() async {
+    final result = await FlutterWebAuth.authenticate(
+        url:
+        "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
+        callbackUrlScheme: "myandroidapp");
+    final token = Uri.parse(result).queryParameters['token'];
+    print(token);
   }
 
   Future<void> logout() async {

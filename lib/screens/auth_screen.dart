@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 import '../../providers/auth_provider.dart';
 
@@ -70,26 +69,6 @@ class _AuthScreenState extends State<AuthScreen> {
             ],
           );
         });
-  }
-
-  void googleSign() async {
-    final result = await FlutterWebAuth.authenticate(
-        url:
-            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
-        callbackUrlScheme: "myandroidapp");
-    //rint(result);
-    final token = Uri.parse(result).queryParameters['token'];
-    print(token);
-  }
-
-  void facebookSign() async {
-    final result = await FlutterWebAuth.authenticate(
-        url:
-            "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
-        callbackUrlScheme: "myandroidapp");
-    //print(result);
-    final token = Uri.parse(result).queryParameters['token'];
-    print(token);
   }
 
   Future<void> submit() async {
@@ -329,11 +308,31 @@ class _AuthScreenState extends State<AuthScreen> {
                         children: [
                           ElevatedButton(
                             child: Text("Google Signin"),
-                            onPressed: googleSign,
+                            onPressed: () async {
+                              try{
+                                await Provider.of<Auth>(context, listen: false).googleSign();
+                                Navigator.of(context).pop();
+                                showAlertBox("Success!", "Login Successful!");
+                              }
+                              catch(err) {
+                                showAlertBox("Error!", "Error Occurred");
+                                print(err);
+                              }
+                            },
                           ),
                           ElevatedButton(
                             child: Text("Facebook Signin"),
-                            onPressed: facebookSign,
+                            onPressed: () {
+                              try{
+                                Provider.of<Auth>(context, listen: false).facebookSign();
+                                Navigator.of(context).pop();
+                                showAlertBox("Success!", "Login Successful!");
+                              }
+                              catch(err) {
+                                showAlertBox("Error!", "Error Occurred");
+                                print(err);
+                              }
+                            },
                           )
                         ],
                       ),
