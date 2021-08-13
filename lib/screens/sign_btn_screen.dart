@@ -42,9 +42,9 @@ class SignButtonScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.085),
                 child: Divider(color: Colors.pink[100], thickness: 2.6,),
               ),
-              SizedBox(height: height * 0.08,),
+              SizedBox(height: height * 0.1,),
               SignInButton(
-                Buttons.Google,
+                Buttons.GoogleDark,
                 text: "Sign in with Google",
                 onPressed: () {},
               ),
@@ -53,6 +53,13 @@ class SignButtonScreen extends StatelessWidget {
                 Buttons.Facebook,
                 text: "Sign in with Facebook",
                 onPressed: () {},
+              ),
+              SizedBox(height: height * 0.025,),
+              SignInButtonBuilder(
+                text: 'Sign in with SLCinema',
+                icon: Icons.camera,
+                onPressed: () {},
+                backgroundColor: Theme.of(context).primaryColor,
               ),
               SizedBox(height: height * 0.03,),
               Center(
@@ -68,10 +75,10 @@ class SignButtonScreen extends StatelessWidget {
 
               SizedBox(height: height * 0.03,),
               SignInButtonBuilder(
-                text: 'Continue with Email',
+                text: '  Create an Account',
                 icon: Icons.email,
                 onPressed: () {},
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: Theme.of(context).accentColor,
               )
             ],
           ),
