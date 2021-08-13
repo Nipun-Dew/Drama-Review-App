@@ -72,19 +72,12 @@ class _AuthScreenState extends State<AuthScreen> {
         });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    googleSign();
-  }
-
   void googleSign() async {
     final result = await FlutterWebAuth.authenticate(
         url:
-            "https://sl-cinema.herokuapp.com/oauth2/authorize/google?redirect_uri=myandroidapp://oauth2/redirect",
+            "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
         callbackUrlScheme: "myandroidapp");
     print(result);
-    print("sdsdsdsdsds");
     final token = Uri.parse(result).queryParameters['token'];
     print(token);
   }
