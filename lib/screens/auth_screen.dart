@@ -7,7 +7,7 @@ import '../widgets/alert_box_widget.dart';
 class AuthScreen extends StatefulWidget {
   final bool startupIsLoginState;
 
-  const AuthScreen (this.startupIsLoginState);
+  const AuthScreen(this.startupIsLoginState);
 
   @override
   _AuthScreenState createState() => _AuthScreenState(startupIsLoginState);
@@ -15,6 +15,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   bool startupIsLoginState2;
+
   _AuthScreenState(this.startupIsLoginState2);
 
   Map<String, String> authData = {"email": "", "password": "", "uname": ""};
@@ -84,7 +85,8 @@ class _AuthScreenState extends State<AuthScreen> {
         } else {
           await Provider.of<Auth>(context, listen: false).signup(
               authData['uname']!, authData['email']!, authData['password']!);
-          showAlertBox("Success!", "Signup Successful!");
+          showAlertBox("Success!",
+              "Signup Successful! verification email has sent to email");
           setState(() {
             startupIsLoginState2 = true;
           });
@@ -94,7 +96,7 @@ class _AuthScreenState extends State<AuthScreen> {
         unameController.clear();
       }
     } catch (error) {
-      showAlertBox("Error!", "Error Occurred");
+      showAlertBox("Error!", error.toString());
       print(error);
     } finally {
       setState(() {
