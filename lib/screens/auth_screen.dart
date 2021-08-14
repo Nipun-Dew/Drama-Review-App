@@ -20,8 +20,6 @@ class _AuthScreenState extends State<AuthScreen> {
 
   Map<String, String> authData = {"email": "", "password": "", "uname": ""};
 
-  //bool isLoginState = true;
-
   bool isLoading = false;
 
   final passwordController = TextEditingController();
@@ -108,7 +106,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
-    //isLoginState = widget.startupIsLoginState;
+
     return Scaffold(
         body: SingleChildScrollView(
       child: isLoading
@@ -283,44 +281,6 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: phoneWidth * 0.09,
                     ),
-                    // Container(
-                    //   padding: EdgeInsets.all(20),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //     children: [
-                    //       ElevatedButton(
-                    //         child: Text("Google Signin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                    //         onPressed: () async {
-                    //           try{
-                    //             await Provider.of<Auth>(context, listen: false).googleSign();
-                    //             Navigator.of(context).pop();
-                    //             showAlertBox("Success!", "Login Successful!");
-                    //           }
-                    //           catch(err) {
-                    //             showAlertBox("Error!", "Error Occurred");
-                    //             print(err);
-                    //           }
-                    //         },
-                    //         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
-                    //       ),
-                    //       ElevatedButton(
-                    //         child: Text("Facebook Signin", style: TextStyle(fontWeight: FontWeight.bold),),
-                    //         onPressed: () async {
-                    //           try{
-                    //             await Provider.of<Auth>(context, listen: false).facebookSign();
-                    //             Navigator.of(context).pop();
-                    //             showAlertBox("Success!", "Login Successful!");
-                    //           }
-                    //           catch(err) {
-                    //             showAlertBox("Error!", "Error Occurred");
-                    //             print(err);
-                    //           }
-                    //         },
-                    //         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[900])),
-                    //       )
-                    //     ],
-                    //   ),
-                    // )
                   ])),
     ));
   }

@@ -11,20 +11,11 @@ class CinemaStarScreen extends StatefulWidget {
 }
 
 class _CinemaStarScreenState extends State<CinemaStarScreen> {
-  var _isLoading = false;
 
   @override
   void initState() {
-    setState(() {
-      _isLoading = true;
-    });
-
     Future.delayed(Duration.zero).then((_) {
-      Provider.of<Casts>(context, listen: false).getRoles().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+      Provider.of<Casts>(context, listen: false).getRoles();
     });
     super.initState();
   }
@@ -32,10 +23,12 @@ class _CinemaStarScreenState extends State<CinemaStarScreen> {
   @override
   Widget build(BuildContext context) {
     List<Cast> starsList = Provider.of<Casts>(context).items;
-
-    return _isLoading
+    return Provider.of<Casts>(context).isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.3),
+                child: CircularProgressIndicator()),
           )
         : Column(
             children: [...starsList.map((cast) => StarItemWidget(cast))],

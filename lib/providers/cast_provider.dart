@@ -66,13 +66,15 @@ class Casts with ChangeNotifier {
     return [..._items];
   }
 
+  bool isLoading = true;
+
   Future<void> getRoles() async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/stars/all");
 
     var response;
+
     try {
       response = await http.get(url);
-
       // print(response.body);
       // print(json.decode(response.body));
 
@@ -94,13 +96,14 @@ class Casts with ChangeNotifier {
           imageUrls: urls,
         ));
       });
-
+      isLoading = false;
       _items = loadedRoles;
       notifyListeners();
     } catch (err) {
       // print(response.body);
       throw (err);
     }
+
   }
 
   Future<void> addRole(Cast role) {
