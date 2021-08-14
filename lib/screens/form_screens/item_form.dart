@@ -84,7 +84,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     id: "",
     category: "",
     title: "",
-    imageUrl: [],
+    imageUrls: [],
     description: "",
     cast: [],
     directors: [],
@@ -106,9 +106,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       isValid = false;
 
       showDialog(
-        context: context,
-        builder: (ctx) =>
-            AlertBox("Please select a genre Type", "No Genre Selected", ctx),
+        context: context, builder: (ctx) => AlertBox("Please select a genre Type", "No Genre Selected", ctx),
+        // AlertDialog(
+        //   title: Text("No Genre Selected"),
+        //   content: Text("Please select a genre Type"),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text("Ok"),
+        //       onPressed: () {
+        //         Navigator.of(ctx).pop();
+        //       },
+        //     )
+        //   ],
+        // ),
       );
     }
 
@@ -122,15 +132,23 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
     var isthrowError = false;
 
-    Provider.of<Items>(context, listen: false)
-        .addItem(_editedItem)
-        .catchError((error) {
+    Provider.of<Items>(context, listen: false).addItem(_editedItem).catchError((error) {
       isthrowError = true;
-      print(error);
+
       return showDialog<Null>(
-        context: context,
-        builder: (ctx) =>
-            AlertBox("Error! Item not Added!", "Error Occurred", ctx),
+        context: context, builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
+        // AlertDialog(
+        //   title: Text("Error Occurred"),
+        //   content: Text("Something went Wrong"),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text("Okay"),
+        //       onPressed: () {
+        //         Navigator.of(ctx).pop();
+        //       },
+        //     )
+        //   ],
+        // ),
       );
     }).then((_) {
       setState(() {
@@ -139,9 +157,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
       if (!isthrowError) {
         showDialog<Null>(
-          context: context,
-          builder: (ctx) =>
-              AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          context: context, builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          //  AlertDialog(
+          //   title: Text("Sucsessfull"),
+          //   content: Text("Item Added Succesfully"),
+          //   actions: <Widget>[
+          //     TextButton(
+          //       child: Text("Awesome"),
+          //       onPressed: () {
+          //         Navigator.of(ctx).pop();
+          //       },
+          //     )
+          //   ],
+          // ),
         ).then((value) {
           Navigator.of(context).pop();
         });
@@ -150,6 +178,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       if (isthrowError) {
         Navigator.of(context).pop();
       }
+
+      // Navigator.of(context).pop();
     });
   }
 
@@ -157,32 +187,21 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
 
-    final dropdownItemList = [
-      "Select Name",
-      ...itemList.map((cast) => cast.name)
-    ].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownItemTypeList = [
-      'Select Category',
-      'TeleDrama',
-      'Movie',
-      'Short Movie',
-      'Web Series',
-      'Mini Series'
-    ].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemTypeList = ['Select Category', 'TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownRoleList = ['Select Role', 'Director', 'Producer']
-        .map<DropdownMenuItem<String>>((String value) {
+    final dropdownRoleList = ['Select Role', 'Director', 'Producer'].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
@@ -204,8 +223,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                   child: Column(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.height * 0.01),
+                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                         child: InkWell(
                           child: Icon(
                             Icons.keyboard_arrow_down,
@@ -220,8 +238,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                       Center(
                         child: Text(
                           "Item Form",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                         ),
                       ),
                       Container(
@@ -232,15 +249,14 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           child: Column(
                             children: <Widget>[
                               TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Item name'),
+                                decoration: InputDecoration(labelText: 'Item name'),
                                 textInputAction: TextInputAction.next,
                                 onSaved: (value) {
                                   _editedItem = Item(
                                     id: _editedItem.id,
                                     category: _editedItem.category,
                                     title: value.toString(),
-                                    imageUrl: _editedItem.imageUrl,
+                                    imageUrls: _editedItem.imageUrls,
                                     description: _editedItem.description,
                                     cast: _editedItem.cast,
                                     directors: _editedItem.directors,
@@ -264,8 +280,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 height: 5,
                               ),
                               TextFormField(
-                                decoration: InputDecoration(
-                                    labelText: 'Item Description'),
+                                decoration: InputDecoration(labelText: 'Item Description'),
                                 maxLines: 3,
                                 // textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.multiline,
@@ -274,7 +289,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     id: _editedItem.id,
                                     category: _editedItem.category,
                                     title: _editedItem.title,
-                                    imageUrl: _editedItem.imageUrl,
+                                    imageUrls: _editedItem.imageUrls,
                                     description: value.toString(),
                                     cast: _editedItem.cast,
                                     directors: _editedItem.directors,
@@ -316,31 +331,25 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       child: DropdownButtonFormField<String>(
                                         value: dropDownValType,
                                         elevation: 16,
-                                        style: const TextStyle(
-                                            color: Colors.pink, fontSize: 12),
+                                        style: const TextStyle(color: Colors.pink, fontSize: 12),
                                         onChanged: (String? newValue) {
                                           setState(() {
                                             String categoryType = '';
 
                                             dropDownValType = newValue!;
-                                            if (dropDownValType.toString() ==
-                                                'TeleDrama') {
+                                            if (dropDownValType.toString() == 'TeleDrama') {
                                               categoryType = 'teledrama';
                                             }
-                                            if (dropDownValType.toString() ==
-                                                'Movie') {
+                                            if (dropDownValType.toString() == 'Movie') {
                                               categoryType = 'movie';
                                             }
-                                            if (dropDownValType.toString() ==
-                                                'Short Movie') {
+                                            if (dropDownValType.toString() == 'Short Movie') {
                                               categoryType = 'short-movie';
                                             }
-                                            if (dropDownValType.toString() ==
-                                                'Web Series') {
+                                            if (dropDownValType.toString() == 'Web Series') {
                                               categoryType = 'web-series';
                                             }
-                                            if (dropDownValType.toString() ==
-                                                'Mini Series') {
+                                            if (dropDownValType.toString() == 'Mini Series') {
                                               categoryType = 'mini-series';
                                             }
 
@@ -348,26 +357,22 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               id: _editedItem.id,
                                               category: categoryType.toString(),
                                               title: _editedItem.title,
-                                              imageUrl: _editedItem.imageUrl,
-                                              description:
-                                                  _editedItem.description,
+                                              imageUrls: _editedItem.imageUrls,
+                                              description: _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
                                               genres: _editedItem.genres,
                                               reviews: _editedItem.reviews,
-                                              ratingValues:
-                                                  _editedItem.ratingValues,
+                                              ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL:
-                                                  _editedItem.youtubeURL,
+                                              youtubeURL: _editedItem.youtubeURL,
                                             );
                                           });
                                         },
                                         validator: (value) {
-                                          if (value.toString() ==
-                                              "Select Category") {
+                                          if (value.toString() == "Select Category") {
                                             return "Select a Category";
                                           }
                                           return null;
@@ -382,8 +387,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 height: 8,
                               ),
                               TextFormField(
-                                decoration:
-                                    InputDecoration(labelText: 'Video Url'),
+                                decoration: InputDecoration(labelText: 'Video Url'),
                                 keyboardType: TextInputType.url,
                                 textInputAction: TextInputAction.next,
                                 onSaved: (value) {
@@ -391,7 +395,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     id: _editedItem.id,
                                     category: _editedItem.category,
                                     title: _editedItem.title,
-                                    imageUrl: _editedItem.imageUrl,
+                                    imageUrls: _editedItem.imageUrls,
                                     description: _editedItem.description,
                                     cast: _editedItem.cast,
                                     directors: _editedItem.directors,
@@ -429,63 +433,39 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             height: 150,
                                             width: screenWidth * 0.4,
                                             child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Container(
                                                   width: screenWidth * 0.4,
                                                   height: 150,
                                                   child: TextFormField(
-                                                    decoration: InputDecoration(
-                                                        labelText: 'Image Url'),
-                                                    keyboardType:
-                                                        TextInputType.url,
-                                                    controller:
-                                                        imageControllers[index],
-                                                    textInputAction:
-                                                        TextInputAction.next,
+                                                    decoration: InputDecoration(labelText: 'Image Url'),
+                                                    keyboardType: TextInputType.url,
+                                                    controller: imageControllers[index],
+                                                    textInputAction: TextInputAction.next,
                                                     onSaved: (value) {
                                                       _editedItem = Item(
                                                         id: _editedItem.id,
-                                                        category: _editedItem
-                                                            .category,
-                                                        title:
-                                                            _editedItem.title,
-                                                        imageUrl: [
-                                                          ..._editedItem
-                                                              .imageUrl,
-                                                          value.toString()
-                                                        ],
-                                                        description: _editedItem
-                                                            .description,
+                                                        category: _editedItem.category,
+                                                        title: _editedItem.title,
+                                                        imageUrls: [..._editedItem.imageUrls, value.toString()],
+                                                        description: _editedItem.description,
                                                         cast: _editedItem.cast,
-                                                        directors: _editedItem
-                                                            .directors,
-                                                        producers: _editedItem
-                                                            .producers,
-                                                        genres:
-                                                            _editedItem.genres,
-                                                        reviews:
-                                                            _editedItem.reviews,
-                                                        ratingValues:
-                                                            _editedItem
-                                                                .ratingValues,
-                                                        rateMap:
-                                                            _editedItem.rateMap,
-                                                        ratings:
-                                                            _editedItem.ratings,
-                                                        youtubeURL: _editedItem
-                                                            .youtubeURL,
+                                                        directors: _editedItem.directors,
+                                                        producers: _editedItem.producers,
+                                                        genres: _editedItem.genres,
+                                                        reviews: _editedItem.reviews,
+                                                        ratingValues: _editedItem.ratingValues,
+                                                        rateMap: _editedItem.rateMap,
+                                                        ratings: _editedItem.ratings,
+                                                        youtubeURL: _editedItem.youtubeURL,
                                                       );
                                                     },
                                                     validator: (value) {
                                                       if (value!.isEmpty) {
                                                         return "Enter a Image URL";
                                                       }
-                                                      if (!value.startsWith(
-                                                              "http") ||
-                                                          !value.startsWith(
-                                                              "https")) {
+                                                      if (!value.startsWith("http") || !value.startsWith("https")) {
                                                         return "Enter a Valid URL";
                                                       }
                                                       return null;
@@ -499,39 +479,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                   width: screenWidth * 0.4,
                                                   height: 150,
                                                   decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Colors.black),
+                                                    border: Border.all(width: 1, color: Colors.black),
                                                   ),
                                                   child: FittedBox(
-                                                    child: (imageControllers[
-                                                                    index]
-                                                                .text
-                                                                .isEmpty ||
-                                                            (!imageControllers[
-                                                                        index]
-                                                                    .text
-                                                                    .startsWith(
-                                                                        "http") ||
-                                                                !imageControllers[
-                                                                        index]
-                                                                    .text
-                                                                    .startsWith(
-                                                                        "https")))
+                                                    child: (imageControllers[index].text.isEmpty ||
+                                                            (!imageControllers[index].text.startsWith("http") || !imageControllers[index].text.startsWith("https")))
                                                         ? Padding(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    10),
+                                                            padding: EdgeInsets.all(10),
                                                             child: Text(
                                                               "Add Image Url",
-                                                              style: TextStyle(
-                                                                  fontSize: 5),
+                                                              style: TextStyle(fontSize: 5),
                                                             ),
                                                           )
-                                                        : Image.network(
-                                                            imageControllers[
-                                                                    index]
-                                                                .text),
+                                                        : Image.network(imageControllers[index].text),
                                                   ),
                                                 ),
                                                 Container(
@@ -540,8 +500,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                     icon: Icon(Icons.add),
                                                     onPressed: () async {
                                                       setState(() {
-                                                        imageControllers.add(
-                                                            TextEditingController());
+                                                        imageControllers.add(TextEditingController());
                                                         _imageCount++;
                                                       });
                                                     },
@@ -569,51 +528,35 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       itemCount: _castCount,
                                       itemBuilder: (context, index) {
                                         return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
                                               width: screenWidth * 0.3,
                                               child: TextFormField(
-                                                decoration: InputDecoration(
-                                                    labelText: 'Cast Name'),
-                                                textInputAction:
-                                                    TextInputAction.next,
+                                                decoration: InputDecoration(labelText: 'Cast Name'),
+                                                textInputAction: TextInputAction.next,
                                                 onSaved: (value) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: [
                                                       ..._editedItem.cast,
                                                       {
-                                                        "role":
-                                                            value.toString(),
-                                                        "name": dropDownValCast[
-                                                                index]
-                                                            .toString(),
+                                                        "role": value.toString(),
+                                                        "starID": dropDownValCast[index].toString(),
                                                       }
                                                     ],
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 },
                                                 validator: (value) {
@@ -629,23 +572,18 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             ),
                                             Container(
                                               width: screenWidth * 0.5,
-                                              child: DropdownButtonFormField<
-                                                  String>(
+                                              child: DropdownButtonFormField<String>(
                                                 value: dropDownValCast[index],
                                                 elevation: 16,
-                                                style: const TextStyle(
-                                                    color: Colors.pink,
-                                                    fontSize: 12),
+                                                style: const TextStyle(color: Colors.pink, fontSize: 12),
                                                 onChanged: (String? newValue) {
                                                   setState(() {
-                                                    dropDownValCast[index] =
-                                                        newValue!;
+                                                    dropDownValCast[index] = newValue!;
                                                   });
                                                 },
                                                 items: dropdownItemList,
                                                 validator: (value) {
-                                                  if (value.toString() ==
-                                                      "Select Name") {
+                                                  if (value.toString() == "Select Name") {
                                                     return "Select a Name";
                                                   }
                                                   return null;
@@ -658,8 +596,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                 icon: Icon(Icons.add),
                                                 onPressed: () async {
                                                   setState(() {
-                                                    dropDownValCast
-                                                        .add('Select Name');
+                                                    dropDownValCast.add('Select Name');
                                                     _castCount++;
                                                   });
                                                 },
@@ -686,8 +623,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       itemCount: _roleCount,
                                       itemBuilder: (context, index) {
                                         return Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
                                           children: <Widget>[
                                             // Container(
                                             //   width: screenWidth * 0.4,
@@ -698,33 +634,23 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             // ),
                                             Container(
                                               width: screenWidth * 0.3,
-                                              child: DropdownButtonFormField<
-                                                  String>(
-                                                value:
-                                                    dropDownValRoleType[index],
+                                              child: DropdownButtonFormField<String>(
+                                                value: dropDownValRoleType[index],
                                                 elevation: 16,
-                                                style: const TextStyle(
-                                                    color: Colors.pink,
-                                                    fontSize: 12),
+                                                style: const TextStyle(color: Colors.pink, fontSize: 12),
                                                 onChanged: (String? newValue) {
                                                   setState(() {
-                                                    dropDownValRoleType[index] =
-                                                        newValue!;
+                                                    dropDownValRoleType[index] = newValue!;
                                                   });
                                                 },
                                                 validator: (value) {
-                                                  if (value.toString() ==
-                                                      "Select Role") {
+                                                  if (value.toString() == "Select Role") {
                                                     return "Select a Role";
                                                   }
-                                                  if (_editedItem
-                                                          .producers.length ==
-                                                      0) {
+                                                  if (_editedItem.producers.length == 0) {
                                                     return "Add a Producer";
                                                   }
-                                                  if (_editedItem
-                                                          .directors.length ==
-                                                      0) {
+                                                  if (_editedItem.directors.length == 0) {
                                                     return "Add a Director";
                                                   }
                                                   return null;
@@ -737,119 +663,74 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             ),
                                             Container(
                                               width: screenWidth * 0.5,
-                                              child: DropdownButtonFormField<
-                                                  String>(
+                                              child: DropdownButtonFormField<String>(
                                                 value: dropDownValRole[index],
                                                 elevation: 16,
-                                                style: const TextStyle(
-                                                    color: Colors.pink,
-                                                    fontSize: 12),
+                                                style: const TextStyle(color: Colors.pink, fontSize: 12),
                                                 onChanged: (String? newValue) {
                                                   setState(() {
-                                                    dropDownValRole[index] =
-                                                        newValue!;
+                                                    dropDownValRole[index] = newValue!;
 
-                                                    if (dropDownValRoleType[
-                                                                index]
-                                                            .toString() ==
-                                                        'Director') {
+                                                    if (dropDownValRoleType[index].toString() == 'Director') {
                                                       // selectedDirectors.add({
                                                       //   "role": dropDownValRoleType[index],
                                                       //   "starID": dropDownValRole[index],
                                                       // });
                                                       _editedItem = Item(
                                                         id: _editedItem.id,
-                                                        category: _editedItem
-                                                            .category,
-                                                        title:
-                                                            _editedItem.title,
-                                                        imageUrl: _editedItem
-                                                            .imageUrl,
-                                                        description: _editedItem
-                                                            .description,
+                                                        category: _editedItem.category,
+                                                        title: _editedItem.title,
+                                                        imageUrls: _editedItem.imageUrls,
+                                                        description: _editedItem.description,
                                                         cast: _editedItem.cast,
                                                         directors: [
-                                                          ..._editedItem
-                                                              .directors,
+                                                          ..._editedItem.directors,
                                                           {
-                                                            "role":
-                                                                dropDownValRoleType[
-                                                                    index],
-                                                            "starID":
-                                                                dropDownValRole[
-                                                                    index],
+                                                            "role": dropDownValRoleType[index],
+                                                            "starID": dropDownValRole[index],
                                                           }
                                                         ],
-                                                        producers: _editedItem
-                                                            .producers,
-                                                        genres:
-                                                            _editedItem.genres,
-                                                        reviews:
-                                                            _editedItem.reviews,
-                                                        ratingValues:
-                                                            _editedItem
-                                                                .ratingValues,
-                                                        rateMap:
-                                                            _editedItem.rateMap,
-                                                        ratings:
-                                                            _editedItem.ratings,
-                                                        youtubeURL: _editedItem
-                                                            .youtubeURL,
+                                                        producers: _editedItem.producers,
+                                                        genres: _editedItem.genres,
+                                                        reviews: _editedItem.reviews,
+                                                        ratingValues: _editedItem.ratingValues,
+                                                        rateMap: _editedItem.rateMap,
+                                                        ratings: _editedItem.ratings,
+                                                        youtubeURL: _editedItem.youtubeURL,
                                                       );
                                                     }
-                                                    if (dropDownValRoleType[
-                                                                index]
-                                                            .toString() ==
-                                                        'Producer') {
+                                                    if (dropDownValRoleType[index].toString() == 'Producer') {
                                                       // selectedProducers.add({
                                                       //   "role": dropDownValRoleType[index],
                                                       //   "starID": dropDownValRole[index],
                                                       // });
                                                       _editedItem = Item(
                                                         id: _editedItem.id,
-                                                        category: _editedItem
-                                                            .category,
-                                                        title:
-                                                            _editedItem.title,
-                                                        imageUrl: _editedItem
-                                                            .imageUrl,
-                                                        description: _editedItem
-                                                            .description,
+                                                        category: _editedItem.category,
+                                                        title: _editedItem.title,
+                                                        imageUrls: _editedItem.imageUrls,
+                                                        description: _editedItem.description,
                                                         cast: _editedItem.cast,
-                                                        directors: _editedItem
-                                                            .directors,
+                                                        directors: _editedItem.directors,
                                                         producers: [
-                                                          ..._editedItem
-                                                              .producers,
+                                                          ..._editedItem.producers,
                                                           {
-                                                            "role":
-                                                                dropDownValRoleType[
-                                                                    index],
-                                                            "starID":
-                                                                dropDownValRole[
-                                                                    index],
+                                                            "role": dropDownValRoleType[index],
+                                                            "starID": dropDownValRole[index],
                                                           }
                                                         ],
-                                                        genres:
-                                                            _editedItem.genres,
-                                                        reviews:
-                                                            _editedItem.reviews,
-                                                        ratingValues:
-                                                            _editedItem
-                                                                .ratingValues,
-                                                        rateMap:
-                                                            _editedItem.rateMap,
-                                                        ratings:
-                                                            _editedItem.ratings,
-                                                        youtubeURL: _editedItem
-                                                            .youtubeURL,
+                                                        genres: _editedItem.genres,
+                                                        reviews: _editedItem.reviews,
+                                                        ratingValues: _editedItem.ratingValues,
+                                                        rateMap: _editedItem.rateMap,
+                                                        ratings: _editedItem.ratings,
+                                                        youtubeURL: _editedItem.youtubeURL,
                                                       );
                                                     }
                                                   });
                                                 },
                                                 validator: (value) {
-                                                  if (value.toString() ==
-                                                      "Select Name") {
+                                                  if (value.toString() == "Select Name") {
                                                     return "Select a Name";
                                                   }
                                                   return null;
@@ -863,10 +744,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                 icon: Icon(Icons.add),
                                                 onPressed: () async {
                                                   setState(() {
-                                                    dropDownValRole
-                                                        .add('Select Name');
-                                                    dropDownValRoleType
-                                                        .add('Select Role');
+                                                    dropDownValRole.add('Select Name');
+                                                    dropDownValRoleType.add('Select Role');
                                                     _roleCount++;
                                                   });
                                                 },
@@ -929,76 +808,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       children: [
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Action'),
                                             value: _checkboxAction,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxAction =
-                                                    !_checkboxAction;
+                                                _checkboxAction = !_checkboxAction;
                                                 if (_checkboxAction) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Action"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Action"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Action");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Action");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1007,76 +858,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         ),
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Romance'),
                                             value: _checkboxRomance,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxRomance =
-                                                    !_checkboxRomance;
+                                                _checkboxRomance = !_checkboxRomance;
                                                 if (_checkboxRomance) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Romance"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Romance"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Romance");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Romance");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1089,76 +912,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       children: [
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Horror'),
                                             value: _checkboxHorror,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxHorror =
-                                                    !_checkboxHorror;
+                                                _checkboxHorror = !_checkboxHorror;
                                                 if (_checkboxHorror) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Horror"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Horror"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Horror");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Horror");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1167,76 +962,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         ),
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Thriller'),
                                             value: _checkboxThriller,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxThriller =
-                                                    !_checkboxThriller;
+                                                _checkboxThriller = !_checkboxThriller;
                                                 if (_checkboxThriller) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Thriller"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Thriller"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Thriller");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Thriller");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1249,76 +1016,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       children: [
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Biography'),
                                             value: _checkboxBiography,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxBiography =
-                                                    !_checkboxBiography;
+                                                _checkboxBiography = !_checkboxBiography;
                                                 if (_checkboxBiography) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Biography"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Biography"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Biography");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Biography");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1327,76 +1066,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         ),
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Drama'),
                                             value: _checkboxDrama,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxDrama =
-                                                    !_checkboxDrama;
+                                                _checkboxDrama = !_checkboxDrama;
                                                 if (_checkboxDrama) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Drama"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Drama"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Drama");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Drama");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1409,76 +1120,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                       children: [
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Comedy'),
                                             value: _checkboxComody,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxComody =
-                                                    !_checkboxComody;
+                                                _checkboxComody = !_checkboxComody;
                                                 if (_checkboxComody) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Comedy"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Comedy"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Comedy");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Comedy");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
@@ -1487,76 +1170,48 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                         ),
                                         Expanded(
                                           child: CheckboxListTile(
-                                            controlAffinity:
-                                                ListTileControlAffinity.leading,
+                                            controlAffinity: ListTileControlAffinity.leading,
                                             title: Text('Fiction'),
                                             value: _checkboxFiction,
                                             activeColor: Colors.pink,
                                             onChanged: (value) {
                                               setState(() {
-                                                _checkboxFiction =
-                                                    !_checkboxFiction;
+                                                _checkboxFiction = !_checkboxFiction;
                                                 if (_checkboxFiction) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
-                                                    genres: [
-                                                      ..._editedItem.genres,
-                                                      "Fiction"
-                                                    ],
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
+                                                    genres: [..._editedItem.genres, "Fiction"],
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 } else {
-                                                  _editedItem.genres
-                                                      .removeWhere((element) =>
-                                                          element.toString() ==
-                                                          "Fiction");
+                                                  _editedItem.genres.removeWhere((element) => element.toString() == "Fiction");
 
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
-                                                    category:
-                                                        _editedItem.category,
+                                                    category: _editedItem.category,
                                                     title: _editedItem.title,
-                                                    imageUrl:
-                                                        _editedItem.imageUrl,
-                                                    description:
-                                                        _editedItem.description,
+                                                    imageUrls: _editedItem.imageUrls,
+                                                    description: _editedItem.description,
                                                     cast: _editedItem.cast,
-                                                    directors:
-                                                        _editedItem.directors,
-                                                    producers:
-                                                        _editedItem.producers,
+                                                    directors: _editedItem.directors,
+                                                    producers: _editedItem.producers,
                                                     genres: _editedItem.genres,
-                                                    reviews:
-                                                        _editedItem.reviews,
-                                                    ratingValues: _editedItem
-                                                        .ratingValues,
-                                                    rateMap:
-                                                        _editedItem.rateMap,
-                                                    ratings:
-                                                        _editedItem.ratings,
-                                                    youtubeURL:
-                                                        _editedItem.youtubeURL,
+                                                    reviews: _editedItem.reviews,
+                                                    ratingValues: _editedItem.ratingValues,
+                                                    rateMap: _editedItem.rateMap,
+                                                    ratings: _editedItem.ratings,
+                                                    youtubeURL: _editedItem.youtubeURL,
                                                   );
                                                 }
                                               });
