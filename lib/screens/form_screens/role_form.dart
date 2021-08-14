@@ -1,5 +1,6 @@
 import 'package:drama_app/models/cast.dart';
 import 'package:drama_app/providers/cast_provider.dart';
+import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -53,19 +54,19 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
       isthrowError = true;
 
       return showDialog<Null>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Error Occurred"),
-          content: Text("Something went Wrong. Role Not Added!"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Okay"),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
-        ),
+        context: context, builder: (ctx) => AlertBox("Error! Role Not Added!", "Error Occurred", ctx),
+        // AlertDialog(
+        //   title: Text("Error Occurred"),
+        //   content: Text("Something went Wrong. Role Not Added!"),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text("Okay"),
+        //       onPressed: () {
+        //         Navigator.of(ctx).pop();
+        //       },
+        //     )
+        //   ],
+        // ),
       );
     }).then((_) {
       setState(() {
@@ -74,19 +75,19 @@ class _RoleFormScreenState extends State<RoleFormScreen> {
 
       if (!isthrowError) {
         showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text("Sucsessfull"),
-            content: Text("Item Added Succesfully"),
-            actions: <Widget>[
-              TextButton(
-                child: Text("Awesome"),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              )
-            ],
-          ),
+          context: context, builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          // AlertDialog(
+          //   title: Text("Sucsessfull"),
+          //   content: Text("Item Added Succesfully"),
+          //   actions: <Widget>[
+          //     TextButton(
+          //       child: Text("Awesome"),
+          //       onPressed: () {
+          //         Navigator.of(ctx).pop();
+          //       },
+          //     )
+          //   ],
+          // ),
         ).then((value) {
           Navigator.of(context).pop();
         });

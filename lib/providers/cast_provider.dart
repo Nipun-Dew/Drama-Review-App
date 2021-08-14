@@ -67,7 +67,7 @@ class Casts with ChangeNotifier {
   }
 
   Future<void> addRole(Cast role) {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/starASDED");
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/star");
 
     return http
         .post(
@@ -92,6 +92,7 @@ class Casts with ChangeNotifier {
       );
 
       print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode.toString() == "200") {
         _items.add(newRole);

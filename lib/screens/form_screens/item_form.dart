@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:drama_app/models/cast.dart';
 import 'package:drama_app/models/item.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -113,19 +114,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       isthrowError = true;
 
       return showDialog<Null>(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("Error Occurred"),
-          content: Text("Something went Wrong"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Okay"),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
-        ),
+        context: context, builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
+        // AlertDialog(
+        //   title: Text("Error Occurred"),
+        //   content: Text("Something went Wrong"),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text("Okay"),
+        //       onPressed: () {
+        //         Navigator.of(ctx).pop();
+        //       },
+        //     )
+        //   ],
+        // ),
       );
     }).then((_) {
       setState(() {
@@ -134,19 +135,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
       if (!isthrowError) {
         showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text("Sucsessfull"),
-            content: Text("Item Added Succesfully"),
-            actions: <Widget>[
-              TextButton(
-                child: Text("Awesome"),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              )
-            ],
-          ),
+          context: context, builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          //  AlertDialog(
+          //   title: Text("Sucsessfull"),
+          //   content: Text("Item Added Succesfully"),
+          //   actions: <Widget>[
+          //     TextButton(
+          //       child: Text("Awesome"),
+          //       onPressed: () {
+          //         Navigator.of(ctx).pop();
+          //       },
+          //     )
+          //   ],
+          // ),
         ).then((value) {
           Navigator.of(context).pop();
         });
