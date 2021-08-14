@@ -84,19 +84,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       isValid = false;
 
       showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text("No Genre Selected"),
-          content: Text("Please select a genre Type"),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Ok"),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              },
-            )
-          ],
-        ),
+        context: context, builder: (ctx) => AlertBox("Please select a genre Type", "No Genre Selected", ctx),
+        // AlertDialog(
+        //   title: Text("No Genre Selected"),
+        //   content: Text("Please select a genre Type"),
+        //   actions: <Widget>[
+        //     TextButton(
+        //       child: Text("Ok"),
+        //       onPressed: () {
+        //         Navigator.of(ctx).pop();
+        //       },
+        //     )
+        //   ],
+        // ),
       );
     }
 
