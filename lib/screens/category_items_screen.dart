@@ -20,50 +20,48 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
 
   var _isLoading = false;
 
-  late String _methodSelector;
-
   @override
   void initState() {
-    setState(() {
-      _isLoading = true;
-    });
+    // setState(() {
+    //   _isLoading = true;
+    // });
 
     Future.delayed(Duration.zero).then((_) {
       if (widget.id.toString() == 'teledrama') {
         Provider.of<Items>(context, listen: false).getTeledramas().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          // setState(() {
+          //   _isLoading = false;
+          // });
         });
       }
 
       if (widget.id.toString() == 'web-series') {
         Provider.of<Items>(context, listen: false).getWebSeries().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          // setState(() {
+          //   _isLoading = false;
+          // });
         });
       }
 
       if (widget.id.toString() == 'movie') {
         Provider.of<Items>(context, listen: false).getMovies().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          // setState(() {
+          //   _isLoading = false;
+          // });
         });
       }
       if (widget.id.toString() == 'short-movie') {
         Provider.of<Items>(context, listen: false).getShortMovies().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          // setState(() {
+          //   _isLoading = false;
+          // });
         });
       }
       if (widget.id.toString() == 'mini-series') {
         Provider.of<Items>(context, listen: false).getMiniSeries().then((_) {
-          setState(() {
-            _isLoading = false;
-          });
+          // setState(() {
+          //   _isLoading = false;
+          // });
         });
       }
 
