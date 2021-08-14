@@ -149,6 +149,17 @@ class Items with ChangeNotifier {
     return [..._favItems];
   }
 
+  Future<void> getTeledramas() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/teledrama/all");
+
+    try {
+      final response = await http.get(url);
+      print(response);
+    } catch (err) {
+      throw err;
+    }
+  }
+
   Future<void> addItem(Item item) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 

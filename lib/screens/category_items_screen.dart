@@ -5,12 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
-class CategoryItemScreen extends StatelessWidget {
+class CategoryItemScreen extends StatefulWidget {
   final String title;
   final String id;
-  late List<Item> displayItems;
 
   CategoryItemScreen(this.id, this.title);
+
+  @override
+  _CategoryItemScreenState createState() => _CategoryItemScreenState();
+}
+
+class _CategoryItemScreenState extends State<CategoryItemScreen> {
+  late List<Item> displayItems;
+
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<Items>(context, listen: false).getTeledramas().then((_) {
+        // setState(() {
+        //   _isLoading = false;
+        // });
+      });
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +42,21 @@ class CategoryItemScreen extends StatelessWidget {
     final items = itemData.items;
 
     displayItems = items.where((item) {
-      return item.category.contains(id);
+      return item.category.contains(widget.id);
     }).toList();
 
     return Column(
       children: [
         ...displayItems.map((item) {
-          return ItemWidget(id: item.id, title: item.title, imageUrls: item.imageUrls[0], category: item.category, trailerVideoUrl: item.youtubeURL, genres: item.genres, wholeItem: item);
+          return ItemWidget(
+            id: item.id,
+            title: item.title,
+            imageUrls: item.imageUrls[0],
+            category: item.category,
+            trailerVideoUrl: item.youtubeURL,
+            genres: item.genres,
+            wholeItem: item,
+          );
         })
       ],
     );
