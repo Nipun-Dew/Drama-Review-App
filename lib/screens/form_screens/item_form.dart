@@ -29,16 +29,26 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
   var _isLoading = false;
 
+  var _isLoadingRoles = false;
+
+  @override
   void initState() {
-    super.initState();
-    // _genreCount = 1;
     _roleCount = 1;
     _castCount = 1;
     _imageCount = 1;
 
-    Future.delayed(Duration.zero).then((_) {
-      Provider.of<Casts>(context, listen: false).getRoles();
+    setState(() {
+      _isLoadingRoles = true;
     });
+
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<Casts>(context, listen: false).getRoles().then((_) {
+        setState(() {
+          _isLoadingRoles = false;
+        });
+      });
+    });
+    super.initState();
   }
 
   // @override
@@ -201,7 +211,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      body: _isLoading
+      body: (_isLoading || _isLoadingRoles)
           ? Center(
               child: CircularProgressIndicator(),
             )
