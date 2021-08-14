@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../widgets/alert_box_widget.dart';
 
 class AuthScreen extends StatefulWidget {
+  final bool startupIsLoginState;
+
+  const AuthScreen (this.startupIsLoginState);
+
   @override
-  _AuthScreenState createState() => _AuthScreenState();
+  _AuthScreenState createState() => _AuthScreenState(startupIsLoginState);
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  bool startupIsLoginState2;
+  _AuthScreenState(this.startupIsLoginState2);
+
   Map<String, String> authData = {"email": "", "password": "", "uname": ""};
 
-  bool isLoginState = true;
+  //bool isLoginState = true;
 
   bool isLoading = false;
 
@@ -34,40 +42,7 @@ class _AuthScreenState extends State<AuthScreen> {
     showDialog(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            content: Container(
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: Center(
-                    child: Text(
-                  msg,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 17,
-                    color: Colors.grey[700],
-                  ),
-                ))),
-            actions: [
-              Center(
-                child: Divider(
-                  thickness: 0.3,
-                  color: Colors.grey[600],
-                ),
-              ),
-              Center(
-                child: TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(),
-                    child: Text(
-                      "Close",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 17,
-                      ),
-                    )),
-              )
-            ],
-          );
+          return AlertBox(msg, title, ctx);
         });
   }
 
@@ -89,7 +64,7 @@ class _AuthScreenState extends State<AuthScreen> {
           validateEmail = true;
         });
       }
-      if (unameController.text.isEmpty && !isLoginState) {
+      if (unameController.text.isEmpty && !startupIsLoginState2) {
         setState(() {
           validateUname = true;
         });
@@ -101,7 +76,7 @@ class _AuthScreenState extends State<AuthScreen> {
         setState(() {
           isLoading = true;
         });
-        if (isLoginState) {
+        if (startupIsLoginState2) {
           await Provider.of<Auth>(context, listen: false)
               .login(authData['email']!, authData['password']!);
           Navigator.of(context).pop();
@@ -111,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
               authData['uname']!, authData['email']!, authData['password']!);
           showAlertBox("Success!", "Signup Successful!");
           setState(() {
-            isLoginState = true;
+            startupIsLoginState2 = true;
           });
         }
         emailController.clear();
@@ -131,7 +106,7 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     double phoneWidth = MediaQuery.of(context).size.width;
-
+    //isLoginState = widget.startupIsLoginState;
     return Scaffold(
         body: SingleChildScrollView(
       child: isLoading
@@ -158,7 +133,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Container(
                       margin: EdgeInsets.all(phoneWidth * 0.05),
                       child: Text(
-                        isLoginState ? "Login" : "SignUp",
+                        startupIsLoginState2 ? "Login" : "SignUp",
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 35,
@@ -168,7 +143,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: phoneWidth * 0.17,
                     ),
-                    !isLoginState
+                    !startupIsLoginState2
                         ? Center(
                             child: Container(
                               width: phoneWidth * 0.8,
@@ -276,7 +251,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           elevation: MaterialStateProperty.all(0),
                         ),
                         onPressed: submit,
-                        child: Text(isLoginState ? "Login" : "SignUp"),
+                        child: Text(startupIsLoginState2 ? "Login" : "SignUp"),
                       ),
                     ),
                     SizedBox(
@@ -289,13 +264,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         splashColor: Colors.transparent,
                         onTap: () {
                           setState(() {
-                            isLoginState = !isLoginState;
+                            startupIsLoginState2 = !startupIsLoginState2;
                             emailController.clear();
                             passwordController.clear();
                           });
                         },
                         child: Text(
-                          isLoginState
+                          startupIsLoginState2
                               ? "Dont have an account? Create a new account"
                               : "Have an account? Go to Login Screen...",
                           style:
@@ -306,44 +281,44 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       height: phoneWidth * 0.09,
                     ),
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ElevatedButton(
-                            child: Text("Google Signin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                            onPressed: () async {
-                              try{
-                                await Provider.of<Auth>(context, listen: false).googleSign();
-                                Navigator.of(context).pop();
-                                showAlertBox("Success!", "Login Successful!");
-                              }
-                              catch(err) {
-                                showAlertBox("Error!", "Error Occurred");
-                                print(err);
-                              }
-                            },
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
-                          ),
-                          ElevatedButton(
-                            child: Text("Facebook Signin", style: TextStyle(fontWeight: FontWeight.bold),),
-                            onPressed: () {
-                              try{
-                                Provider.of<Auth>(context, listen: false).facebookSign();
-                                Navigator.of(context).pop();
-                                showAlertBox("Success!", "Login Successful!");
-                              }
-                              catch(err) {
-                                showAlertBox("Error!", "Error Occurred");
-                                print(err);
-                              }
-                            },
-                            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[900])),
-                          )
-                        ],
-                      ),
-                    )
+                    // Container(
+                    //   padding: EdgeInsets.all(20),
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //     children: [
+                    //       ElevatedButton(
+                    //         child: Text("Google Signin", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                    //         onPressed: () async {
+                    //           try{
+                    //             await Provider.of<Auth>(context, listen: false).googleSign();
+                    //             Navigator.of(context).pop();
+                    //             showAlertBox("Success!", "Login Successful!");
+                    //           }
+                    //           catch(err) {
+                    //             showAlertBox("Error!", "Error Occurred");
+                    //             print(err);
+                    //           }
+                    //         },
+                    //         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)),
+                    //       ),
+                    //       ElevatedButton(
+                    //         child: Text("Facebook Signin", style: TextStyle(fontWeight: FontWeight.bold),),
+                    //         onPressed: () async {
+                    //           try{
+                    //             await Provider.of<Auth>(context, listen: false).facebookSign();
+                    //             Navigator.of(context).pop();
+                    //             showAlertBox("Success!", "Login Successful!");
+                    //           }
+                    //           catch(err) {
+                    //             showAlertBox("Error!", "Error Occurred");
+                    //             print(err);
+                    //           }
+                    //         },
+                    //         style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue[900])),
+                    //       )
+                    //     ],
+                    //   ),
+                    // )
                   ])),
     ));
   }

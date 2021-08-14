@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
+import '../widgets/alert_box_widget.dart';
+import '../screens/auth_screen.dart';
 
 class SignButtonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void showAlertBox(String title, String msg) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertBox(msg, title, ctx);
+          });
+    }
+
     final topMargin = MediaQuery.of(context).padding.top;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.height;
@@ -46,19 +60,47 @@ class SignButtonScreen extends StatelessWidget {
               SignInButton(
                 Buttons.GoogleDark,
                 text: "Sign in with Google",
-                onPressed: () {},
+                onPressed: () async {
+                  try{
+                    await Provider.of<Auth>(context, listen: false).googleSign();
+                    Navigator.of(context).pop();
+                    showAlertBox("Success!", "Login Successful!");
+                  }
+                  catch(err) {
+                    showAlertBox("Error!", "Error Occurred");
+                    print(err);
+                  }
+                },
               ),
               SizedBox(height: height * 0.025,),
               SignInButton(
                 Buttons.Facebook,
                 text: "Sign in with Facebook",
-                onPressed: () {},
+                onPressed: () async {
+                  try{
+                    await Provider.of<Auth>(context, listen: false).facebookSign();
+                    Navigator.of(context).pop();
+                    showAlertBox("Success!", "Login Successful!");
+                  }
+                  catch(err) {
+                    showAlertBox("Error!", "Error Occurred");
+                    print(err);
+                  }
+                },
               ),
               SizedBox(height: height * 0.025,),
               SignInButtonBuilder(
                 text: 'Sign in with SLCinema',
                 icon: Icons.camera,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return AuthScreen(true);
+                      },
+                    ),
+                  );
+                },
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               SizedBox(height: height * 0.03,),
@@ -77,7 +119,15 @@ class SignButtonScreen extends StatelessWidget {
               SignInButtonBuilder(
                 text: '  Create an Account',
                 icon: Icons.email,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) {
+                        return AuthScreen(false);
+                      },
+                    ),
+                  );
+                },
                 backgroundColor: Theme.of(context).accentColor,
               )
             ],

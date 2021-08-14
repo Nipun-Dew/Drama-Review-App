@@ -4,7 +4,7 @@ import 'package:drama_app/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../screens/auth_screen.dart';
+import '../../screens/sign_btn_screen.dart';
 
 class DrawerScreen extends StatelessWidget {
   @override
@@ -129,7 +129,7 @@ class DrawerScreen extends StatelessWidget {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) {
-                                  return AuthScreen();
+                                  return SignButtonScreen();
                                 },
                               ),
                             );
