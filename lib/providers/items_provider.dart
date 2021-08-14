@@ -154,7 +154,83 @@ class Items with ChangeNotifier {
 
     try {
       final response = await http.get(url);
-      print(response);
+
+      final List<Item> loadedItems = [];
+      final extractedItems = json.decode(response.body);
+
+      extractedItems.forEach((item) {
+        final List<String> urls = [];
+
+        item['imageUrls'].forEach((url) {
+          urls.add(url.toString());
+        });
+
+        loadedItems.add(Item(
+          id: item['id'].toString(),
+          title: item['title'],
+          category: item['category'],
+          imageUrls: urls,
+          description: item['description'],
+          cast: item['cast'],
+          directors: item['directors'],
+          producers: item['producers'],
+          genres: item['genres'],
+          youtubeURL: item['youtubeURL'],
+          rateMap: item['rateMap'],
+          reviews: item['reviews'],
+          ratings: item['ratings'],
+          ratedCount: item['ratedCount'],
+        ));
+      });
+
+      // print(response.body);
+
+      _items = loadedItems;
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> getMovies() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/movies/all");
+
+    try {
+      final response = await http.get(url);
+      print(response.body);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> getWebSeries() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/web-series/all");
+
+    try {
+      final response = await http.get(url);
+      print(response.body);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> getMiniSeries() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/mini-series/all");
+
+    try {
+      final response = await http.get(url);
+      print(response.body);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> getShortMovies() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/short-movies/all");
+
+    try {
+      final response = await http.get(url);
+      print(response.body);
     } catch (err) {
       throw err;
     }
@@ -163,15 +239,15 @@ class Items with ChangeNotifier {
   Future<void> addItem(Item item) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 
-    print(item.id);
-    print(item.title);
-    print(item.category);
-    print(item.description);
-    print(item.cast);
-    print(item.directors);
-    print(item.producers);
-    print(item.youtubeURL);
-    print(item.imageUrls);
+    // print(item.id);
+    // print(item.title);
+    // print(item.category);
+    // print(item.description);
+    // print(item.cast);
+    // print(item.directors);
+    // print(item.producers);
+    // print(item.youtubeURL);
+    // print(item.imageUrls);
 
     print(item);
 
@@ -207,7 +283,7 @@ class Items with ChangeNotifier {
         producers: item.producers,
         genres: item.genres,
         reviews: item.reviews,
-        ratingValues: item.ratingValues,
+        // ratingValues: item.ratingValues,
         rateMap: item.rateMap,
         youtubeURL: item.youtubeURL,
       );

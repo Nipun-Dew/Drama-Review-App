@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
     bool isCatClicked = Provider.of<Categories>(context, listen: true).categoryClicked;
     String id = Provider.of<Categories>(context, listen: true).catId;
     String title = Provider.of<Categories>(context, listen: true).catTitle;
+
     final categoryData = Provider.of<Categories>(context);
     final categories = categoryData.items;
 
