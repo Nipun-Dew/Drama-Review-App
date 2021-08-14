@@ -41,6 +41,10 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       print(response.body);
     }
+    else if (response.statusCode == 400) {
+      print(response.body);
+      throw HttpException("User email already exist!");
+    }
     else {
       print(response.body);
       throw HttpException("Error Occurred!");
@@ -52,9 +56,11 @@ class Auth with ChangeNotifier {
     var response = await http.post(url,
         body: json.encode({"username": useremail, "password": password}),
         headers: {"content-type": "application/json"});
+    print(response.statusCode);
     if (response.statusCode == 200) {
       token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      print(token);
       expireTime = JwtDecoder.getExpirationDate(token);
       autoLogout();
       notifyListeners();
@@ -68,10 +74,13 @@ class Auth with ChangeNotifier {
 
     } else if (response.statusCode == 400) {
       print(response.body);
-      throw HttpException(response.body);
+      throw HttpException("User email or Password is incorrect!");
+    } else if (response.statusCode == 401) {
+      print(response.body);
+      throw HttpException("Email is not verified!");
     } else {
       print(response.body);
-      throw HttpException(response.body);
+      throw HttpException("Error Occurred!");
     }
   }
 

@@ -11,7 +11,7 @@ class AlertBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       content: Container(
           height: MediaQuery.of(context).size.height * 0.1,
           child: Center(
@@ -22,6 +22,7 @@ class AlertBox extends StatelessWidget {
                   fontSize: 17,
                   color: Colors.grey[700],
                 ),
+                textAlign: TextAlign.center,
               ))),
       actions: [
         Center(
