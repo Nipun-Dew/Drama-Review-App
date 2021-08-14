@@ -152,7 +152,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       aspectRatio: 16 / 9,
                     ),
                     items: [
-                      ...selectedItem.imageUrl,
+                      ...selectedItem.imageUrls,
                     ].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
