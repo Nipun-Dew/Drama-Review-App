@@ -35,7 +35,19 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     _roleCount = 1;
     _castCount = 1;
     _imageCount = 1;
+
+    Future.delayed(Duration.zero).then((_) {
+      Provider.of<Casts>(context, listen: false).getRoles();
+    });
   }
+
+  // @override
+  // void initState() {
+  //   Future.delayed(Duration.zero).then((_) {
+  //     Provider.of<Casts>(context, listen: false).getRoles();
+  //   });
+  //   super.initState();
+  // }
 
   List<String> dropDownValCast = ['Select Name'];
 
@@ -509,7 +521,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: <Widget>[
                                             Container(
-                                              width: screenWidth * 0.4,
+                                              width: screenWidth * 0.3,
                                               child: TextFormField(
                                                 decoration: InputDecoration(labelText: 'Cast Name'),
                                                 textInputAction: TextInputAction.next,
@@ -549,7 +561,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               width: screenWidth * 0.05,
                                             ),
                                             Container(
-                                              width: screenWidth * 0.4,
+                                              width: screenWidth * 0.5,
                                               child: DropdownButtonFormField<String>(
                                                 value: dropDownValCast[index],
                                                 elevation: 16,
@@ -611,7 +623,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             //   ),
                                             // ),
                                             Container(
-                                              width: screenWidth * 0.4,
+                                              width: screenWidth * 0.3,
                                               child: DropdownButtonFormField<String>(
                                                 value: dropDownValRoleType[index],
                                                 elevation: 16,
@@ -640,7 +652,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               width: screenWidth * 0.05,
                                             ),
                                             Container(
-                                              width: screenWidth * 0.4,
+                                              width: screenWidth * 0.5,
                                               child: DropdownButtonFormField<String>(
                                                 value: dropDownValRole[index],
                                                 elevation: 16,

@@ -157,7 +157,7 @@ class Items with ChangeNotifier {
       url,
       headers: {
         HttpHeaders.authorizationHeader:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJleHAiOjE2Mjg2NjM4MDIsImlhdCI6MTYyODQ0NzgwMn0.pX96pYmXU-ZEtacqeDwSRbnWB_rNSF499NbweqGo5OI",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTE2MzU2NywiaWF0IjoxNjI4OTQ3NTY3fQ.LZW7vsYx8yZu9VkPPgmgMuvTE7794lkXyuy1je4ntKg",
         "content-type": "application/json"
       },
       body: json.encode({
