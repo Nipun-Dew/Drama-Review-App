@@ -53,10 +53,13 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String useremail, String password) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/login");
+
     var response = await http.post(url,
         body: json.encode({"username": useremail, "password": password}),
         headers: {"content-type": "application/json"});
+
     print(response.statusCode);
+
     if (response.statusCode == 200) {
       token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);

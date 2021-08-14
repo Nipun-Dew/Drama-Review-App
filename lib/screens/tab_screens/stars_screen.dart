@@ -11,6 +11,7 @@ class CinemaStarScreen extends StatefulWidget {
 }
 
 class _CinemaStarScreenState extends State<CinemaStarScreen> {
+
   @override
   void initState() {
     Future.delayed(Duration.zero).then((_) {
@@ -24,7 +25,7 @@ class _CinemaStarScreenState extends State<CinemaStarScreen> {
     List<Cast> starsList = Provider.of<Casts>(context).items;
 
     return Column(
-      children: [...starsList.map((cast) => StarItemWidget(cast))],
-    );
+            children: [...starsList.map((cast) => StarItemWidget(cast))],
+          );
   }
 }
