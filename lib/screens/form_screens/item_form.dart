@@ -546,7 +546,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                                       ..._editedItem.cast,
                                                       {
                                                         "role": value.toString(),
-                                                        "name": dropDownValCast[index].toString(),
+                                                        "starID": dropDownValCast[index].toString(),
                                                       }
                                                     ],
                                                     directors: _editedItem.directors,
