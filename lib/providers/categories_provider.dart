@@ -14,7 +14,7 @@ class Categories with ChangeNotifier {
     DramaCategory(id: "movie", title: "Movies", imageUrl: "https://i.ytimg.com/vi/qGeVRCI2P-0/maxresdefault.jpg"),
     DramaCategory(id: "short-movie", title: "Short Movies", imageUrl: "https://d3dz4rogqkqh6r.cloudfront.net/uploads/files/2016/12/yimg_YPYLnM.png"),
     DramaCategory(id: "mini-series", title: "Mini Series", imageUrl: "http://www.derana.lk/image/cache/data/Podu/1609070027thumb_podu_e10-362x132.jpg"),
-    DramaCategory(id: "old-hits", title: "Old Hits", imageUrl: "https://images.mubicdn.net/images/film/276178/cache-577198-1597510846/image-w1280.jpg?size=740x"),
+    // DramaCategory(id: "old-hits", title: "Old Hits", imageUrl: "https://images.mubicdn.net/images/film/276178/cache-577198-1597510846/image-w1280.jpg?size=740x"),
   ];
 
   List<DramaCategory> get items {

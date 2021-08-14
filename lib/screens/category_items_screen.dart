@@ -87,20 +87,27 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
     //   return item.category.contains(widget.id);
     // }).toList();
 
-    return Column(
-      children: [
-        ...displayItems.map((item) {
-          return ItemWidget(
-            id: item.id,
-            title: item.title,
-            imageUrls: item.imageUrls[0],
-            category: item.category,
-            trailerVideoUrl: item.youtubeURL,
-            genres: item.genres,
-            wholeItem: item,
+    return Provider.of<Items>(context).isLoading
+        ? Center(
+            child: Container(
+              margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : Column(
+            children: [
+              ...displayItems.map((item) {
+                return ItemWidget(
+                  id: item.id,
+                  title: item.title,
+                  imageUrls: item.imageUrls[0],
+                  category: item.category,
+                  trailerVideoUrl: item.youtubeURL,
+                  genres: item.genres,
+                  wholeItem: item,
+                );
+              })
+            ],
           );
-        })
-      ],
-    );
   }
 }

@@ -149,8 +149,12 @@ class Items with ChangeNotifier {
     return [..._favItems];
   }
 
-  Future<void> getTeledramas() async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/teledrama/all");
+  bool isLoading = true;
+
+  Future<void> executeMethod(String urlLink) async {
+    isLoading = true;
+
+    var url = Uri.parse(urlLink);
 
     try {
       final response = await http.get(url);
@@ -158,11 +162,45 @@ class Items with ChangeNotifier {
       final List<Item> loadedItems = [];
       final extractedItems = json.decode(response.body);
 
+      // print(extractedItems);
+
       extractedItems.forEach((item) {
         final List<String> urls = [];
+        final List<Map<String, String>> casts = [];
+        final List<Map<String, String>> diRectors = [];
+        final List<Map<String, String>> proDucers = [];
+        final List<String> genErs = [];
 
         item['imageUrls'].forEach((url) {
           urls.add(url.toString());
+        });
+
+        item['genres'].forEach((item) {
+          genErs.add(item.toString());
+        });
+
+        item['cast'].forEach((cast) {
+          casts.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            "imageUrl": cast['imageUrl'],
+          });
+        });
+
+        item['directors'].forEach((cast) {
+          diRectors.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            // "imageUrl": cast['imageUrl'],
+          });
+        });
+
+        item['producers'].forEach((cast) {
+          proDucers.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            // "imageUrl": cast['imageUrl'],
+          });
         });
 
         loadedItems.add(Item(
@@ -171,20 +209,28 @@ class Items with ChangeNotifier {
           category: item['category'],
           imageUrls: urls,
           description: item['description'],
-          cast: item['cast'],
-          directors: item['directors'],
-          producers: item['producers'],
-          genres: item['genres'],
+          cast: casts,
+          directors: diRectors,
+          producers: proDucers,
+          genres: genErs,
           youtubeURL: item['youtubeURL'],
-          rateMap: item['rateMap'],
-          reviews: item['reviews'],
+          // rateMap: item['rateMap'],
+          // reviews: item['reviews'],
+          rateMap: {
+            "role": "role",
+            "starID": "satarID",
+          },
+          reviews: {
+            "role": "role",
+            "starID": "satarID",
+          },
           ratings: item['ratings'],
           ratedCount: item['ratedCount'],
         ));
       });
 
       // print(response.body);
-
+      isLoading = false;
       _items = loadedItems;
       notifyListeners();
     } catch (err) {
@@ -192,48 +238,29 @@ class Items with ChangeNotifier {
     }
   }
 
-  Future<void> getMovies() async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/movies/all");
+  Future<void> getTeledramas() async {
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/teledrama/all");
+    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/teledrama/all");
+  }
 
-    try {
-      final response = await http.get(url);
-      print(response.body);
-    } catch (err) {
-      throw err;
-    }
+  Future<void> getMovies() async {
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/movies/all");
+    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/movies/all");
   }
 
   Future<void> getWebSeries() async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/web-series/all");
-
-    try {
-      final response = await http.get(url);
-      print(response.body);
-    } catch (err) {
-      throw err;
-    }
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/web-series/all");
+    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/web-series/all");
   }
 
   Future<void> getMiniSeries() async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/mini-series/all");
-
-    try {
-      final response = await http.get(url);
-      print(response.body);
-    } catch (err) {
-      throw err;
-    }
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/mini-series/all");
+    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/mini-series/all");
   }
 
   Future<void> getShortMovies() async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/short-movies/all");
-
-    try {
-      final response = await http.get(url);
-      print(response.body);
-    } catch (err) {
-      throw err;
-    }
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/short-movies/all");
+    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/short-movies/all");
   }
 
   Future<void> addItem(Item item) {
