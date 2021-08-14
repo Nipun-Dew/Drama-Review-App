@@ -16,7 +16,7 @@ class FavouriteScreen extends StatelessWidget {
           return ItemWidget(
             id: item.id,
             title: item.title,
-            imageUrls: item.imageUrls[0],
+            imageUrls: item.imageUrl[0],
             category: item.category,
             genres: item.genres,
             wholeItem: item,

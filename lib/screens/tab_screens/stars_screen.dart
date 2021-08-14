@@ -35,7 +35,10 @@ class _CinemaStarScreenState extends State<CinemaStarScreen> {
 
     return _isLoading
         ? Center(
-            child: CircularProgressIndicator(),
+            child: Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.3),
+                child: CircularProgressIndicator()),
           )
         : Column(
             children: [...starsList.map((cast) => StarItemWidget(cast))],

@@ -13,7 +13,7 @@ class Items with ChangeNotifier {
         id: "I1",
         category: "C1",
         title: "Nadagamkarayo",
-        imageUrls: [
+        imageUrl: [
           "https://steemitimages.com/p/TZjG7hXReeVoAvXt2X6pMxYAb3q65xMju8wryWxKrsghkLoEqpouqCt7QGaJSv8qX8FaMW8RPeeL3tyhpXaTGBZSDLGft3WXaxBBR9fFksjUiNZH9wsBe3nTQye4TPJHqPiCs7bCHDF2W2?format=match&mode=fit&width=800",
           "https://i2.wp.com/nadagamkarayo.com/wp-content/uploads/2021/07/Epi-130.jpg?fit=300%2C171&ssl=1",
           "https://i0.wp.com/nadagamkarayo.com/wp-content/uploads/2021/07/Epi-129.jpg?fit=300%2C171&ssl=1",
@@ -51,7 +51,7 @@ class Items with ChangeNotifier {
         id: "I2",
         category: "C1",
         title: "Thnamalvila Kollek",
-        imageUrls: [
+        imageUrl: [
           "https://i.ytimg.com/vi/nSe4hW60FNI/maxresdefault.jpg",
           "https://m.media-amazon.com/images/M/MV5BZDMzMGRlMmYtNmU1YS00Y2Y5LWEzMmItZjNjYjQ5ZjFhNzM2XkEyXkFqcGdeQXVyMTE3MTI4NTI2._V1_.jpg",
           "https://www.itntv.lk/wp-content/uploads/2020/04/thanamalvila-kollek-episode-28-2.jpg",
@@ -86,7 +86,7 @@ class Items with ChangeNotifier {
         id: "I3",
         category: "C2",
         title: "Agoha",
-        imageUrls: ["https://i.ytimg.com/vi/Jb4Z-MvRGPU/maxresdefault.jpg"],
+        imageUrl: ["https://i.ytimg.com/vi/Jb4Z-MvRGPU/maxresdefault.jpg"],
         description: "Agohsa is a.....",
         cast: [],
         // director: "Director",
@@ -107,7 +107,7 @@ class Items with ChangeNotifier {
         id: "I4",
         category: "C3",
         title: "Machan",
-        imageUrls: ["https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"],
+        imageUrl: ["https://m.media-amazon.com/images/M/MV5BMzZhN2YxYWEtMjY0Mi00NWRhLWE0ZjktMDM1ZWI5ZTA4MTE5XkEyXkFqcGdeQXVyNTA3MDM5MTM@._V1_.jpg"],
         description: "Machan is a movie.....",
         cast: [],
         //
@@ -174,7 +174,7 @@ class Items with ChangeNotifier {
       body: json.encode({
         "title": item.title,
         "category": item.category,
-        "imageUrls": item.imageUrls,
+        "imageUrl": item.imageUrl,
         "description": item.description,
         "cast": item.cast,
         "directors": item.directors,
@@ -188,7 +188,7 @@ class Items with ChangeNotifier {
         id: DateTime.now().toString(),
         category: item.category,
         title: item.title,
-        imageUrls: item.imageUrls,
+        imageUrl: item.imageUrl,
         description: item.description,
         cast: item.cast,
         directors: item.directors,

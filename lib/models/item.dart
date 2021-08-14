@@ -4,7 +4,7 @@ class Item {
   final String id;
   final String category;
   final String title;
-  final List<String> imageUrls;
+  final List<String> imageUrl;
   final String description;
   final List<Map<String, String>> cast;
   final List<Map<String, String>> directors;
@@ -22,7 +22,7 @@ class Item {
     required this.id,
     required this.category,
     required this.title,
-    required this.imageUrls,
+    required this.imageUrl,
     required this.description,
     required this.cast,
     required this.directors,
