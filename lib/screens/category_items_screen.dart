@@ -1,4 +1,3 @@
-import 'package:drama_app/models/item.dart';
 import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/widgets/category_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -16,61 +15,31 @@ class CategoryItemScreen extends StatefulWidget {
 }
 
 class _CategoryItemScreenState extends State<CategoryItemScreen> {
-  late List<Item> displayItems;
+  // late List<Item> displayItems;
 
   var _isLoading = false;
 
   @override
   void initState() {
-    // setState(() {
-    //   _isLoading = true;
-    // });
-
     Future.delayed(Duration.zero).then((_) {
       if (widget.id.toString() == 'teledrama') {
-        Provider.of<Items>(context, listen: false).getTeledramas().then((_) {
-          // setState(() {
-          //   _isLoading = false;
-          // });
-        });
+        Provider.of<Items>(context, listen: false).getTeledramas().then((_) {});
       }
-
       if (widget.id.toString() == 'web-series') {
-        Provider.of<Items>(context, listen: false).getWebSeries().then((_) {
-          // setState(() {
-          //   _isLoading = false;
-          // });
-        });
+        Provider.of<Items>(context, listen: false).getWebSeries().then((_) {});
       }
-
       if (widget.id.toString() == 'movie') {
-        Provider.of<Items>(context, listen: false).getMovies().then((_) {
-          // setState(() {
-          //   _isLoading = false;
-          // });
-        });
+        Provider.of<Items>(context, listen: false).getMovies().then((_) {});
       }
       if (widget.id.toString() == 'short-movie') {
-        Provider.of<Items>(context, listen: false).getShortMovies().then((_) {
-          // setState(() {
-          //   _isLoading = false;
-          // });
-        });
+        Provider.of<Items>(context, listen: false).getShortMovies().then((_) {});
       }
       if (widget.id.toString() == 'mini-series') {
-        Provider.of<Items>(context, listen: false).getMiniSeries().then((_) {
-          // setState(() {
-          //   _isLoading = false;
-          // });
-        });
+        Provider.of<Items>(context, listen: false).getMiniSeries().then((_) {});
       }
 
       // if (widget.id.toString() == 'old-hits') {
       //   Provider.of<Items>(context, listen: false).getTeledramas().then((_) {
-      //     setState(() {
-      //       _isLoading = false;
-      //     });
-      //   });
       // }
     });
     super.initState();
@@ -78,12 +47,23 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final itemData = Provider.of<Items>(context);
-    final displayItems = itemData.items.toList();
+    var displayItems;
 
-    // displayItems = items.where((item) {
-    //   return item.category.contains(widget.id);
-    // }).toList();
+    if (widget.id.toString() == 'teledrama') {
+      displayItems = Provider.of<Items>(context).teledramaItems.toList();
+    }
+    if (widget.id.toString() == 'web-series') {
+      displayItems = Provider.of<Items>(context).webseriesItems.toList();
+    }
+    if (widget.id.toString() == 'movie') {
+      displayItems = Provider.of<Items>(context).movieItems.toList();
+    }
+    if (widget.id.toString() == 'short-movie') {
+      displayItems = Provider.of<Items>(context).shortmovieItems.toList();
+    }
+    if (widget.id.toString() == 'mini-series') {
+      displayItems = Provider.of<Items>(context).miniseriesItems.toList();
+    }
 
     return Provider.of<Items>(context).isLoading
         ? Center(
