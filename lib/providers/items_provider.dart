@@ -61,6 +61,7 @@ class Items with ChangeNotifier {
     return [..._favItems];
   }
 
+//////////////////////////Get Items////////////////////////////////////////
   bool isLoading = true;
 
   Future<void> executeMethod(String urlLink, String itemListName) async {
@@ -164,29 +165,25 @@ class Items with ChangeNotifier {
 
   Future<void> getTeledramas() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/teledrama/all", "teledramaItems");
-    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/teledrama/all");
   }
 
   Future<void> getMovies() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/movies/all", "movieItems");
-    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/movies/all");
   }
 
   Future<void> getWebSeries() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/web-series/all", "webseriesItems");
-    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/web-series/all");
   }
 
   Future<void> getMiniSeries() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/mini-series/all", "miniseriesItems");
-    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/mini-series/all");
   }
 
   Future<void> getShortMovies() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/short-movies/all", "shortmovieItems");
-    // var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/short-movies/all");
   }
 
+////////////////////////POST Items//////////////////////////////
   Future<void> addItem(Item item) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 
