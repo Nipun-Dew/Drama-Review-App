@@ -103,8 +103,7 @@ class Items with ChangeNotifier {
           diRectors.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg"
-            //"imageUrl": cast['imageUrl'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -112,8 +111,7 @@ class Items with ChangeNotifier {
           proDucers.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg"
-            //"imageUrl": cast['imageUrl'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
