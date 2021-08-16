@@ -106,12 +106,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     final selectedRoles = [];
 
-    wholeItem.cast.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
-      });
+    wholeItem.cast.forEach((cast) {
+      selectedCast.add({"name": cast['starID'], "roleName": cast['role'], "imageUrl": role.imageUrls[0]});
+    });
     });
 
     wholeItem.directors.forEach((item) {
