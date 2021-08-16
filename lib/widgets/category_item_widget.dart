@@ -20,7 +20,7 @@ class ItemWidget extends StatelessWidget {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl);
+          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem);
         },
       ),
     );

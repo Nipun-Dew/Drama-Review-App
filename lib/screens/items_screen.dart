@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../models/item.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
   final String id;
@@ -13,17 +14,19 @@ class ItemDetailsScreen extends StatefulWidget {
   final String category;
   final String imageUrl;
   final String trailerVideoUrl;
+  final Item wholeItem;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl, this.wholeItem);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final String trailerVideoUrl;
+  final Item wholeItem;
 
-  _ItemDetailsScreenState({required this.trailerVideoUrl});
+  _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem);
 
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
@@ -91,7 +94,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     final castData = Provider.of<Casts>(context);
     final itemsCasts = castData.items;
 
-    final selectedItem = items.firstWhere((item) => item.id == widget.id);
+    //final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
     final selectedCast = [
       // {
@@ -103,7 +106,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     final selectedRoles = [];
 
-    selectedItem.cast.forEach((item) {
+    wholeItem.cast.forEach((item) {
       itemsCasts.forEach((role) {
         if (role.name.toString() == item["starID"].toString()) {
           selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
@@ -111,7 +114,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       });
     });
 
-    selectedItem.directors.forEach((item) {
+    wholeItem.directors.forEach((item) {
       itemsCasts.forEach((role) {
         if (role.name.toString() == item["starID"].toString()) {
           selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
@@ -119,7 +122,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       });
     });
 
-    selectedItem.producers.forEach((item) {
+    wholeItem.producers.forEach((item) {
       itemsCasts.forEach((role) {
         if (role.name.toString() == item["starID"].toString()) {
           selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
@@ -152,7 +155,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       aspectRatio: 16 / 9,
                     ),
                     items: [
-                      ...selectedItem.imageUrls,
+                      ...wholeItem.imageUrls,
                     ].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -189,7 +192,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
-                    selectedItem.title,
+                    wholeItem.title,
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
                   ),
                 ),
@@ -242,7 +245,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
-                  selectedItem.description,
+                  wholeItem.description,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
                 ),

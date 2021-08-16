@@ -65,7 +65,7 @@ class Items with ChangeNotifier {
   bool isLoading = true;
 
   Future<void> executeMethod(String urlLink, String itemListName) async {
-    // isLoading = true;
+    isLoading = true;
 
     var url = Uri.parse(urlLink.toString());
 
