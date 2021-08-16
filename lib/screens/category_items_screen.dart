@@ -65,7 +65,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
       displayItems = Provider.of<Items>(context).miniseriesItems.toList();
     }
 
-    return Provider.of<Items>(context, listen: true).isLoading
+    return Provider.of<Items>(context).isLoading
         ? Center(
             child: Container(
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),

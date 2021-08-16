@@ -70,8 +70,6 @@ class Items with ChangeNotifier {
     var url = Uri.parse(urlLink.toString());
 
     try {
-      isLoading = true;
-      notifyListeners();
       final response = await http.get(url);
 
       final List<Item> loadedItems = [];
