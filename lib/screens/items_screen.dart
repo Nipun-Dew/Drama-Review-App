@@ -88,11 +88,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final itemData = Provider.of<Items>(context);
-    final items = itemData.items;
+    // final itemData = Provider.of<Items>(context);
+    // final items = itemData.items;
 
-    final castData = Provider.of<Casts>(context);
-    final itemsCasts = castData.items;
+    // final castData = Provider.of<Casts>(context);
+    // final itemsCasts = castData.items;
 
     //final selectedItem = items.firstWhere((item) => item.id == widget.id);
 
@@ -106,24 +106,27 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     final selectedRoles = [];
 
-    wholeItem.cast.forEach((cast) {
-      selectedCast.add({"name": cast['starID'], "roleName": cast['role'], "imageUrl": role.imageUrls[0]});
-    });
+    wholeItem.cast.forEach((item) {
+      selectedCast.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
+      });
     });
 
     wholeItem.directors.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
+      selectedRoles.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
       });
     });
 
     wholeItem.producers.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
+      selectedRoles.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
       });
     });
 
