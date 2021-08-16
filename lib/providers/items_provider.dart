@@ -74,6 +74,7 @@ class Items with ChangeNotifier {
 
       final List<Item> loadedItems = [];
       final extractedItems = json.decode(response.body);
+      print(extractedItems);
 
       extractedItems.forEach((item) {
         final List<String> urls = [];
@@ -102,7 +103,8 @@ class Items with ChangeNotifier {
           diRectors.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            // "imageUrl": cast['imageUrl'],
+            "imageUrl": "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg"
+            //"imageUrl": cast['imageUrl'],
           });
         });
 
@@ -110,7 +112,8 @@ class Items with ChangeNotifier {
           proDucers.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            // "imageUrl": cast['imageUrl'],
+            "imageUrl": "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg"
+            //"imageUrl": cast['imageUrl'],
           });
         });
 
