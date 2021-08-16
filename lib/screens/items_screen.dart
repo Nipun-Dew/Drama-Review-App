@@ -88,21 +88,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final itemData = Provider.of<Items>(context);
-    // final items = itemData.items;
 
-    // final castData = Provider.of<Casts>(context);
-    // final itemsCasts = castData.items;
-
-    //final selectedItem = items.firstWhere((item) => item.id == widget.id);
-
-    final selectedCast = [
-      // {
-      //   "name": name,
-      //   "roleName": roleName,
-      //   "imageUrls": imageUrl,
-      // }
-    ];
+    final selectedCast = [];
 
     final selectedRoles = [];
 

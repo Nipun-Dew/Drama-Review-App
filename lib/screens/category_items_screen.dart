@@ -2,6 +2,7 @@ import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/widgets/category_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/foundation.dart';
 
 // ignore: must_be_immutable
 class CategoryItemScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class CategoryItemScreen extends StatefulWidget {
 class _CategoryItemScreenState extends State<CategoryItemScreen> {
   // late List<Item> displayItems;
 
-  var _isLoading = false;
+  //var _isLoading = false;
 
   @override
   void initState() {
@@ -48,7 +49,6 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
   @override
   Widget build(BuildContext context) {
     var displayItems;
-
     if (widget.id.toString() == 'teledrama') {
       displayItems = Provider.of<Items>(context).teledramaItems.toList();
     }
@@ -65,7 +65,7 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
       displayItems = Provider.of<Items>(context).miniseriesItems.toList();
     }
 
-    return Provider.of<Items>(context).isLoading
+    return Provider.of<Items>(context, listen: true).isLoading
         ? Center(
             child: Container(
               margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3),

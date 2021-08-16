@@ -65,16 +65,17 @@ class Items with ChangeNotifier {
   bool isLoading = true;
 
   Future<void> executeMethod(String urlLink, String itemListName) async {
-    isLoading = true;
+
 
     var url = Uri.parse(urlLink.toString());
 
     try {
+      isLoading = true;
+      notifyListeners();
       final response = await http.get(url);
 
       final List<Item> loadedItems = [];
       final extractedItems = json.decode(response.body);
-      print(extractedItems);
 
       extractedItems.forEach((item) {
         final List<String> urls = [];
@@ -95,7 +96,7 @@ class Items with ChangeNotifier {
           casts.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
