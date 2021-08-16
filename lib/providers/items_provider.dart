@@ -65,11 +65,29 @@ class Items with ChangeNotifier {
   bool isLoading = true;
 
   Future<void> executeMethod(String urlLink, String itemListName) async {
-
-
     var url = Uri.parse(urlLink.toString());
 
     try {
+      if ((flagTele && itemListName == "teledramaItems")) {
+        isLoading = false;
+        notifyListeners();
+      } else if ((flagMovies && itemListName == "movieItems")) {
+        isLoading = false;
+        notifyListeners();
+      } else if ((flagWeb && itemListName == "webseriesItems")) {
+        isLoading = false;
+        notifyListeners();
+      } else if ((flagMini && itemListName == "miniseriesItems")) {
+        isLoading = false;
+        notifyListeners();
+      } else if ((flagShort && itemListName == "shortmovieItems")) {
+        isLoading = false;
+        notifyListeners();
+      } else {
+        isLoading = true;
+        notifyListeners();
+      }
+
       final response = await http.get(url);
 
       final List<Item> loadedItems = [];
@@ -163,24 +181,35 @@ class Items with ChangeNotifier {
     }
   }
 
+  late bool flagTele = false;
+  late bool flagMovies = false;
+  late bool flagWeb = false;
+  late bool flagMini = false;
+  late bool flagShort = false;
+
   Future<void> getTeledramas() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/teledrama/all", "teledramaItems");
+    flagTele = true;
   }
 
   Future<void> getMovies() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/movies/all", "movieItems");
+    flagMovies = true;
   }
 
   Future<void> getWebSeries() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/web-series/all", "webseriesItems");
+    flagWeb = true;
   }
 
   Future<void> getMiniSeries() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/mini-series/all", "miniseriesItems");
+    flagMini = true;
   }
 
   Future<void> getShortMovies() async {
     executeMethod("https://sl-cinema.herokuapp.com/cinema/short-movies/all", "shortmovieItems");
+    flagShort = true;
   }
 
 ////////////////////////POST Items//////////////////////////////
