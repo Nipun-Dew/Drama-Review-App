@@ -250,7 +250,7 @@ class Items with ChangeNotifier {
     )
         .then((response) {
       final newItem = Item(
-        id: DateTime.now().toString(),
+        id: item.id,
         category: item.category,
         title: item.title,
         imageUrls: item.imageUrls,
