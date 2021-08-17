@@ -129,6 +129,7 @@ class _CommentScreenState extends State<CommentScreen> {
                           setState(() {
                             canComment = false;
                           });
+                          FocusManager.instance.primaryFocus!.unfocus();
                         },
                       ) : null,
                       fillColor: Colors.grey[300],
