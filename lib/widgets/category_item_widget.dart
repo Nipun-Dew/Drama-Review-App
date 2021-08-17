@@ -19,11 +19,11 @@ class ItemWidget extends StatelessWidget {
 
   ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
 
-  void selectItemDetails(BuildContext ctx) {
+  void selectItemDetails(BuildContext ctx, String token) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem);
+          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem, token);
         },
       ),
     );
@@ -56,7 +56,7 @@ class ItemWidget extends StatelessWidget {
         child: Column(
           children: <Widget>[
             InkWell(
-              onTap: () => {selectItemDetails(context)},
+              onTap: () => {selectItemDetails(context, token)},
               child: Stack(
                 children: <Widget>[
                   ClipRRect(
@@ -147,9 +147,11 @@ class ItemWidget extends StatelessWidget {
                                 },
                               ),
                             )
-                          : Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                              return CommentScreen(id, imageUrls, wholeItem, token);
-                            }));
+                          : Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) {
+                                return CommentScreen(id, imageUrls, wholeItem, token);
+                              }),
+                            );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

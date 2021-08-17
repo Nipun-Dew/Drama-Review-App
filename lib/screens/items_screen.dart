@@ -1,7 +1,8 @@
-import 'package:drama_app/providers/cast_provider.dart';
-import 'package:drama_app/providers/items_provider.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,18 +16,20 @@ class ItemDetailsScreen extends StatefulWidget {
   final String imageUrl;
   final String trailerVideoUrl;
   final Item wholeItem;
+  final String token;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl, this.wholeItem);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl, this.wholeItem, this.token);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem);
+  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final String trailerVideoUrl;
   final Item wholeItem;
+  final String token;
 
-  _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem);
+  _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
@@ -50,7 +53,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     );
   }
 
-  final ratingValues = [4.5, 3, 5];
+  final ratingValues = [];
 
   final initialRatingValue = 1;
 
@@ -86,9 +89,43 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     super.dispose();
   }
 
+  Future<void> callthisOnRating(double ratingValue, Item item) async {
+    final requestParametrs = {
+      "id": item.id,
+      "rate": ratingValue,
+    };
+
+    print(ratingValue);
+
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" + item.id + "&rate=" + ratingValue.toString(),
+    );
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+          "content-type": "application/json",
+        },
+      );
+
+      // if (response.statusCode == 200) {
+      //   // showDialog<Null>(
+      //   //   context: context,
+      //   //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+      //   // );
+      // } else {}
+
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     final selectedCast = [];
 
     final selectedRoles = [];
@@ -201,9 +238,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                   onRatingUpdate: (rating) {
                     ratingValues.add(rating);
-                    print(ratingValues);
-                    print(rating);
-                    print(arraySum(ratingValues) / ratingValues.length);
+                    // print(ratingValues);
+                    // print(rating);
+
+                    callthisOnRating(rating, wholeItem);
                   },
                 ),
               ),
@@ -211,7 +249,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    "4.5/5" + " (10)",
+                    wholeItem.ratings.toString() + " (" + wholeItem.ratedCount.toString() + ")",
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
@@ -252,13 +290,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
 
-              Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+              //   child: YoutubePlayer(
+              //     controller: _controller,
+              //     showVideoProgressIndicator: true,
+              //   ),
+              // ),
 
               ///////////////////////////////////////////////////////////////////////
 
