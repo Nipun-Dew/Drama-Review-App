@@ -125,6 +125,10 @@ class _CommentScreenState extends State<CommentScreen> {
                             "review": _controller.text.toString(),
                           };
                           callThisMethodOnTap(reviewItem);
+                          _controller.clear();
+                          setState(() {
+                            canComment = false;
+                          });
                         },
                       ) : null,
                       fillColor: Colors.grey[300],
