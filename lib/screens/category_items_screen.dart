@@ -2,7 +2,6 @@ import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/widgets/category_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/foundation.dart';
 
 // ignore: must_be_immutable
 class CategoryItemScreen extends StatefulWidget {

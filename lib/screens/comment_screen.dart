@@ -1,8 +1,10 @@
-import 'package:drama_app/providers/auth_provider.dart';
-import 'package:drama_app/providers/items_provider.dart';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import 'package:http/http.dart' as http;
 
 import '../models/item.dart';
 
@@ -10,16 +12,38 @@ class CommentScreen extends StatelessWidget {
   final String id;
   final String imageUrl;
   final Item wholeItem;
+  final String token;
 
-  CommentScreen(this.id, this.imageUrl, this.wholeItem);
+  CommentScreen(this.id, this.imageUrl, this.wholeItem, this.token);
+
+  final TextEditingController _controller = TextEditingController();
+
+  Map<String, String> reviewItem = {};
+
+  Future<void> callThisMethodOnTap(Map<String, String> itemGetting) async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/review");
+
+    try {
+      var response = await http.post(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+        body: json.encode(itemGetting),
+      );
+
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+    // print(itemGetting);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final itemData = Provider.of<Items>(context);
-    // final items = itemData.items;
-
-    // final selectedItem = items.firstWhere((item) => item.id == id);
-
+    // print(token);
     List<Widget> commentWidgets = [];
     wholeItem.reviews.forEach((user, comment) => commentWidgets.add(CommentItem(
           comment: comment,
@@ -63,7 +87,18 @@ class CommentScreen extends StatelessWidget {
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: Icon(Icons.send),
+                      suffixIcon: InkWell(
+                        child: Icon(
+                          Icons.send,
+                        ),
+                        onTap: () {
+                          reviewItem = {
+                            "id": wholeItem.title.toString(),
+                            "review": _controller.text.toString(),
+                          };
+                          callThisMethodOnTap(reviewItem);
+                        },
+                      ),
                       fillColor: Colors.grey[300],
                       filled: true,
                       //prefixIcon: Icon(Icons.edit),
@@ -76,6 +111,7 @@ class CommentScreen extends StatelessWidget {
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.never,
                       labelText: "Write a Comment.."),
+                  controller: _controller,
                 ),
               ),
               Container(

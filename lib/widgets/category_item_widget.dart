@@ -44,6 +44,8 @@ class ItemWidget extends StatelessWidget {
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
 
+    final token = authData.getToken.toString();
+
     return Container(
       child: Card(
         shape: RoundedRectangleBorder(
@@ -146,7 +148,7 @@ class ItemWidget extends StatelessWidget {
                               ),
                             )
                           : Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                              return CommentScreen(id, imageUrls, wholeItem);
+                              return CommentScreen(id, imageUrls, wholeItem, token);
                             }));
                     },
                     child: Row(
@@ -165,7 +167,7 @@ class ItemWidget extends StatelessWidget {
                                 : Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) {
-                                        return CommentScreen(id, imageUrls, wholeItem);
+                                        return CommentScreen(id, imageUrls, wholeItem, token);
                                       },
                                     ),
                                   );
