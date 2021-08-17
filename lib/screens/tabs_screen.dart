@@ -8,6 +8,7 @@ import 'tab_screens/home_screen.dart';
 import 'tab_screens/stars_screen.dart';
 import 'tab_screens/trending_screen.dart';
 import 'search_screen.dart';
+import '../providers/auth_provider.dart';
 
 class TabScreen extends StatefulWidget {
   @override
@@ -45,6 +46,8 @@ class _TabScreenState extends State<TabScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Auth>(context).autoLogin();
+
     double statusBar = MediaQuery.of(context).padding.top;
     double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height;
