@@ -31,9 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
   bool validateUname = false;
 
   bool emailChecker(String email) {
-    bool emailValid = RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-        .hasMatch(email);
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
     return emailValid;
   }
 
@@ -52,8 +50,7 @@ class _AuthScreenState extends State<AuthScreen> {
         validateEmail = false;
         validateUname = false;
       });
-      if (passwordController.text.isEmpty ||
-          passwordController.text.length < 4) {
+      if (passwordController.text.isEmpty || passwordController.text.length < 4) {
         setState(() {
           validatePassword = true;
         });
@@ -76,15 +73,12 @@ class _AuthScreenState extends State<AuthScreen> {
           isLoading = true;
         });
         if (startupIsLoginState2) {
-          await Provider.of<Auth>(context, listen: false)
-              .login(authData['email']!, authData['password']!);
+          await Provider.of<Auth>(context, listen: false).login(authData['email']!, authData['password']!);
           Navigator.of(context).pop();
           showAlertBox("Success!", "Login Successful!");
         } else {
-          await Provider.of<Auth>(context, listen: false).signup(
-              authData['uname']!, authData['email']!, authData['password']!);
-          showAlertBox("Success!",
-              "Signup Successful! verification email has sent to email");
+          await Provider.of<Auth>(context, listen: false).signup(authData['uname']!, authData['email']!, authData['password']!);
+          showAlertBox("Success!", "Signup Successful! verification email has sent to email");
           setState(() {
             startupIsLoginState2 = true;
           });
@@ -110,178 +104,154 @@ class _AuthScreenState extends State<AuthScreen> {
     return Scaffold(
         body: SingleChildScrollView(
       child: isLoading
-          ? Center(
-              child: Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.5),
-                  child: CircularProgressIndicator()))
+          ? Center(child: Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5), child: CircularProgressIndicator()))
           : Container(
               margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 20, top: 20),
-                      child: InkWell(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Theme.of(context).primaryColor,
-                            size: 40,
-                          )),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Container(
+                  margin: EdgeInsets.only(left: 20, top: 20),
+                  child: InkWell(
+                      onTap: () => Navigator.pop(context),
+                      child: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Theme.of(context).primaryColor,
+                        size: 40,
+                      )),
+                ),
+                Container(
+                  margin: EdgeInsets.all(phoneWidth * 0.05),
+                  child: Text(
+                    startupIsLoginState2 ? "Login" : "SignUp",
+                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 35, color: Theme.of(context).primaryColor),
+                  ),
+                ),
+                SizedBox(
+                  height: phoneWidth * 0.17,
+                ),
+                !startupIsLoginState2
+                    ? Center(
+                        child: Container(
+                          width: phoneWidth * 0.8,
+                          margin: EdgeInsets.all(
+                            phoneWidth * 0.05,
+                          ),
+                          child: TextFormField(
+                            controller: unameController,
+                            cursorHeight: 27,
+                            style: TextStyle(decoration: TextDecoration.none),
+                            decoration: InputDecoration(
+                                errorText: validateUname ? 'invalid input' : null,
+                                contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                                fillColor: Colors.grey[300],
+                                filled: true,
+                                prefixIcon: Icon(Icons.account_circle),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(50)),
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                labelText: "Enter Username"),
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+                Center(
+                  child: Container(
+                    width: phoneWidth * 0.8,
+                    margin: EdgeInsets.all(
+                      phoneWidth * 0.05,
                     ),
-                    Container(
-                      margin: EdgeInsets.all(phoneWidth * 0.05),
-                      child: Text(
-                        startupIsLoginState2 ? "Login" : "SignUp",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 35,
-                            color: Theme.of(context).primaryColor),
-                      ),
-                    ),
-                    SizedBox(
-                      height: phoneWidth * 0.17,
-                    ),
-                    !startupIsLoginState2
-                        ? Center(
-                            child: Container(
-                              width: phoneWidth * 0.8,
-                              margin: EdgeInsets.all(
-                                phoneWidth * 0.05,
-                              ),
-                              child: TextFormField(
-                                controller: unameController,
-                                cursorHeight: 27,
-                                style:
-                                    TextStyle(decoration: TextDecoration.none),
-                                decoration: InputDecoration(
-                                    errorText:
-                                        validateUname ? 'invalid input' : null,
-                                    contentPadding: EdgeInsets.only(
-                                        top: 1, left: 25, right: 20, bottom: 1),
-                                    fillColor: Colors.grey[300],
-                                    filled: true,
-                                    prefixIcon: Icon(Icons.account_circle),
-                                    border: OutlineInputBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(50)),
-                                      borderSide: BorderSide(
-                                        width: 0,
-                                        style: BorderStyle.none,
-                                      ),
-                                    ),
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    labelText: "Enter Username"),
-                              ),
+                    child: TextFormField(
+                      controller: emailController,
+                      cursorHeight: 27,
+                      style: TextStyle(decoration: TextDecoration.none),
+                      decoration: InputDecoration(
+                          errorText: validateEmail ? 'invalid input' : null,
+                          contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          prefixIcon: Icon(Icons.email),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            borderSide: BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
                             ),
-                          )
-                        : SizedBox(),
-                    Center(
-                      child: Container(
-                        width: phoneWidth * 0.8,
-                        margin: EdgeInsets.all(
-                          phoneWidth * 0.05,
-                        ),
-                        child: TextFormField(
-                          controller: emailController,
-                          cursorHeight: 27,
-                          style: TextStyle(decoration: TextDecoration.none),
-                          decoration: InputDecoration(
-                              errorText: validateEmail ? 'invalid input' : null,
-                              contentPadding: EdgeInsets.only(
-                                  top: 1, left: 25, right: 20, bottom: 1),
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              prefixIcon: Icon(Icons.email),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: "Enter Email"),
-                        ),
-                      ),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelText: "Enter Email"),
                     ),
-                    Center(
-                      child: Container(
-                        width: phoneWidth * 0.8,
-                        margin: EdgeInsets.all(
-                          phoneWidth * 0.05,
-                        ),
-                        child: TextFormField(
-                          controller: passwordController,
-                          obscureText: true,
-                          cursorHeight: 27,
-                          style: TextStyle(decoration: TextDecoration.none),
-                          decoration: InputDecoration(
-                              errorText:
-                                  validatePassword ? 'invalid input' : null,
-                              contentPadding: EdgeInsets.only(
-                                  top: 1, left: 25, right: 20, bottom: 1),
-                              fillColor: Colors.grey[300],
-                              filled: true,
-                              prefixIcon: Icon(Icons.lock),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50)),
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              labelText: "Enter Password"),
-                        ),
-                      ),
+                  ),
+                ),
+                Center(
+                  child: Container(
+                    width: phoneWidth * 0.8,
+                    margin: EdgeInsets.all(
+                      phoneWidth * 0.05,
                     ),
-                    SizedBox(
-                      height: phoneWidth * 0.07,
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
+                      cursorHeight: 27,
+                      style: TextStyle(decoration: TextDecoration.none),
+                      decoration: InputDecoration(
+                          errorText: validatePassword ? 'invalid input' : null,
+                          contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                          fillColor: Colors.grey[300],
+                          filled: true,
+                          prefixIcon: Icon(Icons.lock),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(50)),
+                            borderSide: BorderSide(
+                              width: 0,
+                              style: BorderStyle.none,
+                            ),
+                          ),
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                          labelText: "Enter Password"),
                     ),
-                    Center(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          elevation: MaterialStateProperty.all(0),
-                        ),
-                        onPressed: submit,
-                        child: Text(startupIsLoginState2 ? "Login" : "SignUp"),
-                      ),
+                  ),
+                ),
+                SizedBox(
+                  height: phoneWidth * 0.07,
+                ),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      elevation: MaterialStateProperty.all(0),
                     ),
-                    SizedBox(
-                      height: phoneWidth * 0.03,
+                    onPressed: submit,
+                    child: Text(startupIsLoginState2 ? "Login" : "SignUp"),
+                  ),
+                ),
+                SizedBox(
+                  height: phoneWidth * 0.03,
+                ),
+                Center(
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      setState(() {
+                        startupIsLoginState2 = !startupIsLoginState2;
+                        emailController.clear();
+                        passwordController.clear();
+                      });
+                    },
+                    child: Text(
+                      startupIsLoginState2 ? "Dont have an account? Create a new account" : "Have an account? Go to Login Screen...",
+                      style: TextStyle(color: Theme.of(context).primaryColor),
                     ),
-                    Center(
-                      child: InkWell(
-                        highlightColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        onTap: () {
-                          setState(() {
-                            startupIsLoginState2 = !startupIsLoginState2;
-                            emailController.clear();
-                            passwordController.clear();
-                          });
-                        },
-                        child: Text(
-                          startupIsLoginState2
-                              ? "Dont have an account? Create a new account"
-                              : "Have an account? Go to Login Screen...",
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: phoneWidth * 0.09,
-                    ),
-                  ])),
+                  ),
+                ),
+                SizedBox(
+                  height: phoneWidth * 0.09,
+                ),
+              ])),
     ));
   }
 }
