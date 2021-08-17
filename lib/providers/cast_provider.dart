@@ -103,7 +103,6 @@ class Casts with ChangeNotifier {
       // print(response.body);
       throw (err);
     }
-
   }
 
   Future<void> addRole(Cast role) {
@@ -114,7 +113,7 @@ class Casts with ChangeNotifier {
       url,
       headers: {
         HttpHeaders.authorizationHeader:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTE2MzU2NywiaWF0IjoxNjI4OTQ3NTY3fQ.LZW7vsYx8yZu9VkPPgmgMuvTE7794lkXyuy1je4ntKg",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTQ0NjA5MiwiaWF0IjoxNjI5MjMwMDkyfQ.FtyBRVT7nJOPRSdt85DFOPgL_rT2VGE0hAtUCfyFjHA",
         "content-type": "application/json"
       },
       body: json.encode({

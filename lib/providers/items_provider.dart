@@ -93,6 +93,8 @@ class Items with ChangeNotifier {
       final List<Item> loadedItems = [];
       final extractedItems = json.decode(response.body);
 
+      print(extractedItems);
+
       extractedItems.forEach((item) {
         final List<String> urls = [];
         final List<Map<String, String>> casts = [];
@@ -233,7 +235,7 @@ class Items with ChangeNotifier {
       url,
       headers: {
         HttpHeaders.authorizationHeader:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTE2MzU2NywiaWF0IjoxNjI4OTQ3NTY3fQ.LZW7vsYx8yZu9VkPPgmgMuvTE7794lkXyuy1je4ntKg",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTQ0NjA5MiwiaWF0IjoxNjI5MjMwMDkyfQ.FtyBRVT7nJOPRSdt85DFOPgL_rT2VGE0hAtUCfyFjHA",
         "content-type": "application/json"
       },
       body: json.encode({

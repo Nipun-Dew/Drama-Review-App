@@ -22,7 +22,6 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-
   final TextEditingController _controller = TextEditingController();
 
   bool canComment = false;
@@ -59,7 +58,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print(token);
+    print(widget.token);
     List<Widget> commentWidgets = [];
     widget.wholeItem.reviews.forEach((user, comment) => commentWidgets.add(CommentItem(
           comment: comment,
@@ -100,12 +99,12 @@ class _CommentScreenState extends State<CommentScreen> {
                 margin: EdgeInsets.all(20),
                 child: TextField(
                   onChanged: (val) {
-                    if(val.isEmpty) {
+                    if (val.isEmpty) {
                       setState(() {
                         canComment = false;
                       });
                     }
-                    if(val.isNotEmpty) {
+                    if (val.isNotEmpty) {
                       setState(() {
                         canComment = true;
                       });
@@ -115,18 +114,20 @@ class _CommentScreenState extends State<CommentScreen> {
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: canComment ? InkWell(
-                        child: Icon(
-                          Icons.send,
-                        ),
-                        onTap: () {
-                          reviewItem = {
-                            "id": widget.wholeItem.id,
-                            "review": _controller.text.toString(),
-                          };
-                          callThisMethodOnTap(reviewItem);
-                        },
-                      ) : null,
+                      suffixIcon: canComment
+                          ? InkWell(
+                              child: Icon(
+                                Icons.send,
+                              ),
+                              onTap: () {
+                                reviewItem = {
+                                  "id": widget.wholeItem.id,
+                                  "review": _controller.text.toString(),
+                                };
+                                callThisMethodOnTap(reviewItem);
+                              },
+                            )
+                          : null,
                       fillColor: Colors.grey[300],
                       filled: true,
                       //prefixIcon: Icon(Icons.edit),
