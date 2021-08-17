@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/item.dart';
 
-class CommentScreen extends StatelessWidget {
+class CommentScreen extends StatefulWidget {
   final String id;
   final String imageUrl;
   final Item wholeItem;
@@ -17,7 +17,15 @@ class CommentScreen extends StatelessWidget {
 
   CommentScreen(this.id, this.imageUrl, this.wholeItem, this.token);
 
+  @override
+  _CommentScreenState createState() => _CommentScreenState();
+}
+
+class _CommentScreenState extends State<CommentScreen> {
+
   final TextEditingController _controller = TextEditingController();
+
+  bool canComment = false;
 
   Map<String, String> reviewItem = {};
 
@@ -28,7 +36,7 @@ class CommentScreen extends StatelessWidget {
       var response = await http.post(
         url,
         headers: {
-          HttpHeaders.authorizationHeader: "Bearer " + token,
+          HttpHeaders.authorizationHeader: "Bearer " + widget.token,
           "content-type": "application/json",
         },
         body: json.encode(itemGetting),
@@ -53,7 +61,7 @@ class CommentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // print(token);
     List<Widget> commentWidgets = [];
-    wholeItem.reviews.forEach((user, comment) => commentWidgets.add(CommentItem(
+    widget.wholeItem.reviews.forEach((user, comment) => commentWidgets.add(CommentItem(
           comment: comment,
           userID: user,
         )));
@@ -70,7 +78,7 @@ class CommentScreen extends StatelessWidget {
                   width: double.infinity,
                   child: Image.network(
                     // selectedItem.imageUrl,
-                    imageUrl,
+                    widget.imageUrl,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -91,22 +99,34 @@ class CommentScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.all(20),
                 child: TextField(
+                  onChanged: (val) {
+                    if(val.isEmpty) {
+                      setState(() {
+                        canComment = false;
+                      });
+                    }
+                    if(val.isNotEmpty) {
+                      setState(() {
+                        canComment = true;
+                      });
+                    }
+                  },
                   cursorHeight: 27,
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: InkWell(
+                      suffixIcon: canComment ? InkWell(
                         child: Icon(
                           Icons.send,
                         ),
                         onTap: () {
                           reviewItem = {
-                            "id": wholeItem.id,
+                            "id": widget.wholeItem.id,
                             "review": _controller.text.toString(),
                           };
                           callThisMethodOnTap(reviewItem);
                         },
-                      ),
+                      ) : null,
                       fillColor: Colors.grey[300],
                       filled: true,
                       //prefixIcon: Icon(Icons.edit),
