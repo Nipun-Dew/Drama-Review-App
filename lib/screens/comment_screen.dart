@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,13 @@ class CommentScreen extends StatelessWidget {
         },
         body: json.encode(itemGetting),
       );
+
+      if (response.statusCode == 200) {
+        // showDialog<Null>(
+        //   context: context,
+        //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+        // );
+      } else {}
 
       print(response.statusCode);
       print(response.body);
