@@ -1,6 +1,9 @@
 import 'package:drama_app/models/item.dart';
+import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/screens/auth_screen.dart';
 import 'package:drama_app/screens/items_screen.dart';
+import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/comment_screen.dart';
@@ -37,6 +40,11 @@ class ItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+
+    final authData = Provider.of<Auth>(context);
+    final isUserAuth = authData.isAuth;
+
+    final token = authData.getToken.toString();
 
     return Container(
       child: Card(
@@ -131,18 +139,38 @@ class ItemWidget extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                        return CommentScreen(id, imageUrls, wholeItem);
-                      }));
+                      !isUserAuth
+                          ? Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) {
+                                  return SignButtonScreen();
+                                },
+                              ),
+                            )
+                          : Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                              return CommentScreen(id, imageUrls, wholeItem, token);
+                            }));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         IconButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                              return CommentScreen(id, imageUrls, wholeItem);
-                            }));
+                            !isUserAuth
+                                ? Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) {
+                                        return SignButtonScreen();
+                                      },
+                                    ),
+                                  )
+                                : Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) {
+                                        return CommentScreen(id, imageUrls, wholeItem, token);
+                                      },
+                                    ),
+                                  );
                           },
                           icon: Icon(
                             Icons.comment,

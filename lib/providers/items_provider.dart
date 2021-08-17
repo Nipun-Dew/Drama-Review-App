@@ -150,8 +150,8 @@ class Items with ChangeNotifier {
             "starID": "satarID",
           },
           reviews: {
-            "role": "role",
-            "starID": "satarID",
+            "user": "movieID",
+            "review": "bestMovie",
           },
           ratings: item['ratings'],
           ratedCount: item['ratedCount'],
