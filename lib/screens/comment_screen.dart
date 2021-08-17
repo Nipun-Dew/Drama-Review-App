@@ -93,7 +93,7 @@ class CommentScreen extends StatelessWidget {
                         ),
                         onTap: () {
                           reviewItem = {
-                            "id": wholeItem.title.toString(),
+                            "id": wholeItem.id,
                             "review": _controller.text.toString(),
                           };
                           callThisMethodOnTap(reviewItem);
