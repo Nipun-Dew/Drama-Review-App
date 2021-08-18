@@ -158,6 +158,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -321,6 +322,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 height: 170,
                 width: 400,
                 child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedCast.length,
                     itemBuilder: (context, index) {
@@ -376,6 +378,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 height: 200,
                 width: 400,
                 child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedRoles.length,
                     itemBuilder: (context, index) {
