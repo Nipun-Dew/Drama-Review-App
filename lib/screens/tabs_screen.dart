@@ -1,7 +1,8 @@
 import 'package:drama_app/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-
+import 'dart:io';
 import 'tab_screens/drawer_screen.dart';
 import 'tab_screens/fav_screen.dart';
 import 'tab_screens/home_screen.dart';
@@ -9,6 +10,7 @@ import 'tab_screens/stars_screen.dart';
 import 'tab_screens/trending_screen.dart';
 import 'search_screen.dart';
 import '../providers/auth_provider.dart';
+import '../providers/items_provider.dart';
 
 class TabScreen extends StatefulWidget {
   @override
@@ -44,6 +46,28 @@ class _TabScreenState extends State<TabScreen> {
     return Future.value(true);
   }
 
+  Future<void> _refreshItems(String id) async {
+    // await Provider.of<Items>(context).getTeledramas();
+
+    print("Refreshing");
+
+    if (id.toString() == 'teledrama') {
+      await Provider.of<Items>(context, listen: false).getTeledramas().then((_) {});
+    }
+    if (id.toString() == 'web-series') {
+      await Provider.of<Items>(context, listen: false).getWebSeries().then((_) {});
+    }
+    if (id.toString() == 'movie') {
+      await Provider.of<Items>(context, listen: false).getMovies().then((_) {});
+    }
+    if (id.toString() == 'short-movie') {
+      await Provider.of<Items>(context, listen: false).getShortMovies().then((_) {});
+    }
+    if (id.toString() == 'mini-series') {
+      await Provider.of<Items>(context, listen: false).getMiniSeries().then((_) {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Provider.of<Auth>(context).autoLogin();
@@ -55,6 +79,8 @@ class _TabScreenState extends State<TabScreen> {
     bool isCatClicked =
         Provider.of<Categories>(context, listen: true).categoryClicked;
 
+    String catId = Provider.of<Categories>(context, listen: true).catId;
+
     return WillPopScope(
       onWillPop:
           _selectIndex == 0 && !isCatClicked ? _exitApp : () => _onItemTapped(0),
@@ -62,7 +88,13 @@ class _TabScreenState extends State<TabScreen> {
         body: Container(
           margin: EdgeInsets.only(top: statusBar),
           child: CustomScrollView(
+            physics: BouncingScrollPhysics(),
             slivers: [
+              CupertinoSliverRefreshControl(
+                onRefresh: () {
+                  return isCatClicked ? _refreshItems(catId) : Future.value();
+                },
+              ),
               SliverAppBar(
                 primary: false,
                 floating: false,
@@ -127,7 +159,7 @@ class _TabScreenState extends State<TabScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (context, index) =>
+                      (context, index) =>
                       Container(child: _currentTab[_selectIndex]),
                   childCount: 1,
                 ),
