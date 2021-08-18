@@ -31,6 +31,13 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String? get getUserId {
+    if (userId != "") {
+      return userId;
+    }
+    return null;
+  }
+
   Future<void> signup(
       String username, String useremail, String password) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/user/signup");
