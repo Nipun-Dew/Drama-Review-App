@@ -44,28 +44,6 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
     });
     super.initState();
   }
-  //
-  // Future<void> _refreshItems(String id) async {
-  //   // await Provider.of<Items>(context).getTeledramas();
-  //
-  //   print("Refreshing");
-  //
-  //   if (id.toString() == 'teledrama') {
-  //     await Provider.of<Items>(context, listen: false).getTeledramas().then((_) {});
-  //   }
-  //   if (id.toString() == 'web-series') {
-  //     await Provider.of<Items>(context, listen: false).getWebSeries().then((_) {});
-  //   }
-  //   if (id.toString() == 'movie') {
-  //     await Provider.of<Items>(context, listen: false).getMovies().then((_) {});
-  //   }
-  //   if (id.toString() == 'short-movie') {
-  //     await Provider.of<Items>(context, listen: false).getShortMovies().then((_) {});
-  //   }
-  //   if (id.toString() == 'mini-series') {
-  //     await Provider.of<Items>(context, listen: false).getMiniSeries().then((_) {});
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
