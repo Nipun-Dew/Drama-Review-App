@@ -95,7 +95,14 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
           )
         : RefreshIndicator(
             onRefresh: () => _refreshItems(widget.id.toString()),
-            child: Column(
+            child:
+                // Container(
+                //   width: MediaQuery.of(context).size.width,
+                //   height: double.maxFinite,
+                //   child: Stack(
+                //     children: <Widget>[
+                //       ListView(),
+                Column(
               children: [
                 ...displayItems.map((item) {
                   return ItemWidget(
@@ -110,6 +117,9 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
                 })
               ],
             ),
+            // ],
+            //   ),
+            // ),
           );
   }
 }
