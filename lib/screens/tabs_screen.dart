@@ -90,11 +90,6 @@ class _TabScreenState extends State<TabScreen> {
           child: CustomScrollView(
             physics: BouncingScrollPhysics(),
             slivers: [
-              CupertinoSliverRefreshControl(
-                onRefresh: () {
-                  return isCatClicked ? _refreshItems(catId) : Future.value();
-                },
-              ),
               SliverAppBar(
                 primary: false,
                 floating: false,
@@ -156,6 +151,11 @@ class _TabScreenState extends State<TabScreen> {
                           ),
                         ],
                       ),
+              ),
+              CupertinoSliverRefreshControl(
+                onRefresh: () {
+                  return isCatClicked ? _refreshItems(catId) : Future.value();
+                },
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
