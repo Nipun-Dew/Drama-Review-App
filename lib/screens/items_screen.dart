@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drama_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -7,10 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:drama_app/providers/auth_provider.dart';
-import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/screens/sign_btn_screen.dart';
-import '../screens/comment_screen.dart';
 import '../models/item.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
@@ -40,14 +37,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       margin: EdgeInsets.symmetric(vertical: 10),
       child: Text(text, style: Theme.of(context).textTheme.headline2),
     );
-  }
-
-  void favBtnTap(bool isFav, BuildContext context, Item item) {
-    if (isFav) {
-      Provider.of<Items>(context, listen: false).delFavItems = item;
-    } else {
-      Provider.of<Items>(context, listen: false).addFavItems = item;
-    }
   }
 
   Widget buildContainer(Widget child) {
@@ -133,12 +122,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavourite = Provider.of<Items>(context, listen: true)
-        .getFavItems
-        .contains(wholeItem);
-
-    final authData = Provider.of<Auth>(context);
-    final isUserAuth = authData.isAuth;
+    final authUserId = Provider.of<Auth>(context).getUserId;
 
     final selectedCast = [];
 
@@ -166,6 +150,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         "roleName": item['role'],
         "imageUrl": item['imageUrl'],
       });
+    });
+
+    double initialRateVal = 0.0;
+
+    wholeItem.rateMap.forEach((item) {
+      if (item['user'].toString() == authUserId.toString()) {
+        initialRateVal = double.parse(item['rate'].toString());
+      }
     });
 
     return Scaffold(
@@ -240,7 +232,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               Center(
                 child: RatingBar.builder(
                   itemSize: 25,
-                  initialRating: 3,
+                  initialRating: initialRateVal,
                   // initialRating: selectedItem.ratings,
                   minRating: 1,
                   direction: Axis.horizontal,
@@ -268,81 +260,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
-                ),
-              ),
-              Padding(
-                padding:
-                EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        !isUserAuth
-                            ? Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) {
-                              return SignButtonScreen();
-                            },
-                          ),
-                        )
-                            : Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) {
-                            return CommentScreen(
-                                wholeItem.id, widget.imageUrl, wholeItem, token);
-                          }),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          IconButton(
-                            onPressed: () {
-                              !isUserAuth
-                                  ? Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) {
-                                    return SignButtonScreen();
-                                  },
-                                ),
-                              )
-                                  : Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) {
-                                    return CommentScreen(
-                                        wholeItem.id, widget.imageUrl, wholeItem, token);
-                                  },
-                                ),
-                              );
-                            },
-                            icon: Icon(
-                              Icons.comment,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text("Add Review  "),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                            onPressed: () =>
-                                favBtnTap(isFavourite, context, wholeItem),
-                            icon: isFavourite
-                                ? Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            )
-                                : Icon(
-                              Icons.favorite,
-                              color: Colors.grey,
-                            )),
-                        Text("Favourite"),
-                      ],
-                    )
-                  ],
                 ),
               ),
               Container(
