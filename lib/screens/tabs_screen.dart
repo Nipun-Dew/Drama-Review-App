@@ -18,20 +18,8 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int _selectIndex = 0;
-  final List<String> titles = [
-    "SL-Drama",
-    "Trending",
-    "Favourites",
-    "Stars",
-    "More.."
-  ];
-  final List<Widget> _currentTab = [
-    HomeScreen(),
-    TrendingScreen(),
-    FavouriteScreen(),
-    CinemaStarScreen(),
-    DrawerScreen()
-  ];
+  final List<String> titles = ["SL-Drama", "Trending", "Favourites", "Stars", "More.."];
+  final List<Widget> _currentTab = [HomeScreen(), TrendingScreen(), FavouriteScreen(), CinemaStarScreen(), DrawerScreen()];
 
   Future<bool> _onItemTapped(int index) {
     setState(() {
@@ -71,18 +59,18 @@ class _TabScreenState extends State<TabScreen> {
   Widget build(BuildContext context) {
     Provider.of<Auth>(context).autoLogin();
 
+    final token = Provider.of<Auth>(context).getToken;
+
     double statusBar = MediaQuery.of(context).padding.top;
     double phoneWidth = MediaQuery.of(context).size.width;
     double phoneHeight = MediaQuery.of(context).size.height;
 
-    bool isCatClicked =
-        Provider.of<Categories>(context, listen: true).categoryClicked;
+    bool isCatClicked = Provider.of<Categories>(context, listen: true).categoryClicked;
 
     String catId = Provider.of<Categories>(context, listen: true).catId;
 
     return WillPopScope(
-      onWillPop:
-          _selectIndex == 0 && !isCatClicked ? _exitApp : () => _onItemTapped(0),
+      onWillPop: _selectIndex == 0 && !isCatClicked ? _exitApp : () => _onItemTapped(0),
       child: Scaffold(
         body: Container(
           margin: EdgeInsets.only(top: statusBar),
@@ -113,8 +101,7 @@ class _TabScreenState extends State<TabScreen> {
                               backgroundColor: Theme.of(context).primaryColor,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => SearchScreen()));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => SearchScreen()));
                                 },
                                 child: Icon(
                                   Icons.search,
@@ -133,8 +120,7 @@ class _TabScreenState extends State<TabScreen> {
                               color: Theme.of(context).primaryColor,
                             ),
                             onTap: () {
-                              Provider.of<Categories>(context, listen: false)
-                                  .categoryClick = false;
+                              Provider.of<Categories>(context, listen: false).categoryClick = false;
                             },
                           ),
                           SizedBox(
@@ -158,8 +144,7 @@ class _TabScreenState extends State<TabScreen> {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                      (context, index) =>
-                      Container(child: _currentTab[_selectIndex]),
+                  (context, index) => Container(child: _currentTab[_selectIndex]),
                   childCount: 1,
                 ),
               ),
@@ -170,12 +155,9 @@ class _TabScreenState extends State<TabScreen> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.movie), label: "Trending"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: "Wishlist"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.stars), label: "Stars"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.dehaze_rounded), label: "Drawer")
+            BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Wishlist"),
+            BottomNavigationBarItem(icon: Icon(Icons.stars), label: "Stars"),
+            BottomNavigationBarItem(icon: Icon(Icons.dehaze_rounded), label: "Drawer")
           ],
           currentIndex: _selectIndex,
           onTap: _onItemTapped,

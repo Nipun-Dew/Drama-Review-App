@@ -272,7 +272,7 @@ class ItemWidget extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         onPressed: () => {
-                          favBtnTap(isFavourite, context, wholeItem),
+                          // favBtnTap(isFavourite, context, wholeItem),
                           addItemToFav(token),
                         },
                         icon: isFavourite
