@@ -94,19 +94,19 @@ class _CategoryItemScreenState extends State<CategoryItemScreen> {
             ),
           )
         : Column(
-              children: [
-        ...displayItems.map((item) {
-          return ItemWidget(
-            id: item.id,
-            title: item.title,
-            imageUrls: item.imageUrls[0],
-            category: item.category,
-            trailerVideoUrl: item.youtubeURL,
-            genres: item.genres,
-            wholeItem: item,
+            children: [
+              ...displayItems.map((item) {
+                return ItemWidget(
+                  id: item.id,
+                  title: item.title,
+                  imageUrls: item.imageUrls[0],
+                  category: item.category,
+                  trailerVideoUrl: item.youtubeURL,
+                  genres: item.genres,
+                  wholeItem: item,
+                );
+              })
+            ],
           );
-        })
-              ],
-            );
   }
 }
