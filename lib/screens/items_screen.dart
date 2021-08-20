@@ -161,7 +161,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       );
 
       if (response.statusCode == 200) {
-        isFavourite = true;
+        isFavourite = !isFavourite;
       }
 
       Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
