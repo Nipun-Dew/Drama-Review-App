@@ -19,21 +19,13 @@ class ItemWidget extends StatelessWidget {
   final Item wholeItem;
   final String trailerVideoUrl;
 
-  ItemWidget(
-      {required this.wholeItem,
-      required this.id,
-      required this.title,
-      required this.imageUrls,
-      required this.category,
-      required this.genres,
-      required this.trailerVideoUrl});
+  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx, String token) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrls,
-              trailerVideoUrl, wholeItem, token);
+          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem, token);
         },
       ),
     );
@@ -109,8 +101,7 @@ class ItemWidget extends StatelessWidget {
                         begin: Alignment.center,
                         end: Alignment.bottomCenter,
                         colors: [gradientStart, gradientEnd],
-                      ).createShader(Rect.fromLTRB(
-                          0, 20, bounds.width, bounds.height - 40));
+                      ).createShader(Rect.fromLTRB(0, 20, bounds.width, bounds.height - 40));
                     },
                     blendMode: BlendMode.darken,
                     child: Container(
@@ -133,8 +124,7 @@ class ItemWidget extends StatelessWidget {
                     // right: 20,
                     child: Container(
                       width: 250,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       child: Text(
                         title,
                         style: TextStyle(
@@ -153,8 +143,7 @@ class ItemWidget extends StatelessWidget {
                     // right: 20,
                     child: Container(
                       width: 250,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       child: Text(
                         wholeItem.genres[0],
                         style: TextStyle(
@@ -173,8 +162,7 @@ class ItemWidget extends StatelessWidget {
                     // right: 20,
                     child: Container(
                       width: 300,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       child: rateStars(wholeItem.ratings),
                     ),
                   ),

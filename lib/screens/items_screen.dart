@@ -13,8 +13,6 @@ import '../screens/comment_screen.dart';
 import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/providers/items_provider.dart';
 
-
-
 class ItemDetailsScreen extends StatefulWidget {
   final String id;
   final String title;
@@ -146,9 +144,42 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
+  Future<void> addItemToFavourotes(String token, ctx) async {
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
+    );
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
+
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+
+    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+
+    bool isFavourite = false;
+
+    favItems.forEach((item) {
+      if (wholeItem.id.toString() == item.id.toString()) {
+        isFavourite = true;
+      }
+    });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
@@ -312,17 +343,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       onTap: () {
                         !isUserAuth
                             ? Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) {
-                              return SignButtonScreen();
-                            },
-                          ),
-                        )
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return SignButtonScreen();
+                                  },
+                                ),
+                              )
                             : Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) {
-                            return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
-                          }),
-                        );
+                                MaterialPageRoute(builder: (_) {
+                                  return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                }),
+                              );
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -331,19 +362,19 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             onPressed: () {
                               !isUserAuth
                                   ? Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) {
-                                    return SignButtonScreen();
-                                  },
-                                ),
-                              )
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return SignButtonScreen();
+                                        },
+                                      ),
+                                    )
                                   : Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (_) {
-                                    return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
-                                  },
-                                ),
-                              );
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                        },
+                                      ),
+                                    );
                             },
                             icon: Icon(
                               Icons.comment,
@@ -360,17 +391,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         IconButton(
                           onPressed: () => {
                             // favBtnTap(isFavourite, context, wholeItem),
-                            addItemToFav(token),
+                            addItemToFavourotes(token, context),
                           },
                           icon: isFavourite
                               ? Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                          )
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
                               : Icon(
-                            Icons.favorite,
-                            color: Colors.grey,
-                          ),
+                                  Icons.favorite,
+                                  color: Colors.grey,
+                                ),
                         ),
                         Text("Favourite"),
                       ],
