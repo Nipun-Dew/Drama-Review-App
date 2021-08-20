@@ -14,9 +14,8 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   void initState() {
-    final token = Provider.of<Auth>(context).getToken;
-
     Future.delayed(Duration.zero).then((_) {
+      final token = Provider.of<Auth>(context, listen: false).getToken;
       Provider.of<Items>(context, listen: false).getFavourits(token.toString()).then((_) {});
     });
     super.initState();
