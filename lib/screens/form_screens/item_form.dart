@@ -90,9 +90,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     directors: [],
     producers: [],
     genres: [],
-    reviews: {},
+    reviews: [],
     // ratingValues: [],
-    rateMap: {},
+    rateMap: [],
     ratings: 0,
     youtubeURL: "",
   );

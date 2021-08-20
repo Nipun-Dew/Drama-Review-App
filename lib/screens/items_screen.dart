@@ -90,11 +90,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   }
 
   Future<void> callthisOnRating(double ratingValue, Item item) async {
-    final requestParametrs = {
-      "id": item.id,
-      "rate": ratingValue,
-    };
-
     print(ratingValue);
 
     var url = Uri.parse(

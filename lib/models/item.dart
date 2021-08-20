@@ -11,10 +11,10 @@ class Item {
   final List<Map<String, String>> producers;
   final List<String> genres;
   final bool isFavourite;
-  final Map<String, String> reviews;
+  final List<Map<String, dynamic>> reviews;
   // final List<double> ratingValues;
   final double ratings;
-  final Map<String, String> rateMap;
+  final List<Map<String, String>> rateMap;
   final int ratedCount;
   final String youtubeURL;
 

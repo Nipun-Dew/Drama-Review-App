@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:drama_app/models/item.dart';
@@ -93,7 +94,7 @@ class Items with ChangeNotifier {
       final List<Item> loadedItems = [];
       final extractedItems = json.decode(response.body);
 
-      print(extractedItems);
+      // print(extractedItems);
 
       extractedItems.forEach((item) {
         final List<String> urls = [];
@@ -101,6 +102,8 @@ class Items with ChangeNotifier {
         final List<Map<String, String>> diRectors = [];
         final List<Map<String, String>> proDucers = [];
         final List<String> genErs = [];
+        final List<Map<String, String>> raTes = [];
+        final List<Map<String, dynamic>> reViews = [];
 
         item['imageUrls'].forEach((url) {
           urls.add(url.toString());
@@ -134,6 +137,26 @@ class Items with ChangeNotifier {
           });
         });
 
+        // print(item['rateMap']);
+
+        item['rateMap'].forEach((k, v) => {
+              raTes.add({
+                "user": k.toString(),
+                "rate": v.toString(),
+              })
+            });
+
+        item['reviews'].forEach((k, v) => {
+              reViews.add({
+                "user": k.toString(),
+                "review": v,
+              })
+            });
+
+        // print(reViews);
+
+        // print(item['reviews']);
+
         loadedItems.add(Item(
           id: item['id'].toString(),
           title: item['title'],
@@ -145,16 +168,8 @@ class Items with ChangeNotifier {
           producers: proDucers,
           genres: genErs,
           youtubeURL: item['youtubeURL'],
-          // rateMap: item['rateMap'],
-          // reviews: item['reviews'],
-          rateMap: {
-            "role": "role",
-            "starID": "satarID",
-          },
-          reviews: {
-            "user": "movieID",
-            "review": "bestMovie",
-          },
+          rateMap: raTes,
+          reviews: reViews,
           ratings: item['ratings'],
           ratedCount: item['ratedCount'],
         ));
@@ -235,7 +250,7 @@ class Items with ChangeNotifier {
       url,
       headers: {
         HttpHeaders.authorizationHeader:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjpbeyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJlbmFibGUiOnRydWUsImV4cCI6MTYyOTQ0NjA5MiwiaWF0IjoxNjI5MjMwMDkyfQ.FtyBRVT7nJOPRSdt85DFOPgL_rT2VGE0hAtUCfyFjHA",
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjp7ImF1dGhvcml0eSI6IlJPTEVfQURNSU4ifSwiZW5hYmxlIjp0cnVlLCJleHAiOjE2Mjk2NzQ3NTUsImlhdCI6MTYyOTQ1ODc1NX0.wJidc0wgk6XRLAMe0lHaPCbvqDRgs5SJCgyChKy_pok",
         "content-type": "application/json"
       },
       body: json.encode({

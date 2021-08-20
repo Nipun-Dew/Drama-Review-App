@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../models/item.dart';
 
@@ -22,7 +24,6 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-
   final TextEditingController _controller = TextEditingController();
 
   bool canComment = false;
@@ -59,12 +60,36 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print(token);
+    final authUserId = Provider.of<Auth>(context).getUserId;
+
+    // String selectedUserId = "";
+
     List<Widget> commentWidgets = [];
-    widget.wholeItem.reviews.forEach((user, comment) => commentWidgets.add(CommentItem(
-          comment: comment,
-          userID: user,
-        )));
+
+    widget.wholeItem.reviews.forEach((item) => {
+          if (item['user'].toString() == authUserId)
+            {
+              commentWidgets.add(CommentItem(
+                isUser: true,
+                userID: item['review']['name'],
+                comment: item['review']['review'],
+                date: item['review']['date'],
+                time: item['review']['time'],
+              )),
+            }
+          else
+            {
+              commentWidgets.add(CommentItem(
+                isUser: false,
+                userID: item['review']['name'],
+                comment: item['review']['review'],
+                date: item['review']['date'],
+                time: item['review']['time'],
+              )),
+            }
+        });
+
+    // widget.wholeItem.reviews.forEach((item) => {if (item['user'].toString() == selectedUserId) {}});
 
     return Scaffold(
       body: Container(
@@ -101,12 +126,12 @@ class _CommentScreenState extends State<CommentScreen> {
                 margin: EdgeInsets.all(20),
                 child: TextField(
                   onChanged: (val) {
-                    if(val.isEmpty) {
+                    if (val.isEmpty) {
                       setState(() {
                         canComment = false;
                       });
                     }
-                    if(val.isNotEmpty) {
+                    if (val.isNotEmpty) {
                       setState(() {
                         canComment = true;
                       });
@@ -116,23 +141,25 @@ class _CommentScreenState extends State<CommentScreen> {
                   style: TextStyle(decoration: TextDecoration.none),
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: canComment ? InkWell(
-                        child: Icon(
-                          Icons.send,
-                        ),
-                        onTap: () {
-                          reviewItem = {
-                            "id": widget.wholeItem.id,
-                            "review": _controller.text.toString(),
-                          };
-                          callThisMethodOnTap(reviewItem);
-                          _controller.clear();
-                          setState(() {
-                            canComment = false;
-                          });
-                          FocusManager.instance.primaryFocus!.unfocus();
-                        },
-                      ) : null,
+                      suffixIcon: canComment
+                          ? InkWell(
+                              child: Icon(
+                                Icons.send,
+                              ),
+                              onTap: () {
+                                reviewItem = {
+                                  "id": widget.wholeItem.id,
+                                  "review": _controller.text.toString(),
+                                };
+                                callThisMethodOnTap(reviewItem);
+                                _controller.clear();
+                                setState(() {
+                                  canComment = false;
+                                });
+                                FocusManager.instance.primaryFocus!.unfocus();
+                              },
+                            )
+                          : null,
                       fillColor: Colors.grey[300],
                       filled: true,
                       //prefixIcon: Icon(Icons.edit),
