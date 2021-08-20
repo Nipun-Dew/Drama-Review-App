@@ -140,9 +140,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       );
 
       if (response.statusCode != 200) {
-        setState(() {
-          isFavourite = !isFavourite;
-        });
+        // setState(() {
+        isFavourite = !isFavourite;
+        // });
       }
 
       Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
@@ -158,15 +158,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget build(BuildContext context) {
     // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
 
-    // final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
 
     // bool isFavourite = false;
 
-    // favItems.forEach((item) {
-    //   if (wholeItem.id.toString() == item.id.toString()) {
-    //     isFavourite = true;
-    //   }
-    // });
+    favItems.forEach((item) {
+      if (wholeItem.id.toString() == item.id.toString()) {
+        isFavourite = true;
+      }
+    });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
@@ -379,9 +379,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           onPressed: () => {
                             // favBtnTap(isFavourite, context, wholeItem),
                             addItemToFavourotes(token, context),
-                            setState(() {
-                              isFavourite = !isFavourite;
-                            })
+                            // setState(() {
+                            isFavourite = !isFavourite,
+                            // })
                           },
                           icon: isFavourite
                               ? Icon(
