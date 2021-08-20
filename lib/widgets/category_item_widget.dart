@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:drama_app/models/item.dart';
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/screens/auth_screen.dart';
 import 'package:drama_app/screens/items_screen.dart';
-import 'package:drama_app/screens/sign_btn_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../screens/comment_screen.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -44,10 +42,21 @@ class ItemWidget extends StatelessWidget {
   Widget rateStars(double starCount) {
     List<Widget> starList = [];
     var count = starCount.round();
+
     for (var i = 0; i < count; i++) {
       starList.add(
         Icon(
           Icons.star_rate_rounded,
+          color: Colors.grey[400],
+          size: 20,
+        ),
+      );
+    }
+    if (count.toDouble() > starCount) {
+      starList.removeLast();
+      starList.add(
+        Icon(
+          Icons.star_half_rounded,
           color: Colors.grey[400],
           size: 20,
         ),
@@ -63,43 +72,9 @@ class ItemWidget extends StatelessWidget {
     );
   }
 
-  Future<void> addItemToFav(String token, ctx) async {
-    var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
-    );
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer " + token,
-          "content-type": "application/json",
-        },
-      );
-
-      Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
-
-      print(response.statusCode);
-      print(response.body);
-    } catch (err) {
-      print("error");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
-
-    bool isFavourite = false;
-
-    favItems.forEach((item) {
-      if (wholeItem.id.toString() == item.id.toString()) {
-        isFavourite = true;
-      }
-    });
-
     final authData = Provider.of<Auth>(context);
-    final isUserAuth = authData.isAuth;
 
     final token = authData.getToken.toString();
 
@@ -108,6 +83,7 @@ class ItemWidget extends StatelessWidget {
 
     return Container(
       child: Card(
+        color: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -125,7 +101,7 @@ class ItemWidget extends StatelessWidget {
                         begin: Alignment.center,
                         end: Alignment.bottomCenter,
                         colors: [gradientStart, gradientEnd],
-                      ).createShader(bounds);
+                      ).createShader(Rect.fromLTRB(0, 20, bounds.width, bounds.height - 40));
                     },
                     blendMode: BlendMode.darken,
                     child: Container(
@@ -136,9 +112,8 @@ class ItemWidget extends StatelessWidget {
                           image: NetworkImage(imageUrls),
                           fit: BoxFit.cover,
                         ),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15),
                         ),
                       ),
                       // child: ClipRRect(
@@ -157,7 +132,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 4,
+                    bottom: 20,
                     left: 3,
                     // right: 20,
                     child: Container(
@@ -167,7 +142,7 @@ class ItemWidget extends StatelessWidget {
                         title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: 27,
                           color: Colors.grey[400],
                         ),
                         softWrap: true,
@@ -176,7 +151,26 @@ class ItemWidget extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 4,
+                    bottom: 0,
+                    left: 3,
+                    // right: 20,
+                    child: Container(
+                      width: 250,
+                      padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      child: Text(
+                        wholeItem.genres[0],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: Colors.grey[400],
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
                     left: 230,
                     // right: 20,
                     child: Container(
@@ -188,6 +182,9 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            )
             // Container(
             //   child: Column(
             //     children: <Widget>[
@@ -216,91 +213,6 @@ class ItemWidget extends StatelessWidget {
             //     Text("Comment Count"),
             //   ],
             // ),
-            Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.thumb_up),
-                      ),
-                      Text("like"),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      !isUserAuth
-                          ? Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) {
-                                  return SignButtonScreen();
-                                },
-                              ),
-                            )
-                          : Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) {
-                                return CommentScreen(id, imageUrls, wholeItem, token);
-                              }),
-                            );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            !isUserAuth
-                                ? Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return SignButtonScreen();
-                                      },
-                                    ),
-                                  )
-                                : Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return CommentScreen(id, imageUrls, wholeItem, token);
-                                      },
-                                    ),
-                                  );
-                          },
-                          icon: Icon(
-                            Icons.comment,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text("Review  "),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () => {
-                          // favBtnTap(isFavourite, context, wholeItem),
-                          addItemToFav(token, context),
-                        },
-                        icon: isFavourite
-                            ? Icon(
-                                Icons.favorite,
-                                color: Colors.red,
-                              )
-                            : Icon(
-                                Icons.favorite,
-                                color: Colors.grey,
-                              ),
-                      ),
-                      Text("Favourite"),
-                    ],
-                  )
-                ],
-              ),
-            ),
           ],
         ),
       ),

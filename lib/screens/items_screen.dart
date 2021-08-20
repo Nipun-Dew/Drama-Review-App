@@ -9,6 +9,11 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../models/item.dart';
+import '../screens/comment_screen.dart';
+import 'package:drama_app/screens/sign_btn_screen.dart';
+import 'package:drama_app/providers/items_provider.dart';
+
+
 
 class ItemDetailsScreen extends StatefulWidget {
   final String id;
@@ -120,8 +125,34 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
+  Future<void> addItemToFav(String token) async {
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
+    );
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+
+    final authData = Provider.of<Auth>(context);
+    final isUserAuth = authData.isAuth;
+
     final authUserId = Provider.of<Auth>(context).getUserId;
 
     final selectedCast = [];
@@ -260,6 +291,91 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: null,
+                          icon: Icon(Icons.thumb_up),
+                        ),
+                        Text("like"),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        !isUserAuth
+                            ? Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return SignButtonScreen();
+                            },
+                          ),
+                        )
+                            : Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) {
+                            return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                          }),
+                        );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {
+                              !isUserAuth
+                                  ? Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return SignButtonScreen();
+                                  },
+                                ),
+                              )
+                                  : Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                  },
+                                ),
+                              );
+                            },
+                            icon: Icon(
+                              Icons.comment,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text("Review  "),
+                        ],
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () => {
+                            // favBtnTap(isFavourite, context, wholeItem),
+                            addItemToFav(token),
+                          },
+                          icon: isFavourite
+                              ? Icon(
+                            Icons.favorite,
+                            color: Colors.red,
+                          )
+                              : Icon(
+                            Icons.favorite,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text("Favourite"),
+                      ],
+                    )
+                  ],
                 ),
               ),
               Container(
