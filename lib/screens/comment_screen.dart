@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drama_app/providers/auth_provider.dart';
-import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 

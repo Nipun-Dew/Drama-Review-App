@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Items with ChangeNotifier {
-  List<Item> _items = [];
+  // List<Item> _items = [];
 
   List<Item> _movieItems = [];
   List<Item> _teledramaItems = [];
@@ -17,10 +17,6 @@ class Items with ChangeNotifier {
   List<Item> _shortmovieItems = [];
   List<Item> _miniseriesItems = [];
   List<Item> _oldhitsItems = [];
-
-  List<Item> get items {
-    return [..._items];
-  }
 
   List<Item> get movieItems {
     return [..._movieItems];
@@ -60,6 +56,12 @@ class Items with ChangeNotifier {
 
   List<Item> get getFavItems {
     return [..._favItems];
+  }
+
+//////////////////////Add to Fav//////////////////////////////////////////////
+
+  Future<void> getFavourits() async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/get/wish-list");
   }
 
 //////////////////////////Get Items////////////////////////////////////////
@@ -285,7 +287,21 @@ class Items with ChangeNotifier {
       print(response.statusCode);
 
       if (response.statusCode.toString() == "200") {
-        _items.add(newItem);
+        if (item.category.toString() == "teledramaItems") {
+          _teledramaItems.add(newItem);
+        }
+        if (item.category.toString() == "webseriesItems") {
+          _webseriesItems.add(newItem);
+        }
+        if (item.category.toString() == "movieItems") {
+          _movieItems.add(newItem);
+        }
+        if (item.category.toString() == "shortmovieItems") {
+          _shortmovieItems.add(newItem);
+        }
+        if (item.category.toString() == "miniseriesItems") {
+          _miniseriesItems.add(newItem);
+        }
         print("Item added");
 
         notifyListeners();
