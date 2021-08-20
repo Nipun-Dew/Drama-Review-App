@@ -125,19 +125,6 @@ class ItemWidget extends StatelessWidget {
                           Radius.circular(15),
                         ),
                       ),
-                      // child: ClipRRect(
-                      //   borderRadius: BorderRadius.only(
-                      //     topLeft: Radius.circular(15),
-                      //     topRight: Radius.circular(15),
-                      //   ),
-                      //   child: Image.network(
-                      //     //imageUrl,
-                      //     imageUrls,
-                      //     height: 250,
-                      //     width: double.infinity,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
                     ),
                   ),
                   Positioned(
@@ -197,34 +184,6 @@ class ItemWidget extends StatelessWidget {
             SizedBox(
               height: 20,
             )
-            // Container(
-            //   child: Column(
-            //     children: <Widget>[
-            //       Text(
-            //         title,
-            //         style: TextStyle(
-            //           fontSize: 26,
-            //           fontWeight: FontWeight.w900,
-            //         ),
-            //       ),
-            //       // TODO - display the list of genres
-            //       // Text(
-            //       //   genreText,
-            //       //   style: TextStyle(
-            //       //     fontSize: 20,
-            //       //     fontWeight: FontWeight.w600,
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: <Widget>[
-            //     Text("Like Count"),
-            //     Text("Comment Count"),
-            //   ],
-            // ),
           ],
         ),
       ),
