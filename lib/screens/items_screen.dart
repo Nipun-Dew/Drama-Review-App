@@ -85,6 +85,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         enableCaption: false,
       ),
     );
+
+    // final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+
+    // favItems.forEach((item) {
+    //   if (wholeItem.id.toString() == item.id.toString()) {
+    //     isFavourite = true;
+    //   }
+    // });
   }
 
   @override
@@ -158,15 +166,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget build(BuildContext context) {
     // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
 
-    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
-
     // bool isFavourite = false;
 
-    favItems.forEach((item) {
-      if (wholeItem.id.toString() == item.id.toString()) {
-        isFavourite = true;
-      }
-    });
+    // final favItems = Provider.of<Items>(context).getFavItems;
+
+    // favItems.forEach((item) {
+    //   if (wholeItem.id.toString() == item.id.toString()) {
+    //     isFavourite = true;
+    //   }
+    // });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
