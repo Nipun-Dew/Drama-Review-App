@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class Items with ChangeNotifier {
-  List<Item> _items = [];
+  // List<Item> _items = [];
 
   List<Item> _movieItems = [];
   List<Item> _teledramaItems = [];
@@ -17,10 +17,6 @@ class Items with ChangeNotifier {
   List<Item> _shortmovieItems = [];
   List<Item> _miniseriesItems = [];
   List<Item> _oldhitsItems = [];
-
-  List<Item> get items {
-    return [..._items];
-  }
 
   List<Item> get movieItems {
     return [..._movieItems];
@@ -60,6 +56,113 @@ class Items with ChangeNotifier {
 
   List<Item> get getFavItems {
     return [..._favItems];
+  }
+
+//////////////////////Get Fav Items//////////////////////////////////////////////
+
+  Future<void> getFavourits(String token) async {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/get/wish-list");
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      final List<Item> loadedFavItems = [];
+      final extractedItems = json.decode(response.body);
+
+      print(extractedItems);
+
+      extractedItems.forEach((item) {
+        final List<String> urls = [];
+        final List<Map<String, String>> casts = [];
+        final List<Map<String, String>> diRectors = [];
+        final List<Map<String, String>> proDucers = [];
+        final List<String> genErs = [];
+        final List<Map<String, String>> raTes = [];
+        final List<Map<String, dynamic>> reViews = [];
+
+        item['imageUrls'].forEach((url) {
+          urls.add(url.toString());
+        });
+
+        item['genres'].forEach((item) {
+          genErs.add(item.toString());
+        });
+
+        item['cast'].forEach((cast) {
+          casts.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+          });
+        });
+
+        item['directors'].forEach((cast) {
+          diRectors.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+          });
+        });
+
+        item['producers'].forEach((cast) {
+          proDucers.add({
+            "role": cast['role'],
+            "starID": cast['starID'],
+            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+          });
+        });
+
+        // print(item['rateMap']);
+
+        item['rateMap'].forEach((k, v) => {
+              raTes.add({
+                "user": k.toString(),
+                "rate": v.toString(),
+              })
+            });
+
+        item['reviews'].forEach((k, v) => {
+              reViews.add({
+                "user": k.toString(),
+                "review": v,
+              })
+            });
+
+        // print(reViews);
+
+        // print(item['reviews']);
+
+        loadedFavItems.add(Item(
+          id: item['id'].toString(),
+          title: item['title'],
+          category: item['category'],
+          imageUrls: urls,
+          description: item['description'],
+          cast: casts,
+          directors: diRectors,
+          producers: proDucers,
+          genres: genErs,
+          youtubeURL: item['youtubeURL'],
+          rateMap: raTes,
+          reviews: reViews,
+          ratings: item['ratings'],
+          ratedCount: item['ratedCount'],
+        ));
+      });
+
+      _favItems = loadedFavItems;
+
+      isLoading = false;
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
   }
 
 //////////////////////////Get Items////////////////////////////////////////
@@ -285,7 +388,21 @@ class Items with ChangeNotifier {
       print(response.statusCode);
 
       if (response.statusCode.toString() == "200") {
-        _items.add(newItem);
+        if (item.category.toString() == "teledramaItems") {
+          _teledramaItems.add(newItem);
+        }
+        if (item.category.toString() == "webseriesItems") {
+          _webseriesItems.add(newItem);
+        }
+        if (item.category.toString() == "movieItems") {
+          _movieItems.add(newItem);
+        }
+        if (item.category.toString() == "shortmovieItems") {
+          _shortmovieItems.add(newItem);
+        }
+        if (item.category.toString() == "miniseriesItems") {
+          _miniseriesItems.add(newItem);
+        }
         print("Item added");
 
         notifyListeners();
