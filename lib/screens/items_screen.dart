@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drama_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -121,6 +122,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authUserId = Provider.of<Auth>(context).getUserId;
+
     final selectedCast = [];
 
     final selectedRoles = [];
@@ -147,6 +150,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         "roleName": item['role'],
         "imageUrl": item['imageUrl'],
       });
+    });
+
+    double initialRateVal = 0.0;
+
+    wholeItem.rateMap.forEach((item) {
+      if (item['user'].toString() == authUserId.toString()) {
+        initialRateVal = double.parse(item['rate'].toString());
+      }
     });
 
     return Scaffold(
@@ -221,7 +232,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               Center(
                 child: RatingBar.builder(
                   itemSize: 25,
-                  initialRating: 3,
+                  initialRating: initialRateVal,
                   // initialRating: selectedItem.ratings,
                   minRating: 1,
                   direction: Axis.horizontal,
