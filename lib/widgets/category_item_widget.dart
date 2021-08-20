@@ -63,7 +63,7 @@ class ItemWidget extends StatelessWidget {
     );
   }
 
-  Future<void> addItemToFav(String token) async {
+  Future<void> addItemToFav(String token, ctx) async {
     var url = Uri.parse(
       "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
     );
@@ -76,6 +76,8 @@ class ItemWidget extends StatelessWidget {
           "content-type": "application/json",
         },
       );
+
+      Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
 
       print(response.statusCode);
       print(response.body);
@@ -273,7 +275,7 @@ class ItemWidget extends StatelessWidget {
                       IconButton(
                         onPressed: () => {
                           // favBtnTap(isFavourite, context, wholeItem),
-                          addItemToFav(token),
+                          addItemToFav(token, context),
                         },
                         icon: isFavourite
                             ? Icon(
