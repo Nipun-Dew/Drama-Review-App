@@ -123,27 +123,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
-  Future<void> addItemToFav(String token) async {
-    var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
-    );
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer " + token,
-          "content-type": "application/json",
-        },
-      );
-
-      print(response.statusCode);
-      print(response.body);
-    } catch (err) {
-      print("error");
-    }
-  }
-
   bool isFavourite = false;
 
   Future<void> addItemToFavourotes(String token, ctx) async {
@@ -179,15 +158,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget build(BuildContext context) {
     // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
 
-    // final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
 
     // bool isFavourite = false;
 
-    // favItems.forEach((item) {
-    //   if (wholeItem.id.toString() == item.id.toString()) {
-    //     isFavourite = true;
-    //   }
-    // });
+    favItems.forEach((item) {
+      if (wholeItem.id.toString() == item.id.toString()) {
+        setState(() {
+          isFavourite = true;
+        });
+      }
+    });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
@@ -400,7 +381,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           onPressed: () => {
                             // favBtnTap(isFavourite, context, wholeItem),
                             addItemToFavourotes(token, context),
-                            isFavourite = !isFavourite,
+                            //isFavourite = !isFavourite,
                           },
                           icon: isFavourite
                               ? Icon(
