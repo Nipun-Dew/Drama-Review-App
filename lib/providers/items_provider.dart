@@ -165,6 +165,13 @@ class Items with ChangeNotifier {
     }
   }
 
+  bool isFavProv = false;
+
+  set setIsFavProv (bool val) {
+    isFavProv = val;
+    notifyListeners();
+  }
+
 //////////////////////////Get Items////////////////////////////////////////
   bool isLoading = true;
 
