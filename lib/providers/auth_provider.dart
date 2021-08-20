@@ -14,7 +14,7 @@ import 'dart:convert';
 class Auth with ChangeNotifier {
   String token = "";
   DateTime? expireTime = DateTime.now();
-  String userId = "";
+  String? userId = "";
   Timer? authTimer;
 
   bool get isAuth {

@@ -17,13 +17,21 @@ class ItemWidget extends StatelessWidget {
   final Item wholeItem;
   final String trailerVideoUrl;
 
-  ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
+  ItemWidget(
+      {required this.wholeItem,
+      required this.id,
+      required this.title,
+      required this.imageUrls,
+      required this.category,
+      required this.genres,
+      required this.trailerVideoUrl});
 
   void selectItemDetails(BuildContext ctx, String token) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem, token);
+          return ItemDetailsScreen(id, title, category, imageUrls,
+              trailerVideoUrl, wholeItem, token);
         },
       ),
     );
@@ -37,14 +45,41 @@ class ItemWidget extends StatelessWidget {
     }
   }
 
+  Widget rateStars(double starCount) {
+    List<Widget> starList = [];
+    var count = starCount.round();
+    for (var i = 0; i < count; i++) {
+      starList.add(
+        Icon(
+          Icons.star_rate_rounded,
+          color: Colors.grey[400],
+          size: 20,
+        ),
+      );
+    }
+    return Container(
+      width: 100,
+      child: Row(
+        children: [
+          ...starList,
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    bool isFavourite = Provider.of<Items>(context, listen: true)
+        .getFavItems
+        .contains(wholeItem);
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
 
     final token = authData.getToken.toString();
+
+    Color gradientStart = Colors.transparent;
+    Color gradientEnd = Colors.black;
 
     return Container(
       child: Card(
@@ -59,71 +94,108 @@ class ItemWidget extends StatelessWidget {
               onTap: () => {selectItemDetails(context, token)},
               child: Stack(
                 children: <Widget>[
-                  ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
-                    ),
-                    child: Image.network(
-                      //imageUrl,
-                      imageUrls,
+                  ShaderMask(
+                    shaderCallback: (bounds) {
+                      return LinearGradient(
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                        colors: [gradientStart, gradientEnd],
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.darken,
+                    child: Container(
                       height: 250,
                       width: double.infinity,
-                      fit: BoxFit.cover,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(imageUrls),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
+                      ),
+                      // child: ClipRRect(
+                      //   borderRadius: BorderRadius.only(
+                      //     topLeft: Radius.circular(15),
+                      //     topRight: Radius.circular(15),
+                      //   ),
+                      //   child: Image.network(
+                      //     //imageUrl,
+                      //     imageUrls,
+                      //     height: 250,
+                      //     width: double.infinity,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                     ),
                   ),
-                  // Positioned(
-                  //   bottom: 20,
-                  //   left: 20,
-                  //   // right: 20,
-                  //   child: Container(
-                  //     width: 300,
-                  //     color: Colors.black54,
-                  //     padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                  //     child: Text(
-                  //       title,
-                  //       style: TextStyle(
-                  //         fontSize: 26,
-                  //         color: Colors.white,
-                  //       ),
-                  //       softWrap: true,
-                  //       overflow: TextOverflow.fade,
-                  //     ),
-                  //   ),
-                  // ),
+                  Positioned(
+                    bottom: 4,
+                    left: 3,
+                    // right: 20,
+                    child: Container(
+                      width: 250,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: Colors.grey[400],
+                        ),
+                        softWrap: true,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 4,
+                    left: 230,
+                    // right: 20,
+                    child: Container(
+                      width: 300,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                      child: rateStars(wholeItem.ratings),
+                    ),
+                  ),
                 ],
               ),
             ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  // TODO - display the list of genres
-                  // Text(
-                  //   genreText,
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     fontWeight: FontWeight.w600,
-                  //   ),
-                  // ),
-                ],
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text("Like Count"),
-                Text("Comment Count"),
-              ],
-            ),
+            // Container(
+            //   child: Column(
+            //     children: <Widget>[
+            //       Text(
+            //         title,
+            //         style: TextStyle(
+            //           fontSize: 26,
+            //           fontWeight: FontWeight.w900,
+            //         ),
+            //       ),
+            //       // TODO - display the list of genres
+            //       // Text(
+            //       //   genreText,
+            //       //   style: TextStyle(
+            //       //     fontSize: 20,
+            //       //     fontWeight: FontWeight.w600,
+            //       //   ),
+            //       // ),
+            //     ],
+            //   ),
+            // ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //   children: <Widget>[
+            //     Text("Like Count"),
+            //     Text("Comment Count"),
+            //   ],
+            // ),
             Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -149,7 +221,8 @@ class ItemWidget extends StatelessWidget {
                             )
                           : Navigator.of(context).push(
                               MaterialPageRoute(builder: (_) {
-                                return CommentScreen(id, imageUrls, wholeItem, token);
+                                return CommentScreen(
+                                    id, imageUrls, wholeItem, token);
                               }),
                             );
                     },
@@ -169,7 +242,8 @@ class ItemWidget extends StatelessWidget {
                                 : Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) {
-                                        return CommentScreen(id, imageUrls, wholeItem, token);
+                                        return CommentScreen(
+                                            id, imageUrls, wholeItem, token);
                                       },
                                     ),
                                   );
@@ -187,7 +261,8 @@ class ItemWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                          onPressed: () => favBtnTap(isFavourite, context, wholeItem),
+                          onPressed: () =>
+                              favBtnTap(isFavourite, context, wholeItem),
                           icon: isFavourite
                               ? Icon(
                                   Icons.favorite,
