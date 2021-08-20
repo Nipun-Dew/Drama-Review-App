@@ -123,27 +123,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
-  Future<void> addItemToFav(String token) async {
-    var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
-    );
-
-    try {
-      var response = await http.get(
-        url,
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer " + token,
-          "content-type": "application/json",
-        },
-      );
-
-      print(response.statusCode);
-      print(response.body);
-    } catch (err) {
-      print("error");
-    }
-  }
-
   bool isFavourite = false;
 
   Future<void> addItemToFavourotes(String token, ctx) async {
@@ -400,7 +379,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           onPressed: () => {
                             // favBtnTap(isFavourite, context, wholeItem),
                             addItemToFavourotes(token, context),
-                            isFavourite = !isFavourite,
+                            setState(() {
+                              isFavourite = !isFavourite;
+                            })
                           },
                           icon: isFavourite
                               ? Icon(
