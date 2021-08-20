@@ -88,7 +88,15 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+
+    bool isFavourite = false;
+
+    favItems.forEach((item) {
+      if (wholeItem.id.toString() == item.id.toString()) {
+        isFavourite = true;
+      }
+    });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
