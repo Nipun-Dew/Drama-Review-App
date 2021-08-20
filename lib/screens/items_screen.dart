@@ -160,8 +160,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         },
       );
 
-      if (response.statusCode == 200) {
-        isFavourite = !isFavourite;
+      if (response.statusCode != 200) {
+        setState(() {
+          isFavourite = !isFavourite;
+        });
       }
 
       Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
@@ -398,6 +400,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           onPressed: () => {
                             // favBtnTap(isFavourite, context, wholeItem),
                             addItemToFavourotes(token, context),
+                            isFavourite = !isFavourite,
                           },
                           icon: isFavourite
                               ? Icon(
