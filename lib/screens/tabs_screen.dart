@@ -2,7 +2,6 @@ import 'package:drama_app/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'dart:io';
 import 'tab_screens/drawer_screen.dart';
 import 'tab_screens/fav_screen.dart';
 import 'tab_screens/home_screen.dart';
@@ -20,7 +19,7 @@ class TabScreen extends StatefulWidget {
 class _TabScreenState extends State<TabScreen> {
   int _selectIndex = 0;
   final List<String> titles = [
-    "DreamOn...",
+    "SL-Drama",
     "Trending",
     "Favourites",
     "Stars",
@@ -90,11 +89,6 @@ class _TabScreenState extends State<TabScreen> {
           child: CustomScrollView(
             physics: BouncingScrollPhysics(),
             slivers: [
-              CupertinoSliverRefreshControl(
-                onRefresh: () {
-                  return isCatClicked ? _refreshItems(catId) : Future.value();
-                },
-              ),
               SliverAppBar(
                 primary: false,
                 floating: false,
@@ -156,6 +150,11 @@ class _TabScreenState extends State<TabScreen> {
                           ),
                         ],
                       ),
+              ),
+              CupertinoSliverRefreshControl(
+                onRefresh: () {
+                  return isCatClicked ? _refreshItems(catId) : Future.value();
+                },
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(

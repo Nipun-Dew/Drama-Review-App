@@ -17,6 +17,7 @@ class UpcomingDramas extends StatelessWidget {
         left: MediaQuery.of(context).size.width * 0.012,
       ),
       child: ListView.builder(
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           itemCount: dramas.length,
           itemBuilder: (context, index) {

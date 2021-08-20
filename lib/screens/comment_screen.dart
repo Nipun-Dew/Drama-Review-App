@@ -70,6 +70,7 @@ class _CommentScreenState extends State<CommentScreen> {
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             children: [
               Stack(children: [

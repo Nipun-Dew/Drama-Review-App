@@ -31,6 +31,13 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String? get getUserId {
+    if (userId != "") {
+      return userId;
+    }
+    return null;
+  }
+
   Future<void> signup(
       String username, String useremail, String password) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/user/signup");
@@ -51,6 +58,14 @@ class Auth with ChangeNotifier {
     }
   }
 
+  //{
+  //  authority: ROLE_USER},
+  //  enable: true,
+  //  exp: 1629515657,
+  //  userID: 6117b0c49c769008745c162c,
+  //  iat: 1629299657
+  // }
+
   Future<void> login(String useremail, String password) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/login");
 
@@ -63,7 +78,8 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      print(token);
+      userId = decodedToken["userID"];
+      print(decodedToken);
       expireTime = JwtDecoder.getExpirationDate(token);
       autoLogout();
       notifyListeners();
@@ -71,6 +87,7 @@ class Auth with ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       String data = json.encode({
         "token": token,
+        "userId": userId,
         "expireTime": expireTime!.toIso8601String(),
       });
       prefs.setString("dramaUser", data);
@@ -96,13 +113,15 @@ class Auth with ChangeNotifier {
 
       token = Uri.parse(result).queryParameters['token']!;
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      userId = decodedToken["userID"];
       expireTime = JwtDecoder.getExpirationDate(token);
       autoLogout();
       notifyListeners();
-      print(token);
+      print(decodedToken);
       final prefs = await SharedPreferences.getInstance();
       String data = json.encode({
         "token": token,
+        "userId": userId,
         "expireTime": expireTime!.toIso8601String(),
       });
       prefs.setString("dramaUser", data);
@@ -113,12 +132,30 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> facebookSign() async {
-    final result = await FlutterWebAuth.authenticate(
-        url:
-        "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
-        callbackUrlScheme: "myandroidapp");
-    final token = Uri.parse(result).queryParameters['token'];
-    print(token);
+    try{
+      final result = await FlutterWebAuth.authenticate(
+          url:
+          "https://sl-cinema.herokuapp.com/oauth2/authorize/facebook?redirect_uri=myandroidapp://oauth2/redirect",
+          callbackUrlScheme: "myandroidapp");
+      final token = Uri.parse(result).queryParameters['token']!;
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      userId = decodedToken["userID"];
+      expireTime = JwtDecoder.getExpirationDate(token);
+      autoLogout();
+      notifyListeners();
+      print(decodedToken);
+      final prefs = await SharedPreferences.getInstance();
+      String data = json.encode({
+        "token": token,
+        "userId": userId,
+        "expireTime": expireTime!.toIso8601String(),
+      });
+      prefs.setString("dramaUser", data);
+      print(token);
+    } catch(err) {
+
+    }
+
   }
 
   Future<void> logout() async {
@@ -149,16 +186,18 @@ class Auth with ChangeNotifier {
       return false;
     }
     final fetchToken = json.decode(prefs.getString('dramaUser')!)['token'];
+    final fetchUID = json.decode(prefs.getString('dramaUser')!)['userId'];
     final fetchExpTimeString = json.decode(prefs.getString('dramaUser')!)['expireTime'];
 
     final fetchExp = DateTime.parse(fetchExpTimeString);
-    print(fetchExp);
     
     if(fetchExp.isBefore(DateTime.now())) {
       return false;
     }
     token = fetchToken;
     expireTime = fetchExp;
+    userId = fetchUID;
+    //print(userId);
     notifyListeners();
     return true;
   }
