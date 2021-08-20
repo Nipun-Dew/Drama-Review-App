@@ -144,6 +144,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
+  bool isFavourite = false;
+
   Future<void> addItemToFavourotes(String token, ctx) async {
     var url = Uri.parse(
       "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
@@ -158,6 +160,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         },
       );
 
+      if (response.statusCode == 200) {
+        isFavourite = true;
+      }
+
       Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
 
       print(response.statusCode);
@@ -171,15 +177,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   Widget build(BuildContext context) {
     // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
 
-    final favItems = Provider.of<Items>(context, listen: true).getFavItems;
+    // final favItems = Provider.of<Items>(context, listen: true).getFavItems;
 
-    bool isFavourite = false;
+    // bool isFavourite = false;
 
-    favItems.forEach((item) {
-      if (wholeItem.id.toString() == item.id.toString()) {
-        isFavourite = true;
-      }
-    });
+    // favItems.forEach((item) {
+    //   if (wholeItem.id.toString() == item.id.toString()) {
+    //     isFavourite = true;
+    //   }
+    // });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
