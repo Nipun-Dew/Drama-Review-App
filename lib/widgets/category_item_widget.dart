@@ -83,6 +83,7 @@ class ItemWidget extends StatelessWidget {
 
     return Container(
       child: Card(
+        color: Colors.black,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -100,7 +101,7 @@ class ItemWidget extends StatelessWidget {
                         begin: Alignment.center,
                         end: Alignment.bottomCenter,
                         colors: [gradientStart, gradientEnd],
-                      ).createShader(bounds);
+                      ).createShader(Rect.fromLTRB(0, 80, bounds.width, bounds.height));
                     },
                     blendMode: BlendMode.darken,
                     child: Container(
@@ -116,23 +117,10 @@ class ItemWidget extends StatelessWidget {
                           topRight: Radius.circular(15),
                         ),
                       ),
-                      // child: ClipRRect(
-                      //   borderRadius: BorderRadius.only(
-                      //     topLeft: Radius.circular(15),
-                      //     topRight: Radius.circular(15),
-                      //   ),
-                      //   child: Image.network(
-                      //     //imageUrl,
-                      //     imageUrls,
-                      //     height: 250,
-                      //     width: double.infinity,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
                     ),
                   ),
                   Positioned(
-                    bottom: 4,
+                    bottom: 0,
                     left: 3,
                     // right: 20,
                     child: Container(
@@ -152,7 +140,7 @@ class ItemWidget extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 4,
+                    bottom: 0,
                     left: 230,
                     // right: 20,
                     child: Container(
@@ -193,90 +181,8 @@ class ItemWidget extends StatelessWidget {
             //     Text("Comment Count"),
             //   ],
             // ),
-            Padding(
-              padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.thumb_up),
-                      ),
-                      Text("like"),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {
-                      !isUserAuth
-                          ? Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) {
-                                  return SignButtonScreen();
-                                },
-                              ),
-                            )
-                          : Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) {
-                                return CommentScreen(
-                                    id, imageUrls, wholeItem, token);
-                              }),
-                            );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            !isUserAuth
-                                ? Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return SignButtonScreen();
-                                      },
-                                    ),
-                                  )
-                                : Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return CommentScreen(
-                                            id, imageUrls, wholeItem, token);
-                                      },
-                                    ),
-                                  );
-                          },
-                          icon: Icon(
-                            Icons.comment,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text("Review  "),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                          onPressed: () =>
-                              favBtnTap(isFavourite, context, wholeItem),
-                          icon: isFavourite
-                              ? Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                )
-                              : Icon(
-                                  Icons.favorite,
-                                  color: Colors.grey,
-                                )),
-                      Text("Favourite"),
-                    ],
-                  )
-                ],
-              ),
+            Container(
+              child: SizedBox(height: 12,)
             ),
           ],
         ),
