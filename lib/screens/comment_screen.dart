@@ -74,6 +74,8 @@ class _CommentScreenState extends State<CommentScreen> {
                 comment: item['review']['review'],
                 date: item['review']['date'],
                 time: item['review']['time'],
+                token: widget.token,
+                wholeItem: widget.wholeItem,
               )),
             }
           else
@@ -84,6 +86,8 @@ class _CommentScreenState extends State<CommentScreen> {
                 comment: item['review']['review'],
                 date: item['review']['date'],
                 time: item['review']['time'],
+                token: widget.token,
+                wholeItem: widget.wholeItem,
               )),
             }
         });
