@@ -157,7 +157,7 @@ class Items with ChangeNotifier {
       });
 
       _favItems = loadedFavItems;
-
+      notifyListeners();
       isLoading = false;
       notifyListeners();
     } catch (err) {

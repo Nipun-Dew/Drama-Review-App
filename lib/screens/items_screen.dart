@@ -22,10 +22,12 @@ class ItemDetailsScreen extends StatefulWidget {
   final Item wholeItem;
   final String token;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl, this.wholeItem, this.token);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl,
+      this.trailerVideoUrl, this.wholeItem, this.token);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
+  _ItemDetailsScreenState createState() =>
+      _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
@@ -73,6 +75,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   initState() {
     super.initState();
+    Future.delayed(Duration.zero).then((value) =>
+        Provider.of<Items>(context, listen: false).getFavourits(token));
+
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(trailerVideoUrl).toString(),
       flags: const YoutubePlayerFlags(
@@ -105,7 +110,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     print(ratingValue);
 
     var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" + item.id + "&rate=" + ratingValue.toString(),
+      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" +
+          item.id +
+          "&rate=" +
+          ratingValue.toString(),
     );
 
     try {
@@ -135,7 +143,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   Future<void> addItemToFavourotes(String token, ctx) async {
     var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
+      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" +
+          wholeItem.id,
     );
 
     try {
@@ -148,12 +157,14 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       );
 
       if (response.statusCode != 200) {
-        // setState(() {
-        isFavourite = !isFavourite;
-        // });
+        setState(() {
+          isFavourite = !isFavourite;
+        });
       }
 
-      Provider.of<Items>(ctx, listen: false).getFavourits(token.toString()).then((_) {});
+      Provider.of<Items>(ctx, listen: false)
+          .getFavourits(token.toString())
+          .then((_) {});
 
       print(response.statusCode);
       print(response.body);
@@ -164,7 +175,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // bool isFavourite = Provider.of<Items>(context, listen: true).getFavItems.contains(wholeItem);
+    setState(() {
+      var val = Provider.of<Items>(context, listen: true).getFavItems;
+      if (val.isNotEmpty && val[0].id == widget.id) {
+        isFavourite = true;
+      }
+      if (val.isEmpty) {
+        isFavourite = false;
+      }
+    });
 
     // bool isFavourite = false;
 
@@ -262,7 +281,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -281,7 +301,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     wholeItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
                   ),
                 ),
               ),
@@ -313,14 +336,22 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    wholeItem.ratings.toString() + " (" + wholeItem.ratedCount.toString() + ")",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
+                    wholeItem.ratings.toString() +
+                        " (" +
+                        wholeItem.ratedCount.toString() +
+                        ")",
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -346,7 +377,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               )
                             : Navigator.of(context).push(
                                 MaterialPageRoute(builder: (_) {
-                                  return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                  return CommentScreen(widget.id,
+                                      widget.imageUrl, wholeItem, token);
                                 }),
                               );
                       },
@@ -366,7 +398,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   : Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) {
-                                          return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                          return CommentScreen(
+                                              widget.id,
+                                              widget.imageUrl,
+                                              wholeItem,
+                                              token);
                                         },
                                       ),
                                     );
@@ -384,12 +420,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         IconButton(
-                          onPressed: () => {
-                            // favBtnTap(isFavourite, context, wholeItem),
-                            addItemToFavourotes(token, context),
-                            // setState(() {
-                            isFavourite = !isFavourite,
-                            // })
+                          onPressed: () async {
+                            setState(() {
+                              isFavourite = !isFavourite;
+                            });
+                            await addItemToFavourotes(token, context);
                           },
                           icon: isFavourite
                               ? Icon(
@@ -420,11 +455,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   wholeItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]),
                 ),
               ),
               /////////////////////////video Add///////////////////////////////////////////
@@ -484,14 +524,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedCast[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index]["imageUrl"]),
+                              backgroundImage:
+                                  NetworkImage(selectedCast[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
@@ -500,7 +543,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedCast[index]["roleName"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -540,14 +585,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedRoles[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedRoles[index]["imageUrl"]),
+                              backgroundImage: NetworkImage(
+                                  selectedRoles[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
@@ -555,8 +603,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             width: 100,
                             height: 40,
                             child: Text(
-                              selectedRoles[index]["roleName"].toString().toUpperCase(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              selectedRoles[index]["roleName"]
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
