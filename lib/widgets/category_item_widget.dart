@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:drama_app/models/item.dart';
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import 'package:drama_app/screens/form_screens/item_Update_form.dart';
+import 'package:drama_app/screens/form_screens/item_form.dart';
 import 'package:drama_app/screens/items_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -70,6 +72,14 @@ class ItemWidget extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _editItemHandler() async {
+    print("edit");
+  }
+
+  Future<void> _deleteItemHandler() async {
+    print("delete");
   }
 
   @override
@@ -175,7 +185,12 @@ class ItemWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // _editItemHandler();
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                      return ItemUpdateFormScreen(wholeItem);
+                    }));
+                  },
                   child: Text(
                     "Edit",
                     style: TextStyle(
@@ -185,7 +200,9 @@ class ItemWidget extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _deleteItemHandler();
+                  },
                   child: Text(
                     "Delete",
                     style: TextStyle(

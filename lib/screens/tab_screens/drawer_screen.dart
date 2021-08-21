@@ -11,11 +11,7 @@ class DrawerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var auth = Provider.of<Auth>(context, listen: true);
 
-    Widget loadingPage = Center(
-        child: Container(
-            margin:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5),
-            child: CircularProgressIndicator()));
+    Widget loadingPage = Center(child: Container(margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.5), child: CircularProgressIndicator()));
 
     return Provider.of<Auth>(context, listen: true).isAuth
         ? Center(
@@ -49,12 +45,9 @@ class DrawerScreen extends StatelessWidget {
                         context: context,
                         builder: (ctx) {
                           return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                             content: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
+                                height: MediaQuery.of(context).size.height * 0.1,
                                 child: Center(
                                     child: Text(
                                   "Do you want to logout?",
@@ -73,17 +66,13 @@ class DrawerScreen extends StatelessWidget {
                               ),
                               Center(
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     TextButton(
                                         onPressed: () {
                                           Navigator.of(ctx).pop();
-                                          Provider.of<Auth>(context,
-                                                  listen: false)
-                                              .logout();
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(builder: (_) {
+                                          Provider.of<Auth>(context, listen: false).logout();
+                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
                                             return TabScreen();
                                           }));
                                         },
@@ -119,22 +108,21 @@ class DrawerScreen extends StatelessWidget {
           )
         : FutureBuilder(
             future: Provider.of<Auth>(context, listen: true).autoLogin(),
-            builder: (ctx, authResult) =>
-                authResult.connectionState == ConnectionState.waiting
-                    ? loadingPage
-                    : Center(
-                        child: ElevatedButton(
-                          child: Text("Login"),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) {
-                                  return SignButtonScreen();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ));
+            builder: (ctx, authResult) => authResult.connectionState == ConnectionState.waiting
+                ? loadingPage
+                : Center(
+                    child: ElevatedButton(
+                      child: Text("Login"),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return SignButtonScreen();
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ));
   }
 }

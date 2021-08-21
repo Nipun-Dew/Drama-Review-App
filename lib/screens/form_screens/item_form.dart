@@ -106,19 +106,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       isValid = false;
 
       showDialog(
-        context: context, builder: (ctx) => AlertBox("Please select a genre Type", "No Genre Selected", ctx),
-        // AlertDialog(
-        //   title: Text("No Genre Selected"),
-        //   content: Text("Please select a genre Type"),
-        //   actions: <Widget>[
-        //     TextButton(
-        //       child: Text("Ok"),
-        //       onPressed: () {
-        //         Navigator.of(ctx).pop();
-        //       },
-        //     )
-        //   ],
-        // ),
+        context: context,
+        builder: (ctx) => AlertBox("Please select a genre Type", "No Genre Selected", ctx),
       );
     }
 
@@ -136,19 +125,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       isthrowError = true;
 
       return showDialog<Null>(
-        context: context, builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
-        // AlertDialog(
-        //   title: Text("Error Occurred"),
-        //   content: Text("Something went Wrong"),
-        //   actions: <Widget>[
-        //     TextButton(
-        //       child: Text("Okay"),
-        //       onPressed: () {
-        //         Navigator.of(ctx).pop();
-        //       },
-        //     )
-        //   ],
-        // ),
+        context: context,
+        builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
       );
     }).then((_) {
       setState(() {
@@ -157,19 +135,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
       if (!isthrowError) {
         showDialog<Null>(
-          context: context, builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
-          //  AlertDialog(
-          //   title: Text("Sucsessfull"),
-          //   content: Text("Item Added Succesfully"),
-          //   actions: <Widget>[
-          //     TextButton(
-          //       child: Text("Awesome"),
-          //       onPressed: () {
-          //         Navigator.of(ctx).pop();
-          //       },
-          //     )
-          //   ],
-          // ),
+          context: context,
+          builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
         ).then((value) {
           Navigator.of(context).pop();
         });
