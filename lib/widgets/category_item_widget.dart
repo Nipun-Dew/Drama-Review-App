@@ -182,37 +182,36 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
             ),
+
+            /////////// Only for ADMIN and EDITORS//////////////////////////
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Edit",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                )
+              ],
+            ),
             SizedBox(
               height: 20,
             )
-            // Container(
-            //   child: Column(
-            //     children: <Widget>[
-            //       Text(
-            //         title,
-            //         style: TextStyle(
-            //           fontSize: 26,
-            //           fontWeight: FontWeight.w900,
-            //         ),
-            //       ),
-            //       // TODO - display the list of genres
-            //       // Text(
-            //       //   genreText,
-            //       //   style: TextStyle(
-            //       //     fontSize: 20,
-            //       //     fontWeight: FontWeight.w600,
-            //       //   ),
-            //       // ),
-            //     ],
-            //   ),
-            // ),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-            //   children: <Widget>[
-            //     Text("Like Count"),
-            //     Text("Comment Count"),
-            //   ],
-            // ),
           ],
         ),
       ),

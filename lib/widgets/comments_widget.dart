@@ -72,21 +72,22 @@ class CommentItem extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TextButton(
-                        onPressed: () {
-                          reviewItem = {
-                            "id": wholeItem.id,
-                            "review": _textFieldController.text.toString(),
-                          };
-                          callThisMethodOnTap(reviewItem);
-                          Navigator.of(ctx).pop();
-                        },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17,
-                          ),
-                        )),
+                      onPressed: () {
+                        reviewItem = {
+                          "id": wholeItem.id,
+                          "review": _textFieldController.text.toString(),
+                        };
+                        callThisMethodOnTap(reviewItem);
+                        Navigator.of(ctx).pop();
+                      },
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.of(ctx).pop();
