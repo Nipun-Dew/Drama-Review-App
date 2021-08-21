@@ -169,6 +169,33 @@ class ItemWidget extends StatelessWidget {
                 ],
               ),
             ),
+
+            /////////// Only for ADMIN and EDITORS//////////////////////////
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Edit",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "Delete",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  ),
+                )
+              ],
+            ),
             SizedBox(
               height: 20,
             )
