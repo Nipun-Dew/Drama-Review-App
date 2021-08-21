@@ -116,19 +116,6 @@ class ItemWidget extends StatelessWidget {
                           Radius.circular(15),
                         ),
                       ),
-                      // child: ClipRRect(
-                      //   borderRadius: BorderRadius.only(
-                      //     topLeft: Radius.circular(15),
-                      //     topRight: Radius.circular(15),
-                      //   ),
-                      //   child: Image.network(
-                      //     //imageUrl,
-                      //     imageUrls,
-                      //     height: 250,
-                      //     width: double.infinity,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
                     ),
                   ),
                   Positioned(
