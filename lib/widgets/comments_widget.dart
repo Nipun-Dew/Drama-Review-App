@@ -146,116 +146,124 @@ class CommentItem extends StatelessWidget {
 
     return Container(
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(left: 10),
             // width: 30,
             child: Icon(
               Icons.face,
-              size: 50,
+              size: 48,
             ),
           ),
           Container(
-            width: phoneWidth * 0.83,
-            child: Card(
-              color: isUser ? Colors.white60 : Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(15), bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15), topLeft: Radius.circular(15)),
-              ),
-              elevation: 4,
-              margin: EdgeInsets.only(top: 5, bottom: 15, left: 10, right: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 10, top: 5),
-                    child: Text(
-                      userID,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+            //width: phoneWidth * 0.83,
+            child: Column(
+              children: [
+                Card(
+                  shadowColor: Colors.transparent,
+                  color: isUser ? Colors.pink[50] : Colors.grey[300],
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15, right: 7, top: 7, bottom: 10),
-                    child: Text(
-                      comment,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: 'RobotoCondensed',
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
+                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
+                        padding: EdgeInsets.only(left: 15, top: 12, right: 25),
                         child: Text(
-                          date,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: 'RobotoCondensed',
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
-                          ),
+                          userID,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                            overflow: TextOverflow.fade
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
+                        padding: EdgeInsets.only(left: 15, right: 18, top: 11, bottom: 15),
                         child: Text(
-                          time,
+                          comment,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontFamily: 'RobotoCondensed',
-                            fontSize: 10,
-                            fontWeight: FontWeight.normal,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
                           ),
+                          overflow: TextOverflow.fade,
                         ),
                       ),
+
                     ],
                   ),
-                  isUser
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
-                              child: InkWell(
-                                onTap: () {
-                                  _displayTextInputDialog(context, comment);
-                                },
-                                child: Text(
-                                  "Edit",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: 'RobotoCondensed',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.pink,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
-                              child: Text(
-                                "Delete",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: 'RobotoCondensed',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.pink,
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container()
-                ],
-              ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 5, right: 7, bottom: 3),
+                      child: Text(
+                        date,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontSize: 10,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 7, bottom: 3),
+                      child: Text(
+                        time,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontSize: 10,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                !isUser ? SizedBox(height: 12,) : SizedBox(),
+                isUser
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 7, bottom: 10),
+                      child: InkWell(
+                        onTap: () {
+                          _displayTextInputDialog(context, comment);
+                        },
+                        child: Text(
+                          "Edit",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: 'RobotoCondensed',
+                            fontSize: 12,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.pink,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
+                      child: Text(
+                        "Delete",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.pink,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                    : Container()
+              ],
             ),
           )
         ],

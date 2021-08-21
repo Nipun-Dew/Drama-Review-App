@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     return sum;
   }
 
+  double roundDouble(double val, int places) {
+    num mod = pow(10.0, places);
+    return ((val * mod).round().toDouble() / mod);
+  }
+
   bool isFavourite = false;
+  bool isLoading = true;
   late YoutubePlayerController _controller;
 
   initState() {
@@ -85,12 +92,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           }
         });
       }
-      // if (favList.isNotEmpty && favList[0].id == widget.id) {
-      //   isFavourite = true;
-      // }
-      // if (favList.isEmpty) {
-      //   isFavourite = false;
-      // }
+      isLoading = false;
     });
 
     _controller = YoutubePlayerController(
@@ -105,14 +107,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         enableCaption: false,
       ),
     );
-
-    // final favItems = Provider.of<Items>(context, listen: true).getFavItems;
-
-    // favItems.forEach((item) {
-    //   if (wholeItem.id.toString() == item.id.toString()) {
-    //     isFavourite = true;
-    //   }
-    // });
   }
 
   @override
@@ -136,14 +130,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
           "content-type": "application/json",
         },
       );
-
-      // if (response.statusCode == 200) {
-      //   // showDialog<Null>(
-      //   //   context: context,
-      //   //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
-      //   // );
-      // } else {}
-
       print(response.statusCode);
       print(response.body);
     } catch (err) {
@@ -183,25 +169,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // setState(() {
-    //   var val = Provider.of<Items>(context, listen: true).getFavItems;
-    //   if (val.isNotEmpty && val[0].id == widget.id) {
-    //     isFavourite = true;
-    //   }
-    //   if (val.isEmpty) {
-    //     isFavourite = false;
-    //   }
-    // });
-
-    // bool isFavourite = false;
-
-    // final favItems = Provider.of<Items>(context).getFavItems;
-
-    // favItems.forEach((item) {
-    //   if (wholeItem.id.toString() == item.id.toString()) {
-    //     isFavourite = true;
-    //   }
-    // });
 
     final authData = Provider.of<Auth>(context);
     final isUserAuth = authData.isAuth;
@@ -331,7 +298,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     ratingValues.add(rating);
                     // print(ratingValues);
                     // print(rating);
-
                     callthisOnRating(rating, wholeItem);
                   },
                 ),
@@ -340,7 +306,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    wholeItem.ratings.toString() + " (" + wholeItem.ratedCount.toString() + ")",
+                    roundDouble(wholeItem.ratings, 1).toString() + " (" + wholeItem.ratedCount.toString() + ")",
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
@@ -351,16 +317,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.thumb_up),
-                        ),
-                        Text("like"),
-                      ],
-                    ),
                     InkWell(
                       onTap: () {
                         !isUserAuth
@@ -410,7 +366,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(
+                        !isLoading ? IconButton(
                           onPressed: () async {
                             setState(() {
                               isFavourite = !isFavourite;
@@ -426,12 +382,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   }
                                 });
                               }
-                              // if (favList!.isNotEmpty && favList[0].id == widget.id) {
-                              //   isFavourite = true;
-                              // }
-                              // if (favList.isEmpty) {
-                              //   isFavourite = false;
-                              // }
                             });
                           },
                           icon: isFavourite
@@ -443,7 +393,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   Icons.favorite,
                                   color: Colors.grey,
                                 ),
-                        ),
+                        ) : SizedBox(),
                         Text("Favourite"),
                       ],
                     )
