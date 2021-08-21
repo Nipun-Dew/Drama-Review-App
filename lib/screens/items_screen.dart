@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       sum = sum + element;
     });
     return sum;
+  }
+
+  double roundDouble(double val, int places) {
+    num mod = pow(10.0, places);
+    return ((val * mod).round().toDouble() / mod);
   }
 
   bool isFavourite = false;
@@ -300,7 +306,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    wholeItem.ratings.toString() + " (" + wholeItem.ratedCount.toString() + ")",
+                    roundDouble(wholeItem.ratings, 1).toString() + " (" + wholeItem.ratedCount.toString() + ")",
                     style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
@@ -311,16 +317,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.thumb_up),
-                        ),
-                        Text("like"),
-                      ],
-                    ),
                     InkWell(
                       onTap: () {
                         !isUserAuth
