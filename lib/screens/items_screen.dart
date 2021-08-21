@@ -9,7 +9,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../models/item.dart';
-import '../screens/comment_screen.dart';
+import 'tab_screens/comment_screen.dart';
 import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/providers/items_provider.dart';
 
