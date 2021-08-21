@@ -71,12 +71,29 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     return sum;
   }
 
+  bool isFavourite = false;
   late YoutubePlayerController _controller;
 
   initState() {
     super.initState();
-    Future.delayed(Duration.zero).then((value) =>
-        Provider.of<Items>(context, listen: false).getFavourits(token));
+    Future.delayed(Duration.zero).then((value) async {
+      final favList = await Provider.of<Items>(context, listen: false).getFavourits(token);
+      if (favList.isNotEmpty) {
+        favList.forEach((item) {
+          if (wholeItem.id.toString() == item.id.toString()) {
+            isFavourite = true;
+          } else {
+            isFavourite = false;
+          }
+        });
+      }
+      // if (favList.isNotEmpty && favList[0].id == widget.id) {
+      //   isFavourite = true;
+      // }
+      // if (favList.isEmpty) {
+      //   isFavourite = false;
+      // }
+    });
 
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(trailerVideoUrl).toString(),
@@ -139,9 +156,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
-  bool isFavourite = false;
 
-  Future<void> addItemToFavourotes(String token, ctx) async {
+
+  Future<List<Item>?> addItemToFavourotes(String token, ctx) async {
     var url = Uri.parse(
       "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" +
           wholeItem.id,
@@ -162,12 +179,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         });
       }
 
-      Provider.of<Items>(ctx, listen: false)
-          .getFavourits(token.toString())
-          .then((_) {});
+      final favList = await Provider.of<Items>(ctx, listen: false)
+          .getFavourits(token.toString());
 
       print(response.statusCode);
       print(response.body);
+      return favList;
     } catch (err) {
       print("error");
     }
@@ -175,15 +192,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      var val = Provider.of<Items>(context, listen: true).getFavItems;
-      if (val.isNotEmpty && val[0].id == widget.id) {
-        isFavourite = true;
-      }
-      if (val.isEmpty) {
-        isFavourite = false;
-      }
-    });
+    // setState(() {
+    //   var val = Provider.of<Items>(context, listen: true).getFavItems;
+    //   if (val.isNotEmpty && val[0].id == widget.id) {
+    //     isFavourite = true;
+    //   }
+    //   if (val.isEmpty) {
+    //     isFavourite = false;
+    //   }
+    // });
 
     // bool isFavourite = false;
 
@@ -424,7 +441,24 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             setState(() {
                               isFavourite = !isFavourite;
                             });
-                            await addItemToFavourotes(token, context);
+                            final favList = await addItemToFavourotes(token, context);
+                            setState(() {
+                              if (favList != null && favList.isNotEmpty) {
+                                favList.forEach((item) {
+                                  if (wholeItem.id.toString() == item.id.toString()) {
+                                    isFavourite = true;
+                                  } else {
+                                    isFavourite = false;
+                                  }
+                                });
+                              }
+                              // if (favList!.isNotEmpty && favList[0].id == widget.id) {
+                              //   isFavourite = true;
+                              // }
+                              // if (favList.isEmpty) {
+                              //   isFavourite = false;
+                              // }
+                            });
                           },
                           icon: isFavourite
                               ? Icon(

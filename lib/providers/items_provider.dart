@@ -60,7 +60,7 @@ class Items with ChangeNotifier {
 
 //////////////////////Get Fav Items//////////////////////////////////////////////
 
-  Future<void> getFavourits(String token) async {
+  Future<List<Item>> getFavourits(String token) async {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/get/wish-list");
 
     try {
@@ -160,6 +160,7 @@ class Items with ChangeNotifier {
       notifyListeners();
       isLoading = false;
       notifyListeners();
+      return loadedFavItems;
     } catch (err) {
       throw err;
     }
