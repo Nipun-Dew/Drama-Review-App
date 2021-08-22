@@ -59,21 +59,6 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
         });
       });
     });
-
-    // int i = 0;
-
-    // wholeItem.imageUrls.forEach((url) {
-    //   // print(i);
-    //   imageControllers[i].text = url;
-    //   i++;
-    //   setState(() {
-    //     _imageCount++;
-    //   });
-    // });
-
-    // imageControllers[0].text = "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
-    // imageControllers[1].text = "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
-
     super.initState();
   }
 
