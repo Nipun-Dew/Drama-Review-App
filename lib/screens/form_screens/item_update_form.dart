@@ -15,7 +15,8 @@ class ItemUpdateFormScreen extends StatefulWidget {
   ItemUpdateFormScreen(this.wholeItem);
 
   @override
-  _ItemUpdateFormScreenState createState() => _ItemUpdateFormScreenState(this.wholeItem);
+  _ItemUpdateFormScreenState createState() =>
+      _ItemUpdateFormScreenState(this.wholeItem);
 }
 
 class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
@@ -123,7 +124,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
       showDialog(
         context: context,
-        builder: (ctx) => AlertBox("Please select a genre Type", "No Genre Selected", ctx),
+        builder: (ctx) =>
+            AlertBox("Please select a genre Type", "No Genre Selected", ctx),
       );
     }
 
@@ -137,12 +139,15 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     var isthrowError = false;
 
-    Provider.of<Items>(context, listen: false).addItem(_editedItem).catchError((error) {
+    Provider.of<Items>(context, listen: false)
+        .addItem(_editedItem)
+        .catchError((error) {
       isthrowError = true;
 
       return showDialog<Null>(
         context: context,
-        builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
+        builder: (ctx) =>
+            AlertBox("Error! Item not Added!", "Error Occurred", ctx),
       );
     }).then((_) {
       setState(() {
@@ -152,7 +157,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
       if (!isthrowError) {
         showDialog<Null>(
           context: context,
-          builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          builder: (ctx) =>
+              AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
         ).then((value) {
           Navigator.of(context).pop();
         });
@@ -183,24 +189,36 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     // int itemCOunt = wholeItem.imageUrls.length;
 
-    imageControllers[0].text = "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
+    imageControllers[0].text =
+        "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
     //imageControllers[1].text = "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
 
-    final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemList = [
+      "Select Name",
+      ...itemList.map((cast) => cast.name)
+    ].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownItemTypeList = ['Select Category', 'TeleDrama', 'Movie', 'Short Movie', 'Web Series', 'Mini Series'].map<DropdownMenuItem<String>>((String value) {
+    final dropdownItemTypeList = [
+      'Select Category',
+      'TeleDrama',
+      'Movie',
+      'Short Movie',
+      'Web Series',
+      'Mini Series'
+    ].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
       );
     }).toList();
 
-    final dropdownRoleList = ['Select Role', 'Director', 'Producer'].map<DropdownMenuItem<String>>((String value) {
+    final dropdownRoleList = ['Select Role', 'Director', 'Producer']
+        .map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
@@ -242,7 +260,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
             child: Column(
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -301,7 +320,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                         ),
                         TextFormField(
                           initialValue: widget.wholeItem.description,
-                          decoration: InputDecoration(labelText: 'Item Description'),
+                          decoration:
+                              InputDecoration(labelText: 'Item Description'),
                           maxLines: 3,
                           // textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.multiline,
@@ -352,26 +372,32 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 child: DropdownButtonFormField<String>(
                                   value: drpDownExitingValue,
                                   elevation: 16,
-                                  style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                  style: const TextStyle(
+                                      color: Colors.pink, fontSize: 12),
                                   onChanged: (String? newValue) {
                                     setState(() {
                                       String categoryType = '';
 
                                       dropDownValType = newValue!;
 
-                                      if (dropDownValType.toString() == 'TeleDrama') {
+                                      if (dropDownValType.toString() ==
+                                          'TeleDrama') {
                                         categoryType = 'teledrama';
                                       }
-                                      if (dropDownValType.toString() == 'Movie') {
+                                      if (dropDownValType.toString() ==
+                                          'Movie') {
                                         categoryType = 'movie';
                                       }
-                                      if (dropDownValType.toString() == 'Short Movie') {
+                                      if (dropDownValType.toString() ==
+                                          'Short Movie') {
                                         categoryType = 'short-movie';
                                       }
-                                      if (dropDownValType.toString() == 'Web Series') {
+                                      if (dropDownValType.toString() ==
+                                          'Web Series') {
                                         categoryType = 'web-series';
                                       }
-                                      if (dropDownValType.toString() == 'Mini Series') {
+                                      if (dropDownValType.toString() ==
+                                          'Mini Series') {
                                         categoryType = 'mini-series';
                                       }
 
@@ -456,39 +482,53 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                       height: 150,
                                       width: screenWidth * 0.4,
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
                                             width: screenWidth * 0.4,
                                             height: 150,
                                             child: TextFormField(
-                                              decoration: InputDecoration(labelText: 'Image Url'),
+                                              decoration: InputDecoration(
+                                                  labelText: 'Image Url'),
                                               keyboardType: TextInputType.url,
-                                              controller: imageControllers[index],
-                                              textInputAction: TextInputAction.next,
+                                              controller:
+                                                  imageControllers[index],
+                                              textInputAction:
+                                                  TextInputAction.next,
                                               onSaved: (value) {
                                                 _editedItem = Item(
                                                   id: _editedItem.id,
-                                                  category: _editedItem.category,
+                                                  category:
+                                                      _editedItem.category,
                                                   title: _editedItem.title,
-                                                  imageUrls: [..._editedItem.imageUrls, value.toString()],
-                                                  description: _editedItem.description,
+                                                  imageUrls: [
+                                                    ..._editedItem.imageUrls,
+                                                    value.toString()
+                                                  ],
+                                                  description:
+                                                      _editedItem.description,
                                                   cast: _editedItem.cast,
-                                                  directors: _editedItem.directors,
-                                                  producers: _editedItem.producers,
+                                                  directors:
+                                                      _editedItem.directors,
+                                                  producers:
+                                                      _editedItem.producers,
                                                   genres: _editedItem.genres,
                                                   reviews: _editedItem.reviews,
                                                   // ratingValues: _editedItem.ratingValues,
                                                   rateMap: _editedItem.rateMap,
                                                   ratings: _editedItem.ratings,
-                                                  youtubeURL: _editedItem.youtubeURL,
+                                                  youtubeURL:
+                                                      _editedItem.youtubeURL,
                                                 );
                                               },
                                               validator: (value) {
                                                 if (value!.isEmpty) {
                                                   return "Enter a Image URL";
                                                 }
-                                                if (!value.startsWith("http") || !value.startsWith("https")) {
+                                                if (!value.startsWith("http") ||
+                                                    !value
+                                                        .startsWith("https")) {
                                                   return "Enter a Valid URL";
                                                 }
                                                 return null;
@@ -502,18 +542,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                             width: screenWidth * 0.4,
                                             height: 150,
                                             decoration: BoxDecoration(
-                                              border: Border.all(width: 1, color: Colors.black),
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.black),
                                             ),
                                             child: FittedBox(
-                                              child: (imageControllers[index].text.isEmpty || (!imageControllers[index].text.startsWith("http") || !imageControllers[index].text.startsWith("https")))
+                                              child: (imageControllers[index]
+                                                          .text
+                                                          .isEmpty ||
+                                                      (!imageControllers[index]
+                                                              .text
+                                                              .startsWith(
+                                                                  "http") ||
+                                                          !imageControllers[
+                                                                  index]
+                                                              .text
+                                                              .startsWith(
+                                                                  "https")))
                                                   ? Padding(
-                                                      padding: EdgeInsets.all(10),
+                                                      padding:
+                                                          EdgeInsets.all(10),
                                                       child: Text(
                                                         "Add Image Url",
-                                                        style: TextStyle(fontSize: 5),
+                                                        style: TextStyle(
+                                                            fontSize: 5),
                                                       ),
                                                     )
-                                                  : Image.network(imageControllers[index].text),
+                                                  : Image.network(
+                                                      imageControllers[index]
+                                                          .text),
                                             ),
                                           ),
                                           Container(
@@ -522,7 +579,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               icon: Icon(Icons.add),
                                               onPressed: () async {
                                                 setState(() {
-                                                  imageControllers.add(TextEditingController());
+                                                  imageControllers.add(
+                                                      TextEditingController());
                                                   _imageCount++;
                                                 });
                                               },
@@ -550,12 +608,14 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 itemCount: _castCount,
                                 itemBuilder: (context, index) {
                                   return Row(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Container(
                                         width: screenWidth * 0.3,
                                         child: TextFormField(
-                                          decoration: InputDecoration(labelText: 'Cast Name'),
+                                          decoration: InputDecoration(
+                                              labelText: 'Cast Name'),
                                           textInputAction: TextInputAction.next,
                                           onSaved: (value) {
                                             _editedItem = Item(
@@ -563,12 +623,15 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: [
                                                 ..._editedItem.cast,
                                                 {
                                                   "role": value.toString(),
-                                                  "starID": dropDownValCast[index].toString(),
+                                                  "starID":
+                                                      dropDownValCast[index]
+                                                          .toString(),
                                                 }
                                               ],
                                               directors: _editedItem.directors,
@@ -578,7 +641,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           },
                                           validator: (value) {
@@ -597,15 +661,18 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         child: DropdownButtonFormField<String>(
                                           value: dropDownValCast[index],
                                           elevation: 16,
-                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                          style: const TextStyle(
+                                              color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValCast[index] = newValue!;
+                                              dropDownValCast[index] =
+                                                  newValue!;
                                             });
                                           },
                                           items: dropdownItemList,
                                           validator: (value) {
-                                            if (value.toString() == "Select Name") {
+                                            if (value.toString() ==
+                                                "Select Name") {
                                               return "Select a Name";
                                             }
                                             return null;
@@ -618,7 +685,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                           icon: Icon(Icons.add),
                                           onPressed: () async {
                                             setState(() {
-                                              dropDownValCast.add('Select Name');
+                                              dropDownValCast
+                                                  .add('Select Name');
                                               _castCount++;
                                             });
                                           },
@@ -659,20 +727,25 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         child: DropdownButtonFormField<String>(
                                           value: dropDownValRoleType[index],
                                           elevation: 16,
-                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                          style: const TextStyle(
+                                              color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValRoleType[index] = newValue!;
+                                              dropDownValRoleType[index] =
+                                                  newValue!;
                                             });
                                           },
                                           validator: (value) {
-                                            if (value.toString() == "Select Role") {
+                                            if (value.toString() ==
+                                                "Select Role") {
                                               return "Select a Role";
                                             }
-                                            if (_editedItem.producers.length == 0) {
+                                            if (_editedItem.producers.length ==
+                                                0) {
                                               return "Add a Producer";
                                             }
-                                            if (_editedItem.directors.length == 0) {
+                                            if (_editedItem.directors.length ==
+                                                0) {
                                               return "Add a Director";
                                             }
                                             return null;
@@ -688,57 +761,78 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         child: DropdownButtonFormField<String>(
                                           value: dropDownValRole[index],
                                           elevation: 16,
-                                          style: const TextStyle(color: Colors.pink, fontSize: 12),
+                                          style: const TextStyle(
+                                              color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
                                             setState(() {
-                                              dropDownValRole[index] = newValue!;
+                                              dropDownValRole[index] =
+                                                  newValue!;
 
-                                              if (dropDownValRoleType[index].toString() == 'Director') {
+                                              if (dropDownValRoleType[index]
+                                                      .toString() ==
+                                                  'Director') {
                                                 // selectedDirectors.add({
                                                 //   "role": dropDownValRoleType[index],
                                                 //   "starID": dropDownValRole[index],
                                                 // });
                                                 _editedItem = Item(
                                                   id: _editedItem.id,
-                                                  category: _editedItem.category,
+                                                  category:
+                                                      _editedItem.category,
                                                   title: _editedItem.title,
-                                                  imageUrls: _editedItem.imageUrls,
-                                                  description: _editedItem.description,
+                                                  imageUrls:
+                                                      _editedItem.imageUrls,
+                                                  description:
+                                                      _editedItem.description,
                                                   cast: _editedItem.cast,
                                                   directors: [
                                                     ..._editedItem.directors,
                                                     {
-                                                      "role": dropDownValRoleType[index],
-                                                      "starID": dropDownValRole[index],
+                                                      "role":
+                                                          dropDownValRoleType[
+                                                              index],
+                                                      "starID": dropDownValRole[
+                                                          index],
                                                     }
                                                   ],
-                                                  producers: _editedItem.producers,
+                                                  producers:
+                                                      _editedItem.producers,
                                                   genres: _editedItem.genres,
                                                   reviews: _editedItem.reviews,
                                                   // ratingValues: _editedItem.ratingValues,
                                                   rateMap: _editedItem.rateMap,
                                                   ratings: _editedItem.ratings,
-                                                  youtubeURL: _editedItem.youtubeURL,
+                                                  youtubeURL:
+                                                      _editedItem.youtubeURL,
                                                 );
                                               }
-                                              if (dropDownValRoleType[index].toString() == 'Producer') {
+                                              if (dropDownValRoleType[index]
+                                                      .toString() ==
+                                                  'Producer') {
                                                 // selectedProducers.add({
                                                 //   "role": dropDownValRoleType[index],
                                                 //   "starID": dropDownValRole[index],
                                                 // });
                                                 _editedItem = Item(
                                                   id: _editedItem.id,
-                                                  category: _editedItem.category,
+                                                  category:
+                                                      _editedItem.category,
                                                   title: _editedItem.title,
-                                                  imageUrls: _editedItem.imageUrls,
-                                                  description: _editedItem.description,
+                                                  imageUrls:
+                                                      _editedItem.imageUrls,
+                                                  description:
+                                                      _editedItem.description,
                                                   cast: _editedItem.cast,
-                                                  directors: _editedItem.directors,
+                                                  directors:
+                                                      _editedItem.directors,
                                                   producers: [
                                                     ..._editedItem.producers,
                                                     {
-                                                      "role": dropDownValRoleType[index],
-                                                      "starID": dropDownValRole[index],
+                                                      "role":
+                                                          dropDownValRoleType[
+                                                              index],
+                                                      "starID": dropDownValRole[
+                                                          index],
                                                     }
                                                   ],
                                                   genres: _editedItem.genres,
@@ -746,13 +840,15 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                                   // ratingValues: _editedItem.ratingValues,
                                                   rateMap: _editedItem.rateMap,
                                                   ratings: _editedItem.ratings,
-                                                  youtubeURL: _editedItem.youtubeURL,
+                                                  youtubeURL:
+                                                      _editedItem.youtubeURL,
                                                 );
                                               }
                                             });
                                           },
                                           validator: (value) {
-                                            if (value.toString() == "Select Name") {
+                                            if (value.toString() ==
+                                                "Select Name") {
                                               return "Select a Name";
                                             }
                                             return null;
@@ -766,8 +862,10 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                           icon: Icon(Icons.add),
                                           onPressed: () async {
                                             setState(() {
-                                              dropDownValRole.add('Select Name');
-                                              dropDownValRoleType.add('Select Role');
+                                              dropDownValRole
+                                                  .add('Select Name');
+                                              dropDownValRoleType
+                                                  .add('Select Role');
                                               _roleCount++;
                                             });
                                           },
@@ -830,7 +928,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Action'),
                                       value: _checkboxAction,
                                       activeColor: Colors.pink,
@@ -843,26 +942,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Action"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Action"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Action");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Action");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -871,7 +979,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -880,7 +989,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Romance'),
                                       value: _checkboxRomance,
                                       activeColor: Colors.pink,
@@ -893,26 +1003,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Romance"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Romance"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Romance");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Romance");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -921,7 +1040,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -934,7 +1054,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Horror'),
                                       value: _checkboxHorror,
                                       activeColor: Colors.pink,
@@ -947,26 +1068,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Horror"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Horror"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Horror");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Horror");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -975,7 +1105,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -984,39 +1115,50 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Thriller'),
                                       value: _checkboxThriller,
                                       activeColor: Colors.pink,
                                       onChanged: (value) {
                                         setState(() {
-                                          _checkboxThriller = !_checkboxThriller;
+                                          _checkboxThriller =
+                                              !_checkboxThriller;
                                           if (_checkboxThriller) {
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Thriller"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Thriller"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Thriller");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Thriller");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -1025,7 +1167,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -1038,39 +1181,50 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Biography'),
                                       value: _checkboxBiography,
                                       activeColor: Colors.pink,
                                       onChanged: (value) {
                                         setState(() {
-                                          _checkboxBiography = !_checkboxBiography;
+                                          _checkboxBiography =
+                                              !_checkboxBiography;
                                           if (_checkboxBiography) {
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Biography"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Biography"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Biography");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Biography");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -1079,7 +1233,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -1088,7 +1243,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Drama'),
                                       value: _checkboxDrama,
                                       activeColor: Colors.pink,
@@ -1101,26 +1257,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Drama"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Drama"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Drama");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Drama");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -1129,7 +1294,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -1142,7 +1308,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 children: [
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Comedy'),
                                       value: _checkboxComody,
                                       activeColor: Colors.pink,
@@ -1155,26 +1322,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Comedy"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Comedy"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Comedy");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Comedy");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -1183,7 +1359,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });
@@ -1192,7 +1369,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                   ),
                                   Expanded(
                                     child: CheckboxListTile(
-                                      controlAffinity: ListTileControlAffinity.leading,
+                                      controlAffinity:
+                                          ListTileControlAffinity.leading,
                                       title: Text('Fiction'),
                                       value: _checkboxFiction,
                                       activeColor: Colors.pink,
@@ -1205,26 +1383,35 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
-                                              genres: [..._editedItem.genres, "Fiction"],
+                                              genres: [
+                                                ..._editedItem.genres,
+                                                "Fiction"
+                                              ],
                                               reviews: _editedItem.reviews,
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           } else {
-                                            _editedItem.genres.removeWhere((element) => element.toString() == "Fiction");
+                                            _editedItem.genres.removeWhere(
+                                                (element) =>
+                                                    element.toString() ==
+                                                    "Fiction");
 
                                             _editedItem = Item(
                                               id: _editedItem.id,
                                               category: _editedItem.category,
                                               title: _editedItem.title,
                                               imageUrls: _editedItem.imageUrls,
-                                              description: _editedItem.description,
+                                              description:
+                                                  _editedItem.description,
                                               cast: _editedItem.cast,
                                               directors: _editedItem.directors,
                                               producers: _editedItem.producers,
@@ -1233,7 +1420,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                               // ratingValues: _editedItem.ratingValues,
                                               rateMap: _editedItem.rateMap,
                                               ratings: _editedItem.ratings,
-                                              youtubeURL: _editedItem.youtubeURL,
+                                              youtubeURL:
+                                                  _editedItem.youtubeURL,
                                             );
                                           }
                                         });

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:drama_app/models/item.dart';
 import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
-import 'package:drama_app/screens/form_screens/item_Update_form.dart';
+import 'package:drama_app/screens/form_screens/item_update_form.dart';
 import 'package:drama_app/screens/form_screens/item_form.dart';
 import 'package:drama_app/screens/items_screen.dart';
 

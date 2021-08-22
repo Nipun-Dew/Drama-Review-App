@@ -26,12 +26,14 @@ class CommentItem extends StatelessWidget {
 
   TextEditingController _textFieldController = TextEditingController();
 
-  Future<void> _displayTextInputDialog(BuildContext context, String comment) async {
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String comment) async {
     return showDialog(
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10))),
             content: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.4,
@@ -166,21 +168,21 @@ class CommentItem extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  margin:
+                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 15, top: 12, right: 25),
-                        child: Text(
-                          userID,
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                            overflow: TextOverflow.fade
-                        ),
+                        child: Text(userID,
+                            style: TextStyle(fontWeight: FontWeight.w600),
+                            overflow: TextOverflow.fade),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 15, right: 18, top: 11, bottom: 15),
+                        padding: EdgeInsets.only(
+                            left: 15, right: 18, top: 11, bottom: 15),
                         child: Text(
                           comment,
                           textAlign: TextAlign.left,
@@ -191,7 +193,6 @@ class CommentItem extends StatelessWidget {
                           overflow: TextOverflow.fade,
                         ),
                       ),
-
                     ],
                   ),
                 ),
@@ -224,44 +225,49 @@ class CommentItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                !isUser ? SizedBox(height: 12,) : SizedBox(),
+                !isUser
+                    ? SizedBox(
+                        height: 12,
+                      )
+                    : SizedBox(),
                 isUser
                     ? Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 7, bottom: 10),
-                      child: InkWell(
-                        onTap: () {
-                          _displayTextInputDialog(context, comment);
-                        },
-                        child: Text(
-                          "Edit",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: 'RobotoCondensed',
-                            fontSize: 12,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.pink,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 7, bottom: 10),
+                            child: InkWell(
+                              onTap: () {
+                                _displayTextInputDialog(context, comment);
+                              },
+                              child: Text(
+                                "Edit",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontFamily: 'RobotoCondensed',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.pink,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 7, bottom: 10),
-                      child: Text(
-                        "Delete",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: 'RobotoCondensed',
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.pink,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: 15, right: 7, bottom: 10),
+                            child: Text(
+                              "Delete",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: 'RobotoCondensed',
+                                fontSize: 12,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.pink,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     : Container()
               ],
             ),

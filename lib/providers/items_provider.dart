@@ -61,7 +61,8 @@ class Items with ChangeNotifier {
 //////////////////////Get Fav Items//////////////////////////////////////////////
 
   Future<List<Item>> getFavourits(String token) async {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/get/wish-list");
+    var url =
+        Uri.parse("https://sl-cinema.herokuapp.com/user/cinema/get/wish-list");
 
     try {
       final response = await http.get(
@@ -98,7 +99,8 @@ class Items with ChangeNotifier {
           casts.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -106,7 +108,8 @@ class Items with ChangeNotifier {
           diRectors.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -114,7 +117,8 @@ class Items with ChangeNotifier {
           proDucers.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -168,7 +172,7 @@ class Items with ChangeNotifier {
 
   bool isFavProv = false;
 
-  set setIsFavProv (bool val) {
+  set setIsFavProv(bool val) {
     isFavProv = val;
     notifyListeners();
   }
@@ -228,7 +232,8 @@ class Items with ChangeNotifier {
           casts.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -236,7 +241,8 @@ class Items with ChangeNotifier {
           diRectors.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -244,7 +250,8 @@ class Items with ChangeNotifier {
           proDucers.add({
             "role": cast['role'],
             "starID": cast['starID'],
-            "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            "imageUrl": cast['imageUrl'] ??
+                "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
           });
         });
 
@@ -316,33 +323,39 @@ class Items with ChangeNotifier {
   late bool flagShort = false;
 
   Future<void> getTeledramas() async {
-    executeMethod("https://sl-cinema.herokuapp.com/cinema/teledrama/all", "teledramaItems");
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/teledrama/all",
+        "teledramaItems");
     flagTele = true;
   }
 
   Future<void> getMovies() async {
-    executeMethod("https://sl-cinema.herokuapp.com/cinema/movies/all", "movieItems");
+    executeMethod(
+        "https://sl-cinema.herokuapp.com/cinema/movies/all", "movieItems");
     flagMovies = true;
   }
 
   Future<void> getWebSeries() async {
-    executeMethod("https://sl-cinema.herokuapp.com/cinema/web-series/all", "webseriesItems");
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/web-series/all",
+        "webseriesItems");
     flagWeb = true;
   }
 
   Future<void> getMiniSeries() async {
-    executeMethod("https://sl-cinema.herokuapp.com/cinema/mini-series/all", "miniseriesItems");
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/mini-series/all",
+        "miniseriesItems");
     flagMini = true;
   }
 
   Future<void> getShortMovies() async {
-    executeMethod("https://sl-cinema.herokuapp.com/cinema/short-movies/all", "shortmovieItems");
+    executeMethod("https://sl-cinema.herokuapp.com/cinema/short-movies/all",
+        "shortmovieItems");
     flagShort = true;
   }
 
 ////////////////////////POST Items//////////////////////////////
   Future<void> addItem(Item item) {
-    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
+    var url = Uri.parse(
+        "https://sl-cinema.herokuapp.com/admin/editor/cinema/add/item");
 
     // print(item.id);
     // print(item.title);
