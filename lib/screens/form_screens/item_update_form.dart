@@ -24,7 +24,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
   _ItemUpdateFormScreenState(this.wholeItem);
 
-  List<TextEditingController> imageControllers = [TextEditingController()];
+  List<TextEditingController> imageControllers = [];
 
   void dispose() {
     imageControllers.forEach((element) => element.dispose());
@@ -46,7 +46,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     _roleCount = 1;
     _castCount = 1;
-    _imageCount = 1;
+    _imageCount = wholeItem.imageUrls.length;
 
     setState(() {
       _isLoadingRoles = true;
@@ -174,20 +174,17 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
 
-    // print(wholeItem.imageUrls);
+    print(wholeItem.imageUrls);
 
-    // int i = 0;
+    int i = 0;
 
-    // wholeItem.imageUrls.forEach((url) {
-    //   // print(i);
-    //   imageControllers[i].text = url;
-    //   i++;
-    //   // setState(() {
-    //   //   _imageCount++;
-    //   // });
-    // });
+    wholeItem.imageUrls.forEach((url) {
+      imageControllers.add(TextEditingController());
+      imageControllers[i].text = url;
+      i++;
+    });
 
-    // int itemCOunt = wholeItem.imageUrls.length;
+    int itemCOunt = wholeItem.imageUrls.length;
 
     imageControllers[0].text =
         "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
