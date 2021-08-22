@@ -186,10 +186,6 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     int itemCOunt = wholeItem.imageUrls.length;
 
-    imageControllers[0].text =
-        "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
-    //imageControllers[1].text = "https://i.ytimg.com/vi/63cO-8Yc9DU/maxresdefault.jpg";
-
     final dropdownItemList = [
       "Select Name",
       ...itemList.map((cast) => cast.name)
