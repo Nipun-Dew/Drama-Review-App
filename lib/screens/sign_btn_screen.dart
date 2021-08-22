@@ -7,10 +7,8 @@ import '../widgets/alert_box_widget.dart';
 import '../screens/auth_screen.dart';
 
 class SignButtonScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     void showAlertBox(String title, String msg) {
       showDialog(
           context: context,
@@ -45,50 +43,54 @@ class SignButtonScreen extends StatelessWidget {
                 child: Text(
                   "Experience all the features",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 35,
-                      color: Theme.of(context).primaryColor),
+                  style: TextStyle(fontWeight: FontWeight.w900, fontSize: 35, color: Theme.of(context).primaryColor),
                 ),
               ),
               Container(
                 margin: EdgeInsets.all(4),
                 padding: EdgeInsets.symmetric(horizontal: width * 0.085),
-                child: Divider(color: Colors.pink[100], thickness: 2.6,),
+                child: Divider(
+                  color: Colors.pink[100],
+                  thickness: 2.6,
+                ),
               ),
-              SizedBox(height: height * 0.1,),
+              SizedBox(
+                height: height * 0.1,
+              ),
               SignInButton(
                 Buttons.GoogleDark,
                 text: "Sign in with Google",
                 onPressed: () async {
-                  try{
+                  try {
                     await Provider.of<Auth>(context, listen: false).googleSign();
                     Navigator.of(context).pop();
                     showAlertBox("Success!", "Login Successful!");
-                  }
-                  catch(err) {
+                  } catch (err) {
                     showAlertBox("Error!", "Error Occurred");
                     print(err);
                   }
                 },
               ),
-              SizedBox(height: height * 0.025,),
+              SizedBox(
+                height: height * 0.025,
+              ),
               SignInButton(
                 Buttons.Facebook,
                 text: "Sign in with Facebook",
                 onPressed: () async {
-                  try{
+                  try {
                     await Provider.of<Auth>(context, listen: false).facebookSign();
                     Navigator.of(context).pop();
                     showAlertBox("Success!", "Login Successful!");
-                  }
-                  catch(err) {
+                  } catch (err) {
                     showAlertBox("Error!", "Error Occurred");
                     print(err);
                   }
                 },
               ),
-              SizedBox(height: height * 0.025,),
+              SizedBox(
+                height: height * 0.025,
+              ),
               SignInButtonBuilder(
                 text: 'Sign in with SLCinema',
                 icon: Icons.camera,
@@ -103,19 +105,33 @@ class SignButtonScreen extends StatelessWidget {
                 },
                 backgroundColor: Theme.of(context).primaryColor,
               ),
-              SizedBox(height: height * 0.03,),
+              SizedBox(
+                height: height * 0.03,
+              ),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Expanded(child: Divider(color: Colors.grey[600], thickness: 0.2,)),
-                    Text("    or    ", style: TextStyle(color: Colors.grey[800], fontSize: 16),),
-                    Expanded(child: Divider(color: Colors.grey[600], thickness: 0.2,)),
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey[600],
+                      thickness: 0.2,
+                    )),
+                    Text(
+                      "    or    ",
+                      style: TextStyle(color: Colors.grey[800], fontSize: 16),
+                    ),
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey[600],
+                      thickness: 0.2,
+                    )),
                   ],
                 ),
               ),
-
-              SizedBox(height: height * 0.03,),
+              SizedBox(
+                height: height * 0.03,
+              ),
               SignInButtonBuilder(
                 text: '  Create an Account',
                 icon: Icons.email,

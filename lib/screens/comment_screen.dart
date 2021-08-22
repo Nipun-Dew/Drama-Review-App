@@ -63,36 +63,53 @@ class _CommentScreenState extends State<CommentScreen> {
 
     // String selectedUserId = "";
 
+    print(widget.wholeItem.reviews.length);
+
     List<Widget> commentWidgets = [];
 
-    widget.wholeItem.reviews.forEach((item) => {
-          if (item['user'].toString() == authUserId)
-            {
-              commentWidgets.add(CommentItem(
-                isUser: true,
-                userID: item['review']['name'],
-                comment: item['review']['review'],
-                date: item['review']['date'],
-                time: item['review']['time'],
-                token: widget.token,
-                wholeItem: widget.wholeItem,
-              )),
-            }
-          else
-            {
-              commentWidgets.add(CommentItem(
-                isUser: false,
-                userID: item['review']['name'],
-                comment: item['review']['review'],
-                date: item['review']['date'],
-                time: item['review']['time'],
-                token: widget.token,
-                wholeItem: widget.wholeItem,
-              )),
-            }
-        });
+    bool isNoReviews = false;
 
-    // widget.wholeItem.reviews.forEach((item) => {if (item['user'].toString() == selectedUserId) {}});
+    if (widget.wholeItem.reviews.isEmpty) {
+      isNoReviews = true;
+      // commentWidgets.add(CommentItem(
+      //   isUser: false,
+      //   userID: "ID",
+      //   comment: "Comment",
+      //   date: "Date",
+      //   time: "time",
+      //   token: widget.token,
+      //   wholeItem: widget.wholeItem,
+      // ));
+
+    } else {
+      isNoReviews = false;
+      widget.wholeItem.reviews.forEach((item) => {
+            if (item['user'].toString() == authUserId)
+              {
+                commentWidgets.add(CommentItem(
+                  isUser: true,
+                  userID: item['review']['name'],
+                  comment: item['review']['review'],
+                  date: item['review']['date'],
+                  time: item['review']['time'],
+                  token: widget.token,
+                  wholeItem: widget.wholeItem,
+                )),
+              }
+            else
+              {
+                commentWidgets.add(CommentItem(
+                  isUser: false,
+                  userID: item['review']['name'],
+                  comment: item['review']['review'],
+                  date: item['review']['date'],
+                  time: item['review']['time'],
+                  token: widget.token,
+                  wholeItem: widget.wholeItem,
+                )),
+              }
+          });
+    }
 
     return Scaffold(
       body: Container(
@@ -178,12 +195,14 @@ class _CommentScreenState extends State<CommentScreen> {
                   controller: _controller,
                 ),
               ),
-              Container(
-                width: double.infinity,
-                child: Column(
-                  children: commentWidgets,
-                ),
-              ),
+              isNoReviews
+                  ? Center(child: Text("No Reviws. PLease add a Review"))
+                  : Container(
+                      width: double.infinity,
+                      child: Column(
+                        children: commentWidgets,
+                      ),
+                    ),
             ],
           ),
         ),

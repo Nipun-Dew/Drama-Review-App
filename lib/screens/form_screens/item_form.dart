@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:drama_app/models/cast.dart';
 import 'package:drama_app/models/item.dart';
+import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/widgets/alert_box_widget.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     youtubeURL: "",
   );
 
-  void _saveForm() {
+  void _saveForm(String token) {
     var isValid;
 
     isValid = _form.currentState!.validate();
@@ -121,7 +122,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
     var isthrowError = false;
 
-    Provider.of<Items>(context, listen: false).addItem(_editedItem).catchError((error) {
+    Provider.of<Items>(context, listen: false).addItem(_editedItem, token).catchError((error) {
       isthrowError = true;
 
       return showDialog<Null>(
@@ -153,6 +154,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   @override
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
+
+    final token = Provider.of<Auth>(context).getToken;
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -1194,7 +1197,9 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 padding: EdgeInsets.only(top: 20),
                                 child: ElevatedButton(
                                   style: ButtonStyle(),
-                                  onPressed: _saveForm,
+                                  onPressed: () {
+                                    _saveForm(token.toString());
+                                  },
                                   // () {
                                   //   /// Check This
                                   //   setState(() {
