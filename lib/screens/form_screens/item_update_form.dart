@@ -190,6 +190,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     dropDownValCast.forEach((item) {
       if (itemList.contains(item)) {
         itemList.remove(item);
+        print("item is" + item);
       }
     });
 
