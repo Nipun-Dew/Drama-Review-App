@@ -192,7 +192,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     dropDownValCast.forEach((item) {
       itemList.forEach((i) {
         if (!(i.name.toString() == item.toString())) {
-          if (!newItemList.contains(i.toString())) {
+          if (!newItemList.contains(i)) {
             newItemList.add(i);
             print("item is " + i.name);
           }
