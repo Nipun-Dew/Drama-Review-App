@@ -40,7 +40,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
   var _isLoadingRoles = false;
 
-  List<String> dropDownValCast = [];
+  List<String> dropDownValCast = ["select item"];
   List<String> initialRoleVal = [];
 
   @override
@@ -169,16 +169,23 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     });
 
     int j = 0;
-    dropDownValCast.add('select item');
     wholeItem.cast.forEach((item) {
-      dropDownValCast.insert(j, item['starID'].toString());
-      initialRoleVal.insert(j, item['role'].toString());
+      if(!dropDownValCast.contains(item['starID'].toString())) {
+        dropDownValCast.insert(j, item['starID'].toString());
+      }
+      if(!initialRoleVal.contains(item['role'].toString())) {
+        initialRoleVal.insert(j, item['role'].toString());
+      }
+      if(dropDownValCast.contains("select item")) {
+        dropDownValCast.remove("select item");
+      }
       j++;
     });
-    dropDownValCast.removeLast();
+    //dropDownValCast.removeLast();
 
-    print(dropDownValCast.length);
+    print(dropDownValCast);
     print(initialRoleVal);
+    print(dropDownValCast.length);
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -613,9 +620,10 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         width: screenWidth * 0.05,
                                         child: IconButton(
                                           icon: Icon(Icons.add),
-                                          onPressed: () {
+                                          onPressed: () async {
                                             setState(() {
                                               dropDownValCast.add('Select Name');
+                                              initialRoleVal.add("Select Role");
                                               _castCount++;
                                             });
                                           },
