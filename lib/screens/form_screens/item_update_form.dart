@@ -170,13 +170,13 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     int j = 0;
     wholeItem.cast.forEach((item) {
-      if(!dropDownValCast.contains(item['starID'].toString())) {
+      if (!dropDownValCast.contains(item['starID'].toString())) {
         dropDownValCast.insert(j, item['starID'].toString());
       }
-      if(!initialRoleVal.contains(item['role'].toString())) {
+      if (!initialRoleVal.contains(item['role'].toString())) {
         initialRoleVal.insert(j, item['role'].toString());
       }
-      if(dropDownValCast.contains("select item")) {
+      if (dropDownValCast.contains("select item")) {
         dropDownValCast.remove("select item");
       }
       j++;
@@ -186,6 +186,12 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     print(dropDownValCast);
     print(initialRoleVal);
     print(dropDownValCast.length);
+
+    dropDownValCast.forEach((item) {
+      if (itemList.contains(item)) {
+        itemList.remove(item);
+      }
+    });
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -623,7 +629,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                           onPressed: () async {
                                             setState(() {
                                               dropDownValCast.add('Select Name');
-                                              initialRoleVal.add("Select Role");
+                                              initialRoleVal.add("");
                                               _castCount++;
                                             });
                                           },
