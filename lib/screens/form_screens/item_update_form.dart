@@ -58,7 +58,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
       j++;
     });
     dropDownValCast.removeLast();
-
+    print(dropDownValCast);
     setState(() {
       _isLoadingRoles = true;
     });
@@ -176,18 +176,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
       i++;
     });
 
-    int j = 0;
-    //List<String> initialRoleVal = [];
-
-    //wholeItem.cast.forEach((item) {
-      //dropDownValCast.insert(j, item['starID'].toString());
-      //initialRoleVal.insert(j, item['role'].toString());
-      //j++;
-    //});
-    //dropDownValCast.removeLast();
-
-    print(dropDownValCast.length);
-    print(initialRoleVal);
+    //print(dropDownValCast.length);
+    //print(initialRoleVal);
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
