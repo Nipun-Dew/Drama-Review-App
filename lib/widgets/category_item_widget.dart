@@ -132,15 +132,19 @@ class ItemWidget extends StatelessWidget {
                     child: Container(
                       width: 250,
                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 27,
-                          color: Colors.grey[400],
+                      child: FittedBox(
+                        alignment: Alignment.bottomLeft,
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 27,
+                            color: Colors.grey[400],
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.fade,
                         ),
-                        softWrap: true,
-                        overflow: TextOverflow.fade,
                       ),
                     ),
                   ),
