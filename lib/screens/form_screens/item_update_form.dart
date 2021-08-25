@@ -196,7 +196,6 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
             newItemList.add(i);
             print("item is " + i.name);
           }
-          // itemList.remove(i);
         }
       });
     });
