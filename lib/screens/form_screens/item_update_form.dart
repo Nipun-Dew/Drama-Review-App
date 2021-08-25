@@ -40,6 +40,9 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
   var _isLoadingRoles = false;
 
+  List<String> dropDownValCast = [];
+  List<String> initialRoleVal = [];
+
   @override
   void initState() {
     // print(wholeItem.cast.length);
@@ -47,6 +50,14 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     _roleCount = 1;
     _castCount = wholeItem.cast.length;
     _imageCount = wholeItem.imageUrls.length;
+    int j = 0;
+    dropDownValCast.add('select item');
+    wholeItem.cast.forEach((item) {
+      dropDownValCast.insert(j, item['starID'].toString());
+      initialRoleVal.insert(j, item['role'].toString());
+      j++;
+    });
+    dropDownValCast.removeLast();
 
     setState(() {
       _isLoadingRoles = true;
@@ -63,7 +74,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
   }
 
   String dropDownValType = 'Select Category';
-  List<String> dropDownValCast = ['Select Name'];
+  //List<String> dropDownValCast = ['Select Name'];
 
   List<String> dropDownValRole = ['Select Name'];
 
@@ -166,14 +177,14 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     });
 
     int j = 0;
-    List<String> initialRoleVal = [];
+    //List<String> initialRoleVal = [];
 
-    wholeItem.cast.forEach((item) {
-      dropDownValCast.insert(j, item['starID'].toString());
-      initialRoleVal.insert(j, item['role'].toString());
-      j++;
-    });
-    dropDownValCast.removeLast();
+    //wholeItem.cast.forEach((item) {
+      //dropDownValCast.insert(j, item['starID'].toString());
+      //initialRoleVal.insert(j, item['role'].toString());
+      //j++;
+    //});
+    //dropDownValCast.removeLast();
 
     print(dropDownValCast.length);
     print(initialRoleVal);
@@ -611,7 +622,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         width: screenWidth * 0.05,
                                         child: IconButton(
                                           icon: Icon(Icons.add),
-                                          onPressed: () async {
+                                          onPressed: () {
                                             setState(() {
                                               dropDownValCast.add('Select Name');
                                               _castCount++;
