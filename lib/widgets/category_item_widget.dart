@@ -82,7 +82,6 @@ class ItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authData = Provider.of<Auth>(context);
-
     final token = authData.getToken.toString();
 
     Color gradientStart = Colors.transparent;
@@ -182,7 +181,7 @@ class ItemWidget extends StatelessWidget {
             ),
 
             /////////// Only for ADMIN and EDITORS//////////////////////////
-            Row(
+            authData.userType == "ROLE_ADMIN" ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
@@ -213,7 +212,7 @@ class ItemWidget extends StatelessWidget {
                   ),
                 )
               ],
-            ),
+            ) : SizedBox(),
             SizedBox(
               height: 20,
             )
