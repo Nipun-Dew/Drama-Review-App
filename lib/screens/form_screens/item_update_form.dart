@@ -185,7 +185,6 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     print(dropDownValCast);
     print(initialRoleVal);
-    print(dropDownValCast.length);
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -599,7 +598,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                       Container(
                                         width: screenWidth * 0.5,
                                         child: DropdownButtonFormField<String>(
-                                          value: dropDownValCast[index],
+                                          value: itemList.isEmpty ? "Select Name" : dropDownValCast[index],
                                           elevation: 16,
                                           style: const TextStyle(color: Colors.pink, fontSize: 12),
                                           onChanged: (String? newValue) {
@@ -620,10 +619,10 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         width: screenWidth * 0.05,
                                         child: IconButton(
                                           icon: Icon(Icons.add),
-                                          onPressed: () async {
+                                          onPressed: () {
                                             setState(() {
                                               dropDownValCast.add('Select Name');
-                                              initialRoleVal.add("Select Role");
+                                              initialRoleVal.add("");
                                               _castCount++;
                                             });
                                           },
