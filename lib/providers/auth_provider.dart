@@ -92,6 +92,7 @@ class Auth with ChangeNotifier {
         "token": token,
         "userId": userId,
         "expireTime": expireTime!.toIso8601String(),
+        "userType": userType,
       });
       prefs.setString("dramaUser", data);
 
@@ -126,6 +127,7 @@ class Auth with ChangeNotifier {
         "token": token,
         "userId": userId,
         "expireTime": expireTime!.toIso8601String(),
+        "userType": userType,
       });
       prefs.setString("dramaUser", data);
     }
@@ -152,6 +154,7 @@ class Auth with ChangeNotifier {
         "token": token,
         "userId": userId,
         "expireTime": expireTime!.toIso8601String(),
+        "userType": userType,
       });
       prefs.setString("dramaUser", data);
       print(token);
@@ -192,6 +195,7 @@ class Auth with ChangeNotifier {
     final fetchToken = json.decode(prefs.getString('dramaUser')!)['token'];
     final fetchUID = json.decode(prefs.getString('dramaUser')!)['userId'];
     final fetchExpTimeString = json.decode(prefs.getString('dramaUser')!)['expireTime'];
+    final fetchUType = json.decode(prefs.getString('dramaUser')!)['userType'];
 
     final fetchExp = DateTime.parse(fetchExpTimeString);
     
@@ -201,6 +205,7 @@ class Auth with ChangeNotifier {
     token = fetchToken;
     expireTime = fetchExp;
     userId = fetchUID;
+    userType = fetchUType;
     //print(userId);
     notifyListeners();
     return true;
