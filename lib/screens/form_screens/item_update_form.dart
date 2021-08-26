@@ -170,13 +170,13 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
     int j = 0;
     wholeItem.cast.forEach((item) {
-      if(!dropDownValCast.contains(item['starID'].toString())) {
+      if (!dropDownValCast.contains(item['starID'].toString())) {
         dropDownValCast.insert(j, item['starID'].toString());
       }
-      if(!initialRoleVal.contains(item['role'].toString())) {
+      if (!initialRoleVal.contains(item['role'].toString())) {
         initialRoleVal.insert(j, item['role'].toString());
       }
-      if(dropDownValCast.contains("select item")) {
+      if (dropDownValCast.contains("select item")) {
         dropDownValCast.remove("select item");
       }
       j++;
@@ -186,7 +186,20 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
     print(dropDownValCast);
     print(initialRoleVal);
 
-    final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
+    List<Cast> newItemList = [];
+
+    dropDownValCast.forEach((item) {
+      itemList.forEach((i) {
+        if (!(i.name.toString() == item.toString())) {
+          if (!newItemList.contains(i)) {
+            newItemList.add(i);
+            print("item is " + i.name);
+          }
+        }
+      });
+    });
+
+    final dropdownItemList = ["Select Name", ...newItemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
         value: value,
         child: Text(value),
