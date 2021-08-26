@@ -94,9 +94,6 @@ class _ItemWidgetState extends State<ItemWidget> {
         },
       );
 
-      print(response.statusCode);
-      print(response.body);
-
       if (response.statusCode == 200) {
         showDialog<Null>(
           context: context,
