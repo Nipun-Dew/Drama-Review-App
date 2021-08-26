@@ -117,7 +117,6 @@ class _ItemWidgetState extends State<ItemWidget> {
   @override
   Widget build(BuildContext context) {
     final authData = Provider.of<Auth>(context);
-
     final token = authData.getToken.toString();
 
     Color gradientStart = Colors.transparent;
@@ -217,7 +216,7 @@ class _ItemWidgetState extends State<ItemWidget> {
             ),
 
             /////////// Only for ADMIN and EDITORS//////////////////////////
-            Row(
+            authData.userType == "ROLE_ADMIN" ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 TextButton(
@@ -303,7 +302,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                   ),
                 )
               ],
-            ),
+            ) : SizedBox(),
             SizedBox(
               height: 20,
             )

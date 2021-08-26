@@ -16,6 +16,7 @@ class Auth with ChangeNotifier {
   DateTime? expireTime = DateTime.now();
   String? userId = "";
   Timer? authTimer;
+  String userType = "";
 
   bool get isAuth {
     if (token != "" && !JwtDecoder.isExpired(token)) {
@@ -78,8 +79,10 @@ class Auth with ChangeNotifier {
     if (response.statusCode == 200) {
       token = json.decode(response.body)['jwt'];
       Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-      userId = decodedToken["userID"];
       print(decodedToken);
+      userId = decodedToken["userID"];
+      userType = decodedToken["role"]["authority"];
+      print(userType);
       expireTime = JwtDecoder.getExpirationDate(token);
       autoLogout();
       notifyListeners();
@@ -162,6 +165,7 @@ class Auth with ChangeNotifier {
     token = "";
     expireTime = DateTime.now();
     userId = "";
+    userType = "";
     if(authTimer != null) {
       authTimer!.cancel();
       authTimer = null;
