@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ItemWidget extends StatelessWidget {
+class ItemWidget extends StatefulWidget {
   final String id;
   final String title;
   final String category;
@@ -22,11 +22,16 @@ class ItemWidget extends StatelessWidget {
 
   ItemWidget({required this.wholeItem, required this.id, required this.title, required this.imageUrls, required this.category, required this.genres, required this.trailerVideoUrl});
 
+  @override
+  _ItemWidgetState createState() => _ItemWidgetState();
+}
+
+class _ItemWidgetState extends State<ItemWidget> {
   void selectItemDetails(BuildContext ctx, String token) {
     Navigator.of(ctx).push(
       MaterialPageRoute(
         builder: (_) {
-          return ItemDetailsScreen(id, title, category, imageUrls, trailerVideoUrl, wholeItem, token);
+          return ItemDetailsScreen(widget.id, widget.title, widget.category, widget.imageUrls, widget.trailerVideoUrl, widget.wholeItem, token);
         },
       ),
     );
@@ -95,7 +100,7 @@ class ItemWidget extends StatelessWidget {
       if (response.statusCode == 200) {
         showDialog<Null>(
           context: context,
-          builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          builder: (ctx) => AlertBox("Item Deleted Succesfully", "Sucsessfull", ctx),
         );
       } else {
         showDialog<Null>(
@@ -149,7 +154,7 @@ class ItemWidget extends StatelessWidget {
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(imageUrls),
+                          image: NetworkImage(widget.imageUrls),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.all(
@@ -169,7 +174,7 @@ class ItemWidget extends StatelessWidget {
                         alignment: Alignment.bottomLeft,
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          title,
+                          widget.title,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 27,
@@ -189,7 +194,7 @@ class ItemWidget extends StatelessWidget {
                       width: 250,
                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
                       child: Text(
-                        wholeItem.genres[0],
+                        widget.wholeItem.genres[0],
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -207,7 +212,7 @@ class ItemWidget extends StatelessWidget {
                     child: Container(
                       width: 300,
                       padding: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-                      child: rateStars(wholeItem.ratings),
+                      child: rateStars(widget.wholeItem.ratings),
                     ),
                   ),
                 ],
@@ -222,7 +227,7 @@ class ItemWidget extends StatelessWidget {
                   onPressed: () {
                     // _editItemHandler();
                     Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                      return ItemUpdateFormScreen(wholeItem);
+                      return ItemUpdateFormScreen(widget.wholeItem);
                     }));
                   },
                   child: Text(
@@ -264,7 +269,7 @@ class ItemWidget extends StatelessWidget {
                                   children: [
                                     TextButton(
                                         onPressed: () {
-                                          _deleteItemHandler(token, wholeItem, ctx);
+                                          _deleteItemHandler(token, widget.wholeItem, context);
                                           Navigator.of(ctx).pop();
                                         },
                                         child: Text(
