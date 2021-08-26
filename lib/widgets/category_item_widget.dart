@@ -5,6 +5,8 @@ import 'package:drama_app/providers/auth_provider.dart';
 import 'package:drama_app/providers/items_provider.dart';
 import 'package:drama_app/screens/form_screens/item_update_form.dart';
 import 'package:drama_app/screens/items_screen.dart';
+import 'package:drama_app/widgets/alert_box_widget.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,12 +73,43 @@ class ItemWidget extends StatelessWidget {
     );
   }
 
-  Future<void> _editItemHandler() async {
-    print("edit");
-  }
-
-  Future<void> _deleteItemHandler() async {
+  Future<void> _deleteItemHandler(String token, Item item, BuildContext context) async {
     print("delete");
+
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/admin/cinema/delete/item/" + item.id,
+    );
+
+    try {
+      var response = await http.delete(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      print(response.statusCode);
+      print(response.body);
+
+      if (response.statusCode == 200) {
+        showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+        );
+      } else {
+        showDialog<Null>(
+          context: context,
+          builder: (ctx) => AlertBox("Error! Item not Deleted!", "Error Occurred", ctx),
+        );
+      }
+    } catch (err) {
+      print("error");
+      showDialog<Null>(
+        context: context,
+        builder: (ctx) => AlertBox("Error! Item not Deleted!", "Error Occurred", ctx),
+      );
+    }
   }
 
   @override
@@ -202,7 +235,62 @@ class ItemWidget extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    _deleteItemHandler();
+                    showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                            content: Container(
+                                height: MediaQuery.of(context).size.height * 0.1,
+                                child: Center(
+                                    child: Text(
+                                  "Do you want to Delete?",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17,
+                                    color: Colors.grey[700],
+                                  ),
+                                ))),
+                            actions: [
+                              Center(
+                                child: Divider(
+                                  thickness: 0.3,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          _deleteItemHandler(token, wholeItem, ctx);
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Text(
+                                          "yes",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17,
+                                          ),
+                                        )),
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(ctx).pop();
+                                        },
+                                        child: Text(
+                                          "no",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 17,
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        });
                   },
                   child: Text(
                     "Delete",
