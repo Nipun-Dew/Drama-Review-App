@@ -60,6 +60,7 @@ class _CommentScreenState extends State<CommentScreen> {
   @override
   Widget build(BuildContext context) {
     final authUserId = Provider.of<Auth>(context).getUserId;
+    final userType = Provider.of<Auth>(context).userType;
 
     // String selectedUserId = "";
 
@@ -142,7 +143,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                 ),
               ]),
-              Container(
+              userType != "ROLE_ADMIN" ? Container(
                 margin: EdgeInsets.all(20),
                 child: TextField(
                   onChanged: (val) {
@@ -194,7 +195,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       labelText: "Write a Comment.."),
                   controller: _controller,
                 ),
-              ),
+              ) : SizedBox(),
               isNoReviews
                   ? Center(child: Text("No Reviws. PLease add a Review"))
                   : Container(
