@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/cast.dart';
+import '../screens/star_item_screen.dart';
 
 class StarItemWidget extends StatelessWidget {
   final Cast cast;
@@ -17,7 +18,11 @@ class StarItemWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
         child: ListTile(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                return StarItemScreen(cast);
+              }));
+            },
             leading: CircleAvatar(
               backgroundImage: NetworkImage(cast.imageUrls[0]),
               maxRadius: 30,
