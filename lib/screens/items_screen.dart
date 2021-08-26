@@ -23,10 +23,12 @@ class ItemDetailsScreen extends StatefulWidget {
   final Item wholeItem;
   final String token;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl, this.wholeItem, this.token);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl,
+      this.trailerVideoUrl, this.wholeItem, this.token);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
+  _ItemDetailsScreenState createState() =>
+      _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
@@ -81,7 +83,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   initState() {
     super.initState();
     Future.delayed(Duration.zero).then((value) async {
-      final favList = await Provider.of<Items>(context, listen: false).getFavourits(token);
+      final favList =
+          await Provider.of<Items>(context, listen: false).getFavourits(token);
       if (favList.isNotEmpty) {
         favList.forEach((item) {
           if (wholeItem.id.toString() == item.id.toString()) {
@@ -118,7 +121,10 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     print(ratingValue);
 
     var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" + item.id + "&rate=" + ratingValue.toString(),
+      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" +
+          item.id +
+          "&rate=" +
+          ratingValue.toString(),
     );
 
     try {
@@ -138,7 +144,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   Future<List<Item>?> addItemToFavourites(String token, ctx) async {
     var url = Uri.parse(
-      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" + wholeItem.id,
+      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" +
+          wholeItem.id,
     );
 
     try {
@@ -156,7 +163,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         });
       }
 
-      final favList = await Provider.of<Items>(ctx, listen: false).getFavourits(token.toString());
+      final favList = await Provider.of<Items>(ctx, listen: false)
+          .getFavourits(token.toString());
 
       print(response.statusCode);
       print(response.body);
@@ -164,6 +172,94 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     } catch (err) {
       print("error");
     }
+  }
+
+  void showAlertDialogBox(BuildContext context, double initialRateVal) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          content: Container(
+            height: MediaQuery.of(context).size.height * 0.1,
+            child: Center(
+              child: RatingBar.builder(
+                itemSize: 25,
+                initialRating: initialRateVal,
+                // initialRating: selectedItem.ratings,
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (rating) {
+                  ratingValues.add(rating);
+                  callOnRating(rating, wholeItem);
+                },
+              ),
+            ),
+          ),
+          actions: [
+            Center(
+              child: Divider(
+                thickness: 0.3,
+                color: Colors.grey[600],
+              ),
+            ),
+            Center(
+              child: TextButton(
+                  onPressed: () => Navigator.of(ctx).pop(),
+                  child: Text(
+                    "Close",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 17,
+                    ),
+                  )),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget rateStars(double starCount) {
+    List<Widget> starList = [];
+    var count = starCount.round();
+
+    for (var i = 0; i < count; i++) {
+      starList.add(
+        Icon(
+          Icons.star_rate_rounded,
+          color: Colors.amber,
+          size: 33,
+        ),
+      );
+    }
+    if (count.toDouble() > starCount) {
+      starList.removeLast();
+      starList.add(
+        Icon(
+          Icons.star_half_rounded,
+          color: Colors.amber,
+          size: 33,
+        ),
+      );
+    }
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ...starList,
+        ],
+      ),
+    );
   }
 
   @override
@@ -215,6 +311,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
     return Scaffold(
       body: Container(
+        width: double.infinity,
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
@@ -258,7 +355,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -277,45 +375,60 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
                     wholeItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
                   ),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
-              Center(
-                child: RatingBar.builder(
-                  itemSize: 25,
-                  initialRating: initialRateVal,
-                  // initialRating: selectedItem.ratings,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    ratingValues.add(rating);
-                    // print(ratingValues);
-                    // print(rating);
-                    callOnRating(rating, wholeItem);
-                  },
-                ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: rateStars(wholeItem.ratings),
               ),
+              // Center(
+              //   child: RatingBar.builder(
+              //     itemSize: 25,
+              //     initialRating: initialRateVal,
+              //     // initialRating: selectedItem.ratings,
+              //     minRating: 1,
+              //     direction: Axis.horizontal,
+              //     allowHalfRating: true,
+              //     itemCount: 5,
+              //     itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
+              //     itemBuilder: (context, _) => Icon(
+              //       Icons.star,
+              //       color: Colors.amber,
+              //     ),
+              //     onRatingUpdate: (rating) {
+              //       ratingValues.add(rating);
+              //       // print(ratingValues);
+              //       // print(rating);
+              //       callOnRating(rating, wholeItem);
+              //     },
+              //   ),
+              // ),
               Center(
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    roundDouble(wholeItem.ratings, 1).toString() + " (" + wholeItem.ratedCount.toString() + ")",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
+                    roundDouble(wholeItem.ratings, 1).toString() +
+                        " (" +
+                        wholeItem.ratedCount.toString() +
+                        ")",
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
@@ -331,7 +444,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               )
                             : Navigator.of(context).push(
                                 MaterialPageRoute(builder: (_) {
-                                  return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                  return CommentScreen(widget.id,
+                                      widget.imageUrl, wholeItem, token);
                                 }),
                               );
                       },
@@ -351,7 +465,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   : Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) {
-                                          return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                          return CommentScreen(
+                                              widget.id,
+                                              widget.imageUrl,
+                                              wholeItem,
+                                              token);
                                         },
                                       ),
                                     );
@@ -361,11 +479,34 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               color: Colors.grey,
                             ),
                           ),
-                          Text("Review  "),
+                          Text("Review"),
                         ],
                       ),
                     ),
                     Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            isUserAuth
+                                ? showAlertDialogBox(context, initialRateVal)
+                                : Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) {
+                                        return SignButtonScreen();
+                                      },
+                                    ),
+                                  );
+                          },
+                          icon: Icon(
+                            Icons.star_rounded,
+                            size: 32,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text("Rate  "),
+                      ],
+                    ),
+                    isUserAuth ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         !isLoading
@@ -374,11 +515,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                   setState(() {
                                     isFavourite = !isFavourite;
                                   });
-                                  final favList = await addItemToFavourites(token, context);
+                                  final favList =
+                                      await addItemToFavourites(token, context);
                                   setState(() {
                                     if (favList != null && favList.isNotEmpty) {
                                       favList.forEach((item) {
-                                        if (wholeItem.id.toString() == item.id.toString()) {
+                                        if (wholeItem.id.toString() ==
+                                            item.id.toString()) {
                                           isFavourite = true;
                                         } else {
                                           isFavourite = false;
@@ -400,7 +543,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             : SizedBox(),
                         Text("Favourite"),
                       ],
-                    )
+                    ) : SizedBox(),
                   ],
                 ),
               ),
@@ -417,11 +560,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
                   wholeItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]),
                 ),
               ),
               /////////////////////////video Add///////////////////////////////////////////
@@ -483,14 +631,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedCast[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index]["imageUrl"]),
+                              backgroundImage:
+                                  NetworkImage(selectedCast[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
@@ -499,7 +650,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedCast[index]["roleName"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -539,14 +692,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedRoles[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedRoles[index]["imageUrl"]),
+                              backgroundImage: NetworkImage(
+                                  selectedRoles[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
@@ -554,8 +710,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             width: 100,
                             height: 40,
                             child: Text(
-                              selectedRoles[index]["roleName"].toString().toUpperCase(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              selectedRoles[index]["roleName"]
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
