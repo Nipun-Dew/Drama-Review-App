@@ -428,4 +428,90 @@ class Items with ChangeNotifier {
       throw error;
     });
   }
+
+  ////////////////////////Update Items//////////////////////////////
+  Future<void> updateItem(Item item, String token) {
+    var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/edit/item");
+
+    // print(item.id);
+    // print(item.title);
+    // print(item.category);
+    // print(item.description);
+    // print(item.cast);
+    // print(item.directors);
+    // print(item.producers);
+    // print(item.youtubeURL);
+    // print(item.imageUrls);
+
+    // print(item);
+
+    print(token);
+
+    return http
+        .put(
+      url,
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer " + token,
+        "content-type": "application/json",
+      },
+      body: json.encode({
+        "id": item.id,
+        "title": item.title,
+        "category": item.category,
+        "imageUrls": item.imageUrls,
+        "description": item.description,
+        "cast": item.cast,
+        "directors": item.directors,
+        "producers": item.producers,
+        "genres": item.genres,
+        "youtubeURL": item.youtubeURL,
+      }),
+    )
+        .then((response) {
+      final newItem = Item(
+        id: item.id,
+        category: item.category,
+        title: item.title,
+        imageUrls: item.imageUrls,
+        description: item.description,
+        cast: item.cast,
+        directors: item.directors,
+        producers: item.producers,
+        genres: item.genres,
+        reviews: item.reviews,
+        // ratingValues: item.ratingValues,
+        rateMap: item.rateMap,
+        youtubeURL: item.youtubeURL,
+      );
+
+      print(response.statusCode);
+
+      if (response.statusCode.toString() == "200") {
+        // if (item.category.toString() == "teledramaItems") {
+
+        //   _teledramaItems.add(newItem);
+        // }
+        // if (item.category.toString() == "webseriesItems") {
+        //   _webseriesItems.add(newItem);
+        // }
+        // if (item.category.toString() == "movieItems") {
+        //   _movieItems.add(newItem);
+        // }
+        // if (item.category.toString() == "shortmovieItems") {
+        //   _shortmovieItems.add(newItem);
+        // }
+        // if (item.category.toString() == "miniseriesItems") {
+        //   _miniseriesItems.add(newItem);
+        // }
+        // print("Item added");
+
+        // notifyListeners();
+      } else {
+        print("Item not added");
+        throw HttpException(response.body);
+      }
+    }).catchError((error) {
+      throw error;
+    });
+  }
 }
