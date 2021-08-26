@@ -195,7 +195,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       labelText: "Write a Comment.."),
                   controller: _controller,
                 ),
-              ) : SizedBox(),
+              ) : SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
               isNoReviews
                   ? Center(child: Text("No Reviws. PLease add a Review"))
                   : Container(

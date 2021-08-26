@@ -430,7 +430,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                 child:Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
                       onTap: () {
@@ -505,7 +505,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         ),
                         Text("Rate  "),
                       ],
-                    ) : SizedBox(),
+                    ) : SizedBox.shrink(),
                     isUserAuth &&  authData.userType != "ROLE_ADMIN" ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -540,7 +540,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                         color: Colors.grey,
                                       ),
                               )
-                            : SizedBox(),
+                            : SizedBox.shrink(),
                         Text("Favourite"),
                       ],
                     ) : SizedBox(),
