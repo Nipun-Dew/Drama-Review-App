@@ -251,6 +251,19 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         ),
       );
     }
+    int length = starList.length;
+    if (length < 5) {
+      for (var i = 0; i < 5 - length; i++) {
+        starList.add(
+          Icon(
+            Icons.star_outline_rounded,
+            color: Colors.amber,
+            size: 33,
+          ),
+        );
+      }
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       child: Row(
