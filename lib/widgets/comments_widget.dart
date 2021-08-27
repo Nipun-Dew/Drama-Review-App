@@ -226,62 +226,61 @@ class CommentItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 3),
-                  child: Text(
-                    "${timeObject['amount']} ${timeObject['types']}",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontFamily: 'RobotoCondensed',
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 3),
+                      child: Text(
+                        "${timeObject['amount']} ${timeObject['types']}",
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontFamily: 'RobotoCondensed',
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                !isUser
-                    ? SizedBox(
-                        height: 12,
-                      )
-                    : SizedBox(),
-                isUser
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 10, top: 10),
-                            child: InkWell(
-                              onTap: () {
-                                _displayTextInputDialog(context, comment);
-                              },
-                              child: Text(
-                                "Edit",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontFamily: 'RobotoCondensed',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.pink,
+                    isUser
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 10, top: 10),
+                                child: InkWell(
+                                  onTap: () {
+                                    _displayTextInputDialog(context, comment);
+                                  },
+                                  child: Text(
+                                    "Edit",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: 'RobotoCondensed',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.pink,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: 15, right: 7, bottom: 10, top: 10),
-                            child: Text(
-                              "Delete",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: 'RobotoCondensed',
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.pink,
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(left: 15, right: 7, bottom: 10, top: 10),
+                                child: Text(
+                                  "Delete",
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: 'RobotoCondensed',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.pink,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Container()
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                  ],
+                ),
               ],
             ),
           )

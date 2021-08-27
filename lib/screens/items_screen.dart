@@ -9,10 +9,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../widgets/stars_display_main_widget.dart';
 import '../models/item.dart';
 import 'comment_screen.dart';
 import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import '../widgets/rating_alert_box_widget.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
   final String id;
@@ -118,15 +120,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   }
 
   Future<void> callOnRating(double ratingValue, Item item) async {
-    print(ratingValue);
-
     var url = Uri.parse(
       "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" +
           item.id +
           "&rate=" +
           ratingValue.toString(),
     );
-
     try {
       var response = await http.get(
         url,
@@ -174,104 +173,18 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     }
   }
 
-  void showAlertDialogBox(BuildContext context, double initialRateVal) {
+  void showAlertDialogBox(
+    BuildContext context,
+    double initialRateVal,
+    List<dynamic> ratingValues,
+    Function callOnRating,
+    Item wholeItem,
+  ) {
     showDialog(
       context: context,
       builder: (ctx) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          content: Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: Center(
-              child: RatingBar.builder(
-                itemSize: 25,
-                initialRating: initialRateVal,
-                // initialRating: selectedItem.ratings,
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  ratingValues.add(rating);
-                  callOnRating(rating, wholeItem);
-                },
-              ),
-            ),
-          ),
-          actions: [
-            Center(
-              child: Divider(
-                thickness: 0.3,
-                color: Colors.grey[600],
-              ),
-            ),
-            Center(
-              child: TextButton(
-                  onPressed: () => Navigator.of(ctx).pop(),
-                  child: Text(
-                    "Close",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 17,
-                    ),
-                  )),
-            )
-          ],
-        );
+        return RatingAlertBox(ctx, initialRateVal, ratingValues, callOnRating, wholeItem);
       },
-    );
-  }
-
-  Widget rateStars(double starCount) {
-    List<Widget> starList = [];
-    var count = starCount.round();
-
-    for (var i = 0; i < count; i++) {
-      starList.add(
-        Icon(
-          Icons.star_rate_rounded,
-          color: Colors.amber,
-          size: 33,
-        ),
-      );
-    }
-    if (count.toDouble() > starCount) {
-      starList.removeLast();
-      starList.add(
-        Icon(
-          Icons.star_half_rounded,
-          color: Colors.amber,
-          size: 33,
-        ),
-      );
-    }
-    int length = starList.length;
-    if (length < 5) {
-      for (var i = 0; i < 5 - length; i++) {
-        starList.add(
-          Icon(
-            Icons.star_outline_rounded,
-            color: Colors.amber,
-            size: 33,
-          ),
-        );
-      }
-    }
-
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ...starList,
-        ],
-      ),
     );
   }
 
@@ -398,30 +311,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               ////////////////////////////////////////////////////////////////////////////////////////////////
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
-                child: rateStars(wholeItem.ratings),
+                child: StarsRatingMain(wholeItem.ratings),
               ),
-              // Center(
-              //   child: RatingBar.builder(
-              //     itemSize: 25,
-              //     initialRating: initialRateVal,
-              //     // initialRating: selectedItem.ratings,
-              //     minRating: 1,
-              //     direction: Axis.horizontal,
-              //     allowHalfRating: true,
-              //     itemCount: 5,
-              //     itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-              //     itemBuilder: (context, _) => Icon(
-              //       Icons.star,
-              //       color: Colors.amber,
-              //     ),
-              //     onRatingUpdate: (rating) {
-              //       ratingValues.add(rating);
-              //       // print(ratingValues);
-              //       // print(rating);
-              //       callOnRating(rating, wholeItem);
-              //     },
-              //   ),
-              // ),
               Center(
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
@@ -442,7 +333,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
               Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
-                child:Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     InkWell(
@@ -496,67 +387,74 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         ],
                       ),
                     ),
-                    authData.userType != "ROLE_ADMIN" ? Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            isUserAuth
-                                ? showAlertDialogBox(context, initialRateVal)
-                                : Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return SignButtonScreen();
-                                      },
-                                    ),
-                                  );
-                          },
-                          icon: Icon(
-                            Icons.star_rounded,
-                            size: 32,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        Text("Rate  "),
-                      ],
-                    ) : SizedBox.shrink(),
-                    isUserAuth &&  authData.userType != "ROLE_ADMIN" ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        !isLoading
-                            ? IconButton(
-                                onPressed: () async {
-                                  setState(() {
-                                    isFavourite = !isFavourite;
-                                  });
-                                  final favList =
-                                      await addItemToFavourites(token, context);
-                                  setState(() {
-                                    if (favList != null && favList.isNotEmpty) {
-                                      favList.forEach((item) {
-                                        if (wholeItem.id.toString() ==
-                                            item.id.toString()) {
-                                          isFavourite = true;
-                                        } else {
-                                          isFavourite = false;
-                                        }
-                                      });
-                                    }
-                                  });
+                    authData.userType != "ROLE_ADMIN"
+                        ? Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  isUserAuth
+                                      ? showAlertDialogBox(
+                                          context, initialRateVal, ratingValues, callOnRating, wholeItem)
+                                      : Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) {
+                                              return SignButtonScreen();
+                                            },
+                                          ),
+                                        );
                                 },
-                                icon: isFavourite
-                                    ? Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                      )
-                                    : Icon(
-                                        Icons.favorite,
-                                        color: Colors.grey,
-                                      ),
-                              )
-                            : SizedBox.shrink(),
-                        Text("Favourite"),
-                      ],
-                    ) : SizedBox(),
+                                icon: Icon(
+                                  Icons.star_rounded,
+                                  size: 32,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text("Rate  "),
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                    isUserAuth && authData.userType != "ROLE_ADMIN"
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              !isLoading
+                                  ? IconButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          isFavourite = !isFavourite;
+                                        });
+                                        final favList =
+                                            await addItemToFavourites(
+                                                token, context);
+                                        setState(() {
+                                          if (favList != null &&
+                                              favList.isNotEmpty) {
+                                            favList.forEach((item) {
+                                              if (wholeItem.id.toString() ==
+                                                  item.id.toString()) {
+                                                isFavourite = true;
+                                              } else {
+                                                isFavourite = false;
+                                              }
+                                            });
+                                          }
+                                        });
+                                      },
+                                      icon: isFavourite
+                                          ? Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            )
+                                          : Icon(
+                                              Icons.favorite,
+                                              color: Colors.grey,
+                                            ),
+                                    )
+                                  : SizedBox.shrink(),
+                              Text("Favourite"),
+                            ],
+                          )
+                        : SizedBox(),
                   ],
                 ),
               ),
@@ -736,7 +634,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       );
                     }),
               ),
-
               SizedBox(
                 height: 40,
               )
