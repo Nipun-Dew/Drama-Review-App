@@ -105,6 +105,18 @@ class Casts with ChangeNotifier {
     }
   }
 
+  Future<dynamic> getStar(String starID) async {
+    final endPoint = "https://sl-cinema.herokuapp.com/cinema/star/"+starID;
+    var url = Uri.parse(endPoint);
+    try{
+      var response = await http.get(url);
+      final starItem = json.decode(response.body);
+      return starItem;
+    }catch(err){
+      throw err;
+    }
+  }
+
   Future<void> addRole(Cast role) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/add/star");
 
