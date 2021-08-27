@@ -26,6 +26,33 @@ class CommentItem extends StatelessWidget {
 
   TextEditingController _textFieldController = TextEditingController();
 
+  Map timeDisplay(String time, String date) {
+    String timeSlice = time.substring(0, 8);
+    DateTime commentTime = DateTime.parse("${date}T$timeSlice");
+    DateTime now = DateTime.now();
+    final diff = now.difference(commentTime);
+    late int display;
+    late String types;
+    if(diff.inMinutes < 60) {
+      display = diff.inMinutes;
+      types = "m";
+    }
+    else if (diff.inHours < 24) {
+      display = diff.inHours;
+      types = "h";
+    }
+    else if (diff.inDays < 7) {
+      display = diff.inDays;
+      types = "d";
+    }
+    else {
+      double weeks = diff.inDays / 7;
+      display = weeks.toInt();
+      types = "w";
+    }
+    return {"amount": display, "types": types};
+  }
+
   Future<void> _displayTextInputDialog(
       BuildContext context, String comment) async {
     return showDialog(
@@ -146,6 +173,8 @@ class CommentItem extends StatelessWidget {
 
     _textFieldController.text = comment;
 
+    var timeObject = timeDisplay(time, date);
+
     return Container(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -161,6 +190,7 @@ class CommentItem extends StatelessWidget {
           Container(
             //width: phoneWidth * 0.83,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Card(
                   shadowColor: Colors.transparent,
@@ -196,34 +226,17 @@ class CommentItem extends StatelessWidget {
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 5, right: 7, bottom: 3),
-                      child: Text(
-                        date,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: 'RobotoCondensed',
-                          fontSize: 10,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
+                Padding(
+                  padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 3),
+                  child: Text(
+                    "${timeObject['amount']} ${timeObject['types']}",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: 'RobotoCondensed',
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 7, bottom: 3),
-                      child: Text(
-                        time,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: 'RobotoCondensed',
-                          fontSize: 10,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
                 !isUser
                     ? SizedBox(
@@ -235,7 +248,7 @@ class CommentItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(right: 7, bottom: 10),
+                            padding: EdgeInsets.only(left: phoneWidth * 0.07, right: 7, bottom: 10, top: 10),
                             child: InkWell(
                               onTap: () {
                                 _displayTextInputDialog(context, comment);
@@ -254,7 +267,7 @@ class CommentItem extends StatelessWidget {
                           ),
                           Padding(
                             padding:
-                                EdgeInsets.only(left: 15, right: 7, bottom: 10),
+                                EdgeInsets.only(left: 15, right: 7, bottom: 10, top: 10),
                             child: Text(
                               "Delete",
                               textAlign: TextAlign.left,
