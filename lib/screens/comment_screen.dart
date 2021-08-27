@@ -54,15 +54,12 @@ class _CommentScreenState extends State<CommentScreen> {
     } catch (err) {
       print("error");
     }
-    // print(itemGetting);
   }
 
   @override
   Widget build(BuildContext context) {
-    final authUserId = Provider.of<Auth>(context).getUserId;
-    final userType = Provider.of<Auth>(context).userType;
-
-    // String selectedUserId = "";
+    final authUserId = Provider.of<Auth>(context, listen: false).getUserId;
+    final userType = Provider.of<Auth>(context, listen: false).userType;
 
     print(widget.wholeItem.reviews.length);
 
