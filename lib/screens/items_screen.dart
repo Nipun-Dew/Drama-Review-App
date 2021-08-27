@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:drama_app/models/cast.dart';
 import 'package:drama_app/providers/auth_provider.dart';
+import 'package:drama_app/screens/star_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -14,6 +16,7 @@ import '../models/item.dart';
 import 'comment_screen.dart';
 import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/providers/items_provider.dart';
+import '../providers/cast_provider.dart';
 import '../widgets/rating_alert_box_widget.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
@@ -183,7 +186,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     showDialog(
       context: context,
       builder: (ctx) {
-        return RatingAlertBox(ctx, initialRateVal, ratingValues, callOnRating, wholeItem);
+        return RatingAlertBox(
+            ctx, initialRateVal, ratingValues, callOnRating, wholeItem);
       },
     );
   }
@@ -394,7 +398,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                 onPressed: () {
                                   isUserAuth
                                       ? showAlertDialogBox(
-                                          context, initialRateVal, ratingValues, callOnRating, wholeItem)
+                                          context,
+                                          initialRateVal,
+                                          ratingValues,
+                                          callOnRating,
+                                          wholeItem)
                                       : Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (_) {
@@ -451,7 +459,9 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                             ),
                                     )
                                   : SizedBox.shrink(),
-                              !isLoading ? Text("Favourite") : SizedBox.shrink(),
+                              !isLoading
+                                  ? Text("Favourite")
+                                  : SizedBox.shrink(),
                             ],
                           )
                         : SizedBox(),
@@ -548,13 +558,32 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                            child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(selectedCast[index]["imageUrl"]),
-                              maxRadius: 40,
+                          InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    selectedCast[index]["imageUrl"]),
+                                maxRadius: 40,
+                              ),
                             ),
+                            onTap: () async {
+                              var data = await Provider.of<Casts>(context,
+                                      listen: false)
+                                  .getStar(selectedCast[index]["name"]);
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (_) {
+                                    List<String> tmpList = [];
+                                    data["imageUrls"].forEach((element) {
+                                      tmpList.add(element.toString());
+                                    });
+                                return StarItemScreen(new Cast(
+                                    id: data["name"],
+                                    name: data["name"],
+                                    description: data["description"],
+                                    imageUrls: tmpList));
+                              }));
+                            },
                           ),
                           Container(
                             width: 100,
