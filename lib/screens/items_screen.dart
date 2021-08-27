@@ -451,7 +451,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                             ),
                                     )
                                   : SizedBox.shrink(),
-                              Text("Favourite"),
+                              !isLoading ? Text("Favourite") : SizedBox.shrink(),
                             ],
                           )
                         : SizedBox(),
