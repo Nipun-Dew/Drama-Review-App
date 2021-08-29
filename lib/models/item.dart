@@ -11,10 +11,10 @@ class Item {
   final List<Map<String, String>> producers;
   final List<String> genres;
   final bool isFavourite;
-  final Map<String, String> reviews;
-  final List<double> ratingValues;
+  final List<Map<String, dynamic>> reviews;
+  // final List<double> ratingValues;
   final double ratings;
-  final Map<String, String> rateMap;
+  final List<Map<String, String>> rateMap;
   final int ratedCount;
   final String youtubeURL;
 
@@ -30,7 +30,7 @@ class Item {
     required this.genres,
     this.isFavourite = false,
     required this.reviews,
-    required this.ratingValues,
+    // required this.ratingValues,
     required this.rateMap,
     this.ratings = 0.0,
     this.ratedCount = 0,

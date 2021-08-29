@@ -10,13 +10,21 @@ import 'package:provider/provider.dart';
 
 import '../../providers/cast_provider.dart';
 
-class ItemFormScreen extends StatefulWidget {
+class ItemUpdateFormScreen extends StatefulWidget {
+  final Item wholeItem;
+
+  ItemUpdateFormScreen(this.wholeItem);
+
   @override
-  _ItemFormScreenState createState() => _ItemFormScreenState();
+  _ItemUpdateFormScreenState createState() => _ItemUpdateFormScreenState(this.wholeItem);
 }
 
-class _ItemFormScreenState extends State<ItemFormScreen> {
-  List<TextEditingController> imageControllers = [TextEditingController()];
+class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
+  final Item wholeItem;
+
+  _ItemUpdateFormScreenState(this.wholeItem);
+
+  List<TextEditingController> imageControllers = [];
 
   void dispose() {
     imageControllers.forEach((element) => element.dispose());
@@ -32,11 +40,28 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
   var _isLoadingRoles = false;
 
+  String dropDownValType = 'Select Category';
+
+  List<String> dropDownValCast = ["select item"];
+  List<String> initialRoleVal = [];
+
+  List<String> dropDownValRole = ['select item'];
+  List<String> dropDownValRoleType = ['select item'];
+
+  bool _checkboxAction = false;
+  bool _checkboxRomance = false;
+  bool _checkboxHorror = false;
+  bool _checkboxThriller = false;
+  bool _checkboxBiography = false;
+  bool _checkboxDrama = false;
+  bool _checkboxComody = false;
+  bool _checkboxFiction = false;
+
   @override
   void initState() {
-    _roleCount = 1;
-    _castCount = 1;
-    _imageCount = 1;
+    _roleCount = wholeItem.directors.length + wholeItem.producers.length;
+    _castCount = wholeItem.cast.length;
+    _imageCount = wholeItem.imageUrls.length;
 
     setState(() {
       _isLoadingRoles = true;
@@ -49,33 +74,44 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
         });
       });
     });
+
+    wholeItem.genres.forEach((item) {
+      if (item.toString() == "Action") {
+        _checkboxAction = true;
+        _editedItem.genres.add("Action");
+      }
+      if (item.toString() == "Drama") {
+        _checkboxDrama = true;
+        _editedItem.genres.add("Drama");
+      }
+      if (item.toString() == "Romance") {
+        _checkboxRomance = true;
+        _editedItem.genres.add("Romance");
+      }
+      if (item.toString() == "Horror") {
+        _checkboxHorror = true;
+        _editedItem.genres.add("Horror");
+      }
+      if (item.toString() == "Thriller") {
+        _checkboxThriller = true;
+        _editedItem.genres.add("Thriller");
+      }
+      if (item.toString() == "Biography") {
+        _checkboxBiography = true;
+        _editedItem.genres.add("Biography");
+      }
+      if (item.toString() == "Comedy") {
+        _checkboxComody = true;
+        _editedItem.genres.add("Comedy");
+      }
+      if (item.toString() == "Fiction") {
+        _checkboxFiction = true;
+        _editedItem.genres.add("Fiction");
+      }
+    });
+
     super.initState();
   }
-
-  // @override
-  // void initState() {
-  //   Future.delayed(Duration.zero).then((_) {
-  //     Provider.of<Casts>(context, listen: false).getRoles();
-  //   });
-  //   super.initState();
-  // }
-
-  List<String> dropDownValCast = ['Select Name'];
-
-  List<String> dropDownValRole = ['Select Name'];
-
-  String dropDownValType = 'Select Category';
-
-  List<String> dropDownValRoleType = ['Select Role'];
-
-  bool _checkboxAction = false;
-  bool _checkboxRomance = false;
-  bool _checkboxHorror = false;
-  bool _checkboxThriller = false;
-  bool _checkboxBiography = false;
-  bool _checkboxDrama = false;
-  bool _checkboxComody = false;
-  bool _checkboxFiction = false;
 
   final _form = GlobalKey<FormState>();
 
@@ -92,7 +128,6 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     producers: [],
     genres: [],
     reviews: [],
-    // ratingValues: [],
     rateMap: [],
     ratings: 0,
     youtubeURL: "",
@@ -122,12 +157,12 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
 
     var isthrowError = false;
 
-    Provider.of<Items>(context, listen: false).addItem(_editedItem, token).catchError((error) {
+    Provider.of<Items>(context, listen: false).updateItem(_editedItem, token).catchError((error) {
       isthrowError = true;
 
       return showDialog<Null>(
         context: context,
-        builder: (ctx) => AlertBox("Error! Item not Added!", "Error Occurred", ctx),
+        builder: (ctx) => AlertBox("Error! Item not Updated!", "Error Occurred", ctx),
       );
     }).then((_) {
       setState(() {
@@ -137,7 +172,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       if (!isthrowError) {
         showDialog<Null>(
           context: context,
-          builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+          builder: (ctx) => AlertBox("Item Updated Succesfully", "Sucsessfull", ctx),
         ).then((value) {
           Navigator.of(context).pop();
         });
@@ -146,8 +181,6 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
       if (isthrowError) {
         Navigator.of(context).pop();
       }
-
-      // Navigator.of(context).pop();
     });
   }
 
@@ -155,7 +188,68 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
   Widget build(BuildContext context) {
     List<Cast> itemList = Provider.of<Casts>(context).items;
 
-    final token = Provider.of<Auth>(context).getToken;
+    final token = Provider.of<Auth>(context, listen: false).getToken;
+
+    int i = 0;
+
+    wholeItem.imageUrls.forEach((url) {
+      imageControllers.add(TextEditingController());
+      imageControllers[i].text = url;
+      i++;
+    });
+
+    int j = 0;
+    wholeItem.cast.forEach((item) {
+      if (!dropDownValCast.contains(item['starID'].toString())) {
+        dropDownValCast.insert(j, item['starID'].toString());
+      }
+      if (!initialRoleVal.contains(item['role'].toString())) {
+        initialRoleVal.insert(j, item['role'].toString());
+      }
+      if (dropDownValCast.contains("select item")) {
+        dropDownValCast.remove("select item");
+      }
+      j++;
+    });
+
+    // print(dropDownValCast);
+    // print(initialRoleVal);
+
+    List<Map<String, String>> dirAndProd = [...wholeItem.directors, ...wholeItem.producers];
+
+    int k = 0;
+    dirAndProd.forEach((dir) {
+      if (!dropDownValRole.contains(dir['starID'].toString())) {
+        dropDownValRole.insert(k, dir['starID'].toString());
+      }
+
+      if (!dropDownValRoleType.contains(dir['role'].toString())) {
+        dropDownValRoleType.insert(k, dir['role'].toString());
+      }
+
+      if (dropDownValRole.contains("select item")) {
+        dropDownValRole.remove("select item");
+      }
+
+      if (dropDownValRoleType.contains("select item")) {
+        dropDownValRoleType.remove("select item");
+      }
+
+      if (dir['role'].toString() == 'Director') {
+        _editedItem.directors.add({
+          "role": dir['role'].toString(),
+          "starID": dir['starID'].toString(),
+        });
+      }
+
+      if (dir['role'].toString() == 'Producer') {
+        _editedItem.producers.add({
+          "role": dir['role'].toString(),
+          "starID": dir['starID'].toString(),
+        });
+      }
+      k++;
+    });
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -179,6 +273,26 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
     }).toList();
 
     final screenWidth = MediaQuery.of(context).size.width;
+
+    late String drpDownExitingValue;
+
+    /// For Item type
+
+    if (widget.wholeItem.category.toString() == 'teledrama') {
+      drpDownExitingValue = 'TeleDrama';
+    }
+    if (widget.wholeItem.category.toString() == 'movie') {
+      drpDownExitingValue = 'Movie';
+    }
+    if (widget.wholeItem.category.toString() == 'short-movie') {
+      drpDownExitingValue = 'Short Movie';
+    }
+    if (widget.wholeItem.category.toString() == 'web-series') {
+      drpDownExitingValue = 'Web Series';
+    }
+    if (widget.wholeItem.toString() == 'mini-series') {
+      drpDownExitingValue = 'Mini Series';
+    }
 
     return Scaffold(
       body: (_isLoading || _isLoadingRoles)
@@ -219,6 +333,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                           child: Column(
                             children: <Widget>[
                               TextFormField(
+                                initialValue: widget.wholeItem.title,
                                 decoration: InputDecoration(labelText: 'Item name'),
                                 textInputAction: TextInputAction.next,
                                 onSaved: (value) {
@@ -250,6 +365,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 height: 5,
                               ),
                               TextFormField(
+                                initialValue: widget.wholeItem.description,
                                 decoration: InputDecoration(labelText: 'Item Description'),
                                 maxLines: 3,
                                 // textInputAction: TextInputAction.next,
@@ -299,7 +415,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                     Container(
                                       width: screenWidth * 0.4,
                                       child: DropdownButtonFormField<String>(
-                                        value: dropDownValType,
+                                        value: drpDownExitingValue,
                                         elevation: 16,
                                         style: const TextStyle(color: Colors.pink, fontSize: 12),
                                         onChanged: (String? newValue) {
@@ -307,6 +423,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             String categoryType = '';
 
                                             dropDownValType = newValue!;
+
                                             if (dropDownValType.toString() == 'TeleDrama') {
                                               categoryType = 'teledrama';
                                             }
@@ -357,6 +474,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 height: 8,
                               ),
                               TextFormField(
+                                initialValue: widget.wholeItem.youtubeURL,
                                 decoration: InputDecoration(labelText: 'Video Url'),
                                 keyboardType: TextInputType.url,
                                 textInputAction: TextInputAction.next,
@@ -505,6 +623,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               child: TextFormField(
                                                 decoration: InputDecoration(labelText: 'Cast Name'),
                                                 textInputAction: TextInputAction.next,
+                                                initialValue: initialRoleVal[index],
                                                 onSaved: (value) {
                                                   _editedItem = Item(
                                                     id: _editedItem.id,
@@ -543,7 +662,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             Container(
                                               width: screenWidth * 0.5,
                                               child: DropdownButtonFormField<String>(
-                                                value: dropDownValCast[index],
+                                                value: itemList.isEmpty ? "Select Name" : dropDownValCast[index],
                                                 elevation: 16,
                                                 style: const TextStyle(color: Colors.pink, fontSize: 12),
                                                 onChanged: (String? newValue) {
@@ -564,9 +683,10 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                               width: screenWidth * 0.05,
                                               child: IconButton(
                                                 icon: Icon(Icons.add),
-                                                onPressed: () async {
+                                                onPressed: () {
                                                   setState(() {
                                                     dropDownValCast.add('Select Name');
+                                                    initialRoleVal.add("");
                                                     _castCount++;
                                                   });
                                                 },
@@ -634,7 +754,7 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                             Container(
                                               width: screenWidth * 0.5,
                                               child: DropdownButtonFormField<String>(
-                                                value: dropDownValRole[index],
+                                                value: itemList.isEmpty ? "Select Name" : dropDownValRole[index],
                                                 elevation: 16,
                                                 style: const TextStyle(color: Colors.pink, fontSize: 12),
                                                 onChanged: (String? newValue) {
@@ -735,40 +855,6 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                                 child: Text("Genre Types"),
                                 padding: EdgeInsets.only(top: 15),
                               ),
-                              // Container(
-                              //   // swidth: 250,
-                              //   child: Column(
-                              //     children: <Widget>[
-                              //       ListView.builder(
-                              //         physics: NeverScrollableScrollPhysics(),
-                              //         shrinkWrap: true,
-                              //         itemCount: _genreCount,
-                              //         itemBuilder: (context, index) {
-                              //           return Row(children: <Widget>[
-                              //             Container(
-                              //               width: screenWidth * 0.85,
-                              //               child: TextFormField(
-                              //                 decoration: InputDecoration(labelText: 'Genre Type'),
-                              //                 textInputAction: TextInputAction.next,
-                              //               ),
-                              //             ),
-                              //             Container(
-                              //               width: screenWidth * 0.05,
-                              //               child: IconButton(
-                              //                 icon: Icon(Icons.plus_one),
-                              //                 onPressed: () async {
-                              //                   setState(() {
-                              //                     _genreCount++;
-                              //                   });
-                              //                 },
-                              //               ),
-                              //             )
-                              //           ]);
-                              //         },
-                              //       )
-                              //     ],
-                              //   ),
-                              // ),
                               Container(
                                 width: screenWidth,
                                 // height: 300,

@@ -1,11 +1,23 @@
-import 'package:drama_app/providers/cast_provider.dart';
-import 'package:drama_app/providers/items_provider.dart';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:drama_app/models/cast.dart';
+import 'package:drama_app/providers/auth_provider.dart';
+import 'package:drama_app/screens/star_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import '../widgets/stars_display_main_widget.dart';
+import '../models/item.dart';
+import 'comment_screen.dart';
+import 'package:drama_app/screens/sign_btn_screen.dart';
+import 'package:drama_app/providers/items_provider.dart';
+import '../providers/cast_provider.dart';
+import '../widgets/rating_alert_box_widget.dart';
 
 class ItemDetailsScreen extends StatefulWidget {
   final String id;
@@ -13,17 +25,30 @@ class ItemDetailsScreen extends StatefulWidget {
   final String category;
   final String imageUrl;
   final String trailerVideoUrl;
+  final Item wholeItem;
+  final String token;
 
-  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl, this.trailerVideoUrl);
+  ItemDetailsScreen(this.id, this.title, this.category, this.imageUrl,
+      this.trailerVideoUrl, this.wholeItem, this.token);
 
   @override
-  _ItemDetailsScreenState createState() => _ItemDetailsScreenState(trailerVideoUrl: this.trailerVideoUrl);
+  _ItemDetailsScreenState createState() =>
+      _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 }
 
 class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
   final String trailerVideoUrl;
+  final Item wholeItem;
+  final String token;
 
-  _ItemDetailsScreenState({required this.trailerVideoUrl});
+  final ratingValues = [];
+  final initialRatingValue = 1;
+
+  bool isFavourite = false;
+  bool isLoading = true;
+  late YoutubePlayerController _controller;
+
+  _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
@@ -47,22 +72,36 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     );
   }
 
-  final ratingValues = [4.5, 3, 5];
+  // arraySum(List arr) {
+  //   var sum = 0.0;
+  //   arr.forEach((element) {
+  //     sum = sum + element;
+  //   });
+  //   return sum;
+  // }
 
-  final initialRatingValue = 1;
-
-  arraySum(List arr) {
-    var sum = 0.0;
-    arr.forEach((element) {
-      sum = sum + element;
-    });
-    return sum;
+  double roundDouble(double val, int places) {
+    num mod = pow(10.0, places);
+    return ((val * mod).round().toDouble() / mod);
   }
-
-  late YoutubePlayerController _controller;
 
   initState() {
     super.initState();
+    Future.delayed(Duration.zero).then((value) async {
+      final favList =
+          await Provider.of<Items>(context, listen: false).getFavourits(token);
+      if (favList.isNotEmpty) {
+        favList.forEach((item) {
+          if (wholeItem.id.toString() == item.id.toString()) {
+            isFavourite = true;
+          } else {
+            isFavourite = false;
+          }
+        });
+      }
+      isLoading = false;
+    });
+
     _controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(trailerVideoUrl).toString(),
       flags: const YoutubePlayerFlags(
@@ -83,54 +122,129 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     super.dispose();
   }
 
+  Future<void> callOnRating(double ratingValue, Item item) async {
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/rate?id=" +
+          item.id +
+          "&rate=" +
+          ratingValue.toString(),
+    );
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+          "content-type": "application/json",
+        },
+      );
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+  }
+
+  Future<List<Item>?> addItemToFavourites(String token, ctx) async {
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/wish-list/add?id=" +
+          wholeItem.id,
+    );
+
+    try {
+      var response = await http.get(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      if (response.statusCode != 200) {
+        setState(() {
+          isFavourite = !isFavourite;
+        });
+      }
+
+      final favList = await Provider.of<Items>(ctx, listen: false)
+          .getFavourits(token.toString());
+
+      print(response.statusCode);
+      print(response.body);
+      return favList;
+    } catch (err) {
+      print("error");
+    }
+  }
+
+  void showAlertDialogBox(
+    BuildContext context,
+    double initialRateVal,
+    List<dynamic> ratingValues,
+    Function callOnRating,
+    Item wholeItem,
+  ) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return RatingAlertBox(
+            ctx, initialRateVal, ratingValues, callOnRating, wholeItem);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final itemData = Provider.of<Items>(context);
-    final items = itemData.items;
+    final authData = Provider.of<Auth>(context);
+    final isUserAuth = authData.isAuth;
 
-    final castData = Provider.of<Casts>(context);
-    final itemsCasts = castData.items;
+    final authUserId = Provider.of<Auth>(context).getUserId;
 
-    final selectedItem = items.firstWhere((item) => item.id == widget.id);
-
-    final selectedCast = [
-      // {
-      //   "name": name,
-      //   "roleName": roleName,
-      //   "imageUrls": imageUrl,
-      // }
-    ];
+    final selectedCast = [];
 
     final selectedRoles = [];
 
-    selectedItem.cast.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedCast.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
+    wholeItem.cast.forEach((item) {
+      selectedCast.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
       });
     });
 
-    selectedItem.directors.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
+    wholeItem.directors.forEach((item) {
+      selectedRoles.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
       });
     });
 
-    selectedItem.producers.forEach((item) {
-      itemsCasts.forEach((role) {
-        if (role.name.toString() == item["starID"].toString()) {
-          selectedRoles.add({"name": item["starID"].toString(), "roleName": item["role"].toString(), "imageUrl": role.imageUrls[0]});
-        }
+    wholeItem.producers.forEach((item) {
+      selectedRoles.add({
+        "name": item['starID'],
+        "roleName": item['role'],
+        "imageUrl": item['imageUrl'],
       });
     });
+
+    double initialRateVal = 0.0;
+
+    if (wholeItem.rateMap.isEmpty) {
+      initialRateVal = 0.0;
+    } else {
+      wholeItem.rateMap.forEach((item) {
+        if (item['user'].toString() == authUserId.toString()) {
+          initialRateVal = double.parse(item['rate'].toString());
+        }
+      });
+    }
 
     return Scaffold(
       body: Container(
+        width: double.infinity,
         margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -152,7 +266,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       aspectRatio: 16 / 9,
                     ),
                     items: [
-                      ...selectedItem.imageUrls,
+                      ...wholeItem.imageUrls,
                     ].map((i) {
                       return Builder(
                         builder: (BuildContext context) {
@@ -171,7 +285,8 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -189,42 +304,168 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                   margin: EdgeInsets.symmetric(vertical: 10),
                   padding: EdgeInsets.only(top: 5),
                   child: Text(
-                    selectedItem.title,
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w500, fontSize: 25),
+                    wholeItem.title,
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 25),
                   ),
                 ),
               ),
               ////////////////////////////////////////////////////////////////////////////////////////////////
-              Center(
-                child: RatingBar.builder(
-                  itemSize: 25,
-                  initialRating: 3,
-                  // initialRating: selectedItem.ratings,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 6.0),
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  onRatingUpdate: (rating) {
-                    ratingValues.add(rating);
-                    print(ratingValues);
-                    print(rating);
-                    print(arraySum(ratingValues) / ratingValues.length);
-                  },
-                ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: StarsRatingMain(wholeItem.ratings),
               ),
               Center(
                 child: Container(
                   margin: EdgeInsets.only(top: 3, bottom: 15),
                   child: Text(
-                    "4.5/5" + " (10)",
-                    style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[600]),
+                    roundDouble(wholeItem.ratings, 1).toString() +
+                        " (" +
+                        wholeItem.ratedCount.toString() +
+                        ")",
+                    style: TextStyle(
+                        fontFamily: "RobotoCondensed-Light",
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                        color: Colors.grey[600]),
                     textAlign: TextAlign.center,
                   ),
+                ),
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        !isUserAuth
+                            ? Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return SignButtonScreen();
+                                  },
+                                ),
+                              )
+                            : Navigator.of(context).push(
+                                MaterialPageRoute(builder: (_) {
+                                  return CommentScreen(widget.id,
+                                      widget.imageUrl, wholeItem, token);
+                                }),
+                              );
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          IconButton(
+                            onPressed: () {
+                              !isUserAuth
+                                  ? Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return SignButtonScreen();
+                                        },
+                                      ),
+                                    )
+                                  : Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (_) {
+                                          return CommentScreen(
+                                              widget.id,
+                                              widget.imageUrl,
+                                              wholeItem,
+                                              token);
+                                        },
+                                      ),
+                                    );
+                            },
+                            icon: Icon(
+                              Icons.add_comment_rounded,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text("Review"),
+                        ],
+                      ),
+                    ),
+                    authData.userType != "ROLE_ADMIN"
+                        ? Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  isUserAuth
+                                      ? showAlertDialogBox(
+                                          context,
+                                          initialRateVal,
+                                          ratingValues,
+                                          callOnRating,
+                                          wholeItem)
+                                      : Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (_) {
+                                              return SignButtonScreen();
+                                            },
+                                          ),
+                                        );
+                                },
+                                icon: Icon(
+                                  Icons.star_rounded,
+                                  size: 32,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text("Rate  "),
+                            ],
+                          )
+                        : SizedBox.shrink(),
+                    isUserAuth && authData.userType != "ROLE_ADMIN"
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              !isLoading
+                                  ? IconButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          isFavourite = !isFavourite;
+                                        });
+                                        final favList =
+                                            await addItemToFavourites(
+                                                token, context);
+                                        setState(() {
+                                          if (favList != null &&
+                                              favList.isNotEmpty) {
+                                            favList.forEach((item) {
+                                              if (wholeItem.id.toString() ==
+                                                  item.id.toString()) {
+                                                isFavourite = true;
+                                              } else {
+                                                isFavourite = false;
+                                              }
+                                            });
+                                          }
+                                        });
+                                      },
+                                      icon: isFavourite
+                                          ? Icon(
+                                              Icons.favorite,
+                                              color: Colors.red,
+                                            )
+                                          : Icon(
+                                              Icons.favorite,
+                                              color: Colors.grey,
+                                            ),
+                                    )
+                                  : SizedBox.shrink(),
+                              !isLoading
+                                  ? Text("Favourite")
+                                  : SizedBox.shrink(),
+                            ],
+                          )
+                        : SizedBox(),
+                  ],
                 ),
               ),
               Container(
@@ -240,11 +481,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 20, left: 25, right: 25),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 25, right: 25),
                 child: Text(
-                  selectedItem.description,
+                  wholeItem.description,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontFamily: "RobotoCondensed-Light", fontWeight: FontWeight.w400, fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(
+                      fontFamily: "RobotoCondensed-Light",
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                      color: Colors.grey[700]),
                 ),
               ),
               /////////////////////////video Add///////////////////////////////////////////
@@ -262,13 +508,15 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 ),
               ),
 
-              Padding(
-                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
-                child: YoutubePlayer(
-                  controller: _controller,
-                  showVideoProgressIndicator: true,
-                ),
-              ),
+              ///Don't Delete this ////
+
+              // Padding(
+              //   padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+              //   child: YoutubePlayer(
+              //     controller: _controller,
+              //     showVideoProgressIndicator: true,
+              //   ),
+              // ),
 
               ///////////////////////////////////////////////////////////////////////
 
@@ -293,6 +541,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 height: 170,
                 width: 400,
                 child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedCast.length,
                     itemBuilder: (context, index) {
@@ -303,23 +552,47 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedCast[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedCast[index]["imageUrl"]),
-                              maxRadius: 40,
+                          InkWell(
+                            child: Padding(
+                              padding: EdgeInsets.all(5),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    selectedCast[index]["imageUrl"]),
+                                maxRadius: 40,
+                              ),
                             ),
+                            onTap: () async {
+                              var data = await Provider.of<Casts>(context,
+                                      listen: false)
+                                  .getStar(selectedCast[index]["name"]);
+                              Navigator.of(context)
+                                  .push(MaterialPageRoute(builder: (_) {
+                                    List<String> tmpList = [];
+                                    data["imageUrls"].forEach((element) {
+                                      tmpList.add(element.toString());
+                                    });
+                                return StarItemScreen(new Cast(
+                                    id: data["name"],
+                                    name: data["name"],
+                                    description: data["description"],
+                                    imageUrls: tmpList));
+                              }));
+                            },
                           ),
                           Container(
                             width: 100,
                             height: 40,
                             child: Text(
                               selectedCast[index]["roleName"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -348,6 +621,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                 height: 200,
                 width: 400,
                 child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedRoles.length,
                     itemBuilder: (context, index) {
@@ -358,14 +632,17 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             height: 40,
                             child: Text(
                               selectedRoles[index]["name"].toString(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.grey[600]),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.grey[600]),
                               textAlign: TextAlign.center,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsets.all(5),
                             child: CircleAvatar(
-                              backgroundImage: NetworkImage(selectedRoles[index]["imageUrl"]),
+                              backgroundImage: NetworkImage(
+                                  selectedRoles[index]["imageUrl"]),
                               maxRadius: 40,
                             ),
                           ),
@@ -373,8 +650,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             width: 100,
                             height: 40,
                             child: Text(
-                              selectedRoles[index]["roleName"].toString().toUpperCase(),
-                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                              selectedRoles[index]["roleName"]
+                                  .toString()
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -382,7 +663,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                       );
                     }),
               ),
-
               SizedBox(
                 height: 40,
               )
