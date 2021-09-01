@@ -61,7 +61,7 @@ class _CommentScreenState extends State<CommentScreen> {
     final authUserId = Provider.of<Auth>(context, listen: false).getUserId;
     final userType = Provider.of<Auth>(context, listen: false).userType;
 
-    print(widget.wholeItem.reviews.length);
+    print(widget.wholeItem.reviews);
 
     List<Widget> commentWidgets = [];
 
@@ -69,16 +69,6 @@ class _CommentScreenState extends State<CommentScreen> {
 
     if (widget.wholeItem.reviews.isEmpty) {
       isNoReviews = true;
-      // commentWidgets.add(CommentItem(
-      //   isUser: false,
-      //   userID: "ID",
-      //   comment: "Comment",
-      //   date: "Date",
-      //   time: "time",
-      //   token: widget.token,
-      //   wholeItem: widget.wholeItem,
-      // ));
-
     } else {
       isNoReviews = false;
       widget.wholeItem.reviews.forEach((item) => {
@@ -86,7 +76,8 @@ class _CommentScreenState extends State<CommentScreen> {
               {
                 commentWidgets.add(CommentItem(
                   isUser: true,
-                  userID: item['review']['name'],
+                  userID: item['user'],
+                  userName: item['review']['name'],
                   comment: item['review']['review'],
                   date: item['review']['date'],
                   time: item['review']['time'],
@@ -98,7 +89,8 @@ class _CommentScreenState extends State<CommentScreen> {
               {
                 commentWidgets.add(CommentItem(
                   isUser: false,
-                  userID: item['review']['name'],
+                  userID: item['user'],
+                  userName: item['review']['name'],
                   comment: item['review']['review'],
                   date: item['review']['date'],
                   time: item['review']['time'],
@@ -140,59 +132,66 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                 ),
               ]),
-              userType != "ROLE_ADMIN" ? Container(
-                margin: EdgeInsets.all(20),
-                child: TextField(
-                  onChanged: (val) {
-                    if (val.isEmpty) {
-                      setState(() {
-                        canComment = false;
-                      });
-                    }
-                    if (val.isNotEmpty) {
-                      setState(() {
-                        canComment = true;
-                      });
-                    }
-                  },
-                  cursorHeight: 27,
-                  style: TextStyle(decoration: TextDecoration.none),
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: canComment
-                          ? InkWell(
-                              child: Icon(
-                                Icons.send,
+              userType != "ROLE_ADMIN"
+                  ? Container(
+                      margin: EdgeInsets.all(20),
+                      child: TextField(
+                        onChanged: (val) {
+                          if (val.isEmpty) {
+                            setState(() {
+                              canComment = false;
+                            });
+                          }
+                          if (val.isNotEmpty) {
+                            setState(() {
+                              canComment = true;
+                            });
+                          }
+                        },
+                        cursorHeight: 27,
+                        style: TextStyle(decoration: TextDecoration.none),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                            suffixIcon: canComment
+                                ? InkWell(
+                                    child: Icon(
+                                      Icons.send,
+                                    ),
+                                    onTap: () {
+                                      reviewItem = {
+                                        "id": widget.wholeItem.id,
+                                        "review": _controller.text.toString(),
+                                      };
+
+                                      // commentWidgets.add(reviewItem);
+
+                                      callThisMethodOnTap(reviewItem);
+                                      _controller.clear();
+                                      setState(() {
+                                        canComment = false;
+                                      });
+                                      FocusManager.instance.primaryFocus!.unfocus();
+                                    },
+                                  )
+                                : null,
+                            fillColor: Colors.grey[300],
+                            filled: true,
+                            //prefixIcon: Icon(Icons.edit),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
-                              onTap: () {
-                                reviewItem = {
-                                  "id": widget.wholeItem.id,
-                                  "review": _controller.text.toString(),
-                                };
-                                callThisMethodOnTap(reviewItem);
-                                _controller.clear();
-                                setState(() {
-                                  canComment = false;
-                                });
-                                FocusManager.instance.primaryFocus!.unfocus();
-                              },
-                            )
-                          : null,
-                      fillColor: Colors.grey[300],
-                      filled: true,
-                      //prefixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        borderSide: BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
+                            ),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            labelText: "Write a Comment.."),
+                        controller: _controller,
                       ),
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: "Write a Comment.."),
-                  controller: _controller,
-                ),
-              ) : SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
+                    )
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
               isNoReviews
                   ? Center(child: Text("No Reviws. PLease add a Review"))
                   : Container(

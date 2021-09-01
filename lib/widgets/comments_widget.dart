@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 class CommentItem extends StatelessWidget {
   final String comment;
   final String userID;
+  final String userName;
   final String date;
   final String time;
   final bool isUser;
@@ -17,6 +18,7 @@ class CommentItem extends StatelessWidget {
   CommentItem({
     required this.comment,
     required this.userID,
+    required this.userName,
     required this.date,
     required this.time,
     required this.isUser,
@@ -33,19 +35,16 @@ class CommentItem extends StatelessWidget {
     final diff = now.difference(commentTime);
     late int display;
     late String types;
-    if(diff.inMinutes < 60) {
+    if (diff.inMinutes < 60) {
       display = diff.inMinutes;
       types = "m";
-    }
-    else if (diff.inHours < 24) {
+    } else if (diff.inHours < 24) {
       display = diff.inHours;
       types = "h";
-    }
-    else if (diff.inDays < 7) {
+    } else if (diff.inDays < 7) {
       display = diff.inDays;
       types = "d";
-    }
-    else {
+    } else {
       double weeks = diff.inDays / 7;
       display = weeks.toInt();
       types = "w";
@@ -53,14 +52,12 @@ class CommentItem extends StatelessWidget {
     return {"amount": display, "types": types};
   }
 
-  Future<void> _displayTextInputDialog(
-      BuildContext context, String comment) async {
+  Future<void> _displayTextInputDialog(BuildContext context, String comment) async {
     return showDialog(
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
             content: Container(
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.4,
@@ -167,6 +164,40 @@ class CommentItem extends StatelessWidget {
     // print(itemGetting);
   }
 
+  Future<void> deleteCommentHandler(String token) async {
+    print(token);
+
+    var url = Uri.parse(
+      "https://sl-cinema.herokuapp.com/user/cinema/review/delete/" + wholeItem.id.toString(),
+    );
+
+    try {
+      var response = await http.delete(
+        url,
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer " + token,
+          "content-type": "application/json",
+        },
+      );
+
+      // print(response.statusCode);
+      // print(response.body);
+
+      if (response.statusCode == 200) {
+        // showDialog<Null>(
+        //   context: context,
+        //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
+        // );
+
+      } else {}
+
+      print(response.statusCode);
+      print(response.body);
+    } catch (err) {
+      print("error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final double phoneWidth = MediaQuery.of(context).size.width;
@@ -198,21 +229,21 @@ class CommentItem extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  margin:
-                      EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
+                  margin: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 15, top: 12, right: 25),
-                        child: Text(userID,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                            overflow: TextOverflow.fade),
+                        child: Text(
+                          userName,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                          overflow: TextOverflow.fade,
+                        ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(
-                            left: 15, right: 18, top: 11, bottom: 15),
+                        padding: EdgeInsets.only(left: 15, right: 18, top: 11, bottom: 15),
                         child: Text(
                           comment,
                           textAlign: TextAlign.left,
@@ -263,16 +294,78 @@ class CommentItem extends StatelessWidget {
                                 ),
                               ),
                               Padding(
-                                padding:
-                                    EdgeInsets.only(left: 15, right: 7, bottom: 10, top: 10),
-                                child: Text(
-                                  "Delete",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: 'RobotoCondensed',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal,
-                                    color: Colors.pink,
+                                padding: EdgeInsets.only(left: 15, right: 7, bottom: 10, top: 10),
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (ctx) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
+                                            content: Container(
+                                                height: MediaQuery.of(context).size.height * 0.1,
+                                                child: Center(
+                                                    child: Text(
+                                                  "Do you want to Delete?",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 17,
+                                                    color: Colors.grey[700],
+                                                  ),
+                                                ))),
+                                            actions: [
+                                              Center(
+                                                child: Divider(
+                                                  thickness: 0.3,
+                                                  color: Colors.grey[600],
+                                                ),
+                                              ),
+                                              Center(
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: [
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          deleteCommentHandler(
+                                                            token,
+                                                          );
+                                                          Navigator.of(ctx).pop();
+                                                        },
+                                                        child: Text(
+                                                          "yes",
+                                                          style: TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 17,
+                                                          ),
+                                                        )),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(ctx).pop();
+                                                      },
+                                                      child: Text(
+                                                        "no",
+                                                        style: TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          );
+                                        });
+                                  },
+                                  child: Text(
+                                    "Delete",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: 'RobotoCondensed',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.pink,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -433,19 +433,19 @@ class Items with ChangeNotifier {
   Future<void> updateItem(Item item, String token) {
     var url = Uri.parse("https://sl-cinema.herokuapp.com/admin/editor/cinema/edit/item");
 
-    // print(item.id);
-    // print(item.title);
-    // print(item.category);
-    // print(item.description);
-    // print(item.cast);
-    // print(item.directors);
-    // print(item.producers);
-    // print(item.youtubeURL);
-    // print(item.imageUrls);
+    print(item.id);
+    print(item.title);
+    print(item.category);
+    print(item.description);
+    print(item.cast);
+    print(item.directors);
+    print(item.producers);
+    print(item.youtubeURL);
+    print(item.imageUrls);
 
     // print(item);
 
-    print(token);
+    // print(token);
 
     return http
         .put(
