@@ -225,6 +225,20 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
       if (!dropDownValRoleType.contains(dir['role'].toString())) {
         dropDownValRoleType.insert(k, dir['role'].toString());
+
+        if (dir['role'].toString() == 'Director') {
+          _editedItem.directors.add({
+            "role": dir['role'].toString(),
+            "starID": dir['starID'].toString(),
+          });
+        }
+
+        if (dir['role'].toString() == 'Producer') {
+          _editedItem.producers.add({
+            "role": dir['role'].toString(),
+            "starID": dir['starID'].toString(),
+          });
+        }
       }
 
       if (dropDownValRole.contains("select item")) {
@@ -235,21 +249,11 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
         dropDownValRoleType.remove("select item");
       }
 
-      if (dir['role'].toString() == 'Director') {
-        _editedItem.directors.add({
-          "role": dir['role'].toString(),
-          "starID": dir['starID'].toString(),
-        });
-      }
-
-      if (dir['role'].toString() == 'Producer') {
-        _editedItem.producers.add({
-          "role": dir['role'].toString(),
-          "starID": dir['starID'].toString(),
-        });
-      }
       k++;
     });
+
+    // print(_editedItem.producers);
+    // print(_editedItem.directors);
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -755,12 +759,12 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                                   if (value.toString() == "Select Role") {
                                                     return "Select a Role";
                                                   }
-                                                  if (_editedItem.producers.length == 0) {
-                                                    return "Add a Producer";
-                                                  }
-                                                  if (_editedItem.directors.length == 0) {
-                                                    return "Add a Director";
-                                                  }
+                                                  // if (_editedItem.producers.length == 0) {
+                                                  //   return "Add a Producer";
+                                                  // }
+                                                  // if (_editedItem.directors.length == 0) {
+                                                  //   return "Add a Director";
+                                                  // }
                                                   return null;
                                                 },
                                                 items: dropdownRoleList,
