@@ -154,6 +154,23 @@ class CommentItem extends StatelessWidget {
         //   context: context,
         //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
         // );
+
+        Future.delayed(Duration.zero).then((value) async {
+          var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/find/" + wholeItem.id.toString());
+          try {
+            var response = await http.get(
+              url,
+              headers: {
+                // HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+                "content-type": "application/json",
+              },
+            );
+            print(response.statusCode);
+            print(response.body);
+          } catch (err) {
+            print("error");
+          }
+        });
       } else {}
 
       print(response.statusCode);
@@ -189,6 +206,22 @@ class CommentItem extends StatelessWidget {
         //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
         // );
 
+        Future.delayed(Duration.zero).then((value) async {
+          var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/find/" + wholeItem.id.toString());
+          try {
+            var response = await http.get(
+              url,
+              headers: {
+                // HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+                "content-type": "application/json",
+              },
+            );
+            print(response.statusCode);
+            print(response.body);
+          } catch (err) {
+            print("error");
+          }
+        });
       } else {}
 
       print(response.statusCode);

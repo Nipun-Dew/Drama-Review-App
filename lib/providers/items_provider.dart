@@ -75,8 +75,9 @@ class Items with ChangeNotifier {
       final List<Item> loadedFavItems = [];
       final extractedItems = json.decode(response.body);
 
-      print(extractedItems);
+      // print(extractedItems);
 
+      // if (extractedItems != null) {
       extractedItems.forEach((item) {
         final List<String> urls = [];
         final List<Map<String, String>> casts = [];
@@ -155,6 +156,7 @@ class Items with ChangeNotifier {
           ratedCount: item['ratedCount'],
         ));
       });
+      // }
 
       _favItems = loadedFavItems;
       notifyListeners();

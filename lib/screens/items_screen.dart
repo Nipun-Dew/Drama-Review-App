@@ -7,8 +7,8 @@ import 'package:drama_app/screens/star_item_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../widgets/stars_display_main_widget.dart';
@@ -48,6 +48,22 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
   _ItemDetailsScreenState(this.trailerVideoUrl, this.wholeItem, this.token);
 
+  Item whoLeitem = Item(
+    id: "",
+    category: "",
+    title: "",
+    imageUrls: [],
+    description: "",
+    cast: [],
+    directors: [],
+    producers: [],
+    genres: [],
+    reviews: [],
+    rateMap: [],
+    ratings: 0,
+    youtubeURL: "",
+  );
+
   Widget buildingSectionTitle(BuildContext context, String text) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -70,14 +86,6 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
     );
   }
 
-  // arraySum(List arr) {
-  //   var sum = 0.0;
-  //   arr.forEach((element) {
-  //     sum = sum + element;
-  //   });
-  //   return sum;
-  // }
-
   double roundDouble(double val, int places) {
     num mod = pow(10.0, places);
     return ((val * mod).round().toDouble() / mod);
@@ -97,6 +105,117 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         });
       }
       isLoading = false;
+    });
+
+    // Item whoLeitem;
+
+// //////////////////////////////////////////GET ITEM BY ID//////////////////////////////////////////
+    Future.delayed(Duration.zero).then((value) async {
+      var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/find/" + wholeItem.id.toString());
+      try {
+        var response = await http.get(
+          url,
+          headers: {
+            // HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+            "content-type": "application/json",
+          },
+        );
+        print(response.statusCode);
+        print(response.body);
+
+        if (response.statusCode == 200) {
+          final item = json.decode(response.body);
+
+          // print(extractedItems);
+
+          // extractedItems.forEach((item) {
+          final List<String> urls = [];
+          final List<Map<String, String>> casts = [];
+          final List<Map<String, String>> diRectors = [];
+          final List<Map<String, String>> proDucers = [];
+          final List<String> genErs = [];
+          final List<Map<String, String>> raTes = [];
+          final List<Map<String, dynamic>> reViews = [];
+
+          item['imageUrls'].forEach((url) {
+            urls.add(url.toString());
+          });
+
+          item['genres'].forEach((item) {
+            genErs.add(item.toString());
+          });
+
+          item['cast'].forEach((cast) {
+            casts.add({
+              "role": cast['role'],
+              "starID": cast['starID'],
+              "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            });
+          });
+
+          item['directors'].forEach((cast) {
+            diRectors.add({
+              "role": cast['role'],
+              "starID": cast['starID'],
+              "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            });
+          });
+
+          item['producers'].forEach((cast) {
+            proDucers.add({
+              "role": cast['role'],
+              "starID": cast['starID'],
+              "imageUrl": cast['imageUrl'] ?? "https://1.bp.blogspot.com/-Yse-3Lsfexo/XqSuUgy1UrI/AAAAAAAABwU/3viZGIYZjQg1TyXyf7ATttMd_zoxmIU0QCLcBGAsYHQ/s1600/12.jpg",
+            });
+          });
+
+          if (item['rateMap'] != null) {
+            item['rateMap'].forEach((k, v) => {
+                  raTes.add({
+                    "user": k.toString(),
+                    "rate": v.toString(),
+                  })
+                });
+          } else {
+            raTes.add({
+              "user": "NOUSER",
+              "rate": "0",
+            });
+          }
+
+          if (item['reviews'] != null) {
+            item['reviews'].forEach((k, v) => {
+                  reViews.add({
+                    "user": k.toString(),
+                    "review": v,
+                  })
+                });
+          }
+
+          // print(reViews);
+
+          // print(item['reviews']);
+
+          whoLeitem = Item(
+            id: item['id'].toString(),
+            title: item['title'],
+            category: item['category'],
+            imageUrls: urls,
+            description: item['description'],
+            cast: casts,
+            directors: diRectors,
+            producers: proDucers,
+            genres: genErs,
+            youtubeURL: item['youtubeURL'],
+            rateMap: raTes,
+            reviews: reViews,
+            ratings: item['ratings'],
+            ratedCount: item['ratedCount'],
+          );
+        }
+      } catch (err) {
+        print("error");
+      }
     });
 
     _controller = YoutubePlayerController(
@@ -132,7 +251,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
         },
       );
       print(response.statusCode);
-      print(response.body);
+      // print(response.body);
     } catch (err) {
       print("error");
     }
@@ -161,7 +280,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
       final favList = await Provider.of<Items>(ctx, listen: false).getFavourits(token.toString());
 
       print(response.statusCode);
-      print(response.body);
+      // print(response.body);
       return favList;
     } catch (err) {
       print("error");
@@ -331,7 +450,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               )
                             : Navigator.of(context).push(
                                 MaterialPageRoute(builder: (_) {
-                                  return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                  return CommentScreen(widget.id, widget.imageUrl, whoLeitem, token);
                                 }),
                               );
                       },
