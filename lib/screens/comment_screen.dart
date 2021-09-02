@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drama_app/providers/auth_provider.dart';
-import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +47,23 @@ class _CommentScreenState extends State<CommentScreen> {
         //   context: context,
         //   builder: (ctx) => AlertBox("Item Added Succesfully", "Sucsessfull", ctx),
         // );
+
+        Future.delayed(Duration.zero).then((value) async {
+          var url = Uri.parse("https://sl-cinema.herokuapp.com/cinema/find/" + widget.wholeItem.id.toString());
+          try {
+            var response = await http.get(
+              url,
+              headers: {
+                // HttpHeaders.authorizationHeader: "Bearer " + widget.token,
+                "content-type": "application/json",
+              },
+            );
+            print(response.statusCode);
+            print(response.body);
+          } catch (err) {
+            print("error");
+          }
+        });
       } else {}
 
       print(response.statusCode);
@@ -61,9 +77,8 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     final authUserId = Provider.of<Auth>(context, listen: false).getUserId;
     final userType = Provider.of<Auth>(context, listen: false).userType;
-    bool isAuth = Provider.of<Auth>(context).isAuth;
 
-    print(widget.wholeItem.reviews.length);
+    print(widget.wholeItem.reviews);
 
     List<Widget> commentWidgets = [];
 
@@ -71,16 +86,6 @@ class _CommentScreenState extends State<CommentScreen> {
 
     if (widget.wholeItem.reviews.isEmpty) {
       isNoReviews = true;
-      // commentWidgets.add(CommentItem(
-      //   isUser: false,
-      //   userID: "ID",
-      //   comment: "Comment",
-      //   date: "Date",
-      //   time: "time",
-      //   token: widget.token,
-      //   wholeItem: widget.wholeItem,
-      // ));
-
     } else {
       isNoReviews = false;
       widget.wholeItem.reviews.forEach((item) => {
@@ -88,7 +93,8 @@ class _CommentScreenState extends State<CommentScreen> {
               {
                 commentWidgets.add(CommentItem(
                   isUser: true,
-                  userID: item['review']['name'],
+                  userID: item['user'],
+                  userName: item['review']['name'],
                   comment: item['review']['review'],
                   date: item['review']['date'],
                   time: item['review']['time'],
@@ -100,7 +106,8 @@ class _CommentScreenState extends State<CommentScreen> {
               {
                 commentWidgets.add(CommentItem(
                   isUser: false,
-                  userID: item['review']['name'],
+                  userID: item['user'],
+                  userName: item['review']['name'],
                   comment: item['review']['review'],
                   date: item['review']['date'],
                   time: item['review']['time'],
@@ -129,8 +136,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                 ),
                 Container(
-                  padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -146,80 +152,59 @@ class _CommentScreenState extends State<CommentScreen> {
               userType != "ROLE_ADMIN"
                   ? Container(
                       margin: EdgeInsets.all(20),
-                      child: isAuth
-                          ? TextField(
-                              onChanged: (val) {
-                                if (val.isEmpty) {
-                                  setState(() {
-                                    canComment = false;
-                                  });
-                                }
-                                if (val.isNotEmpty) {
-                                  setState(() {
-                                    canComment = true;
-                                  });
-                                }
-                              },
-                              cursorHeight: 27,
-                              style: TextStyle(decoration: TextDecoration.none),
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(
-                                      top: 1, left: 25, right: 20, bottom: 1),
-                                  suffixIcon: canComment
-                                      ? InkWell(
-                                          child: Icon(
-                                            Icons.send,
-                                          ),
-                                          onTap: () {
-                                            reviewItem = {
-                                              "id": widget.wholeItem.id,
-                                              "review":
-                                                  _controller.text.toString(),
-                                            };
-                                            callThisMethodOnTap(reviewItem);
-                                            _controller.clear();
-                                            setState(() {
-                                              canComment = false;
-                                            });
-                                            FocusManager.instance.primaryFocus!
-                                                .unfocus();
-                                          },
-                                        )
-                                      : null,
-                                  fillColor: Colors.grey[300],
-                                  filled: true,
-                                  //prefixIcon: Icon(Icons.edit),
-                                  border: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(50)),
-                                    borderSide: BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
+                      child: TextField(
+                        onChanged: (val) {
+                          if (val.isEmpty) {
+                            setState(() {
+                              canComment = false;
+                            });
+                          }
+                          if (val.isNotEmpty) {
+                            setState(() {
+                              canComment = true;
+                            });
+                          }
+                        },
+                        cursorHeight: 27,
+                        style: TextStyle(decoration: TextDecoration.none),
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
+                            suffixIcon: canComment
+                                ? InkWell(
+                                    child: Icon(
+                                      Icons.send,
                                     ),
-                                  ),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.never,
-                                  labelText: "Write a Comment.."),
-                              controller: _controller,
-                            )
-                          : Center(
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (_) {
-                                        return SignButtonScreen();
-                                      },
-                                    ),
-                                  );
-                                },
-                                child: Text(
-                                  "Please Login to add reviews!",
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                ),
+                                    onTap: () {
+                                      reviewItem = {
+                                        "id": widget.wholeItem.id,
+                                        "review": _controller.text.toString(),
+                                      };
+
+                                      // commentWidgets.add(reviewItem);
+
+                                      callThisMethodOnTap(reviewItem);
+                                      _controller.clear();
+                                      setState(() {
+                                        canComment = false;
+                                      });
+                                      FocusManager.instance.primaryFocus!.unfocus();
+                                    },
+                                  )
+                                : null,
+                            fillColor: Colors.grey[300],
+                            filled: true,
+                            //prefixIcon: Icon(Icons.edit),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                              borderSide: BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
                               ),
                             ),
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            labelText: "Write a Comment.."),
+                        controller: _controller,
+                      ),
                     )
                   : SizedBox(
                       height: MediaQuery.of(context).size.height * 0.04,

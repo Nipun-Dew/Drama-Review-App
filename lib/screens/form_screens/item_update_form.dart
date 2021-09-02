@@ -118,7 +118,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
   List<String> selectedGenere = [];
 
   var _editedItem = Item(
-    id: "",
+    id: '',
     category: "",
     title: "",
     imageUrls: [],
@@ -225,6 +225,20 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
 
       if (!dropDownValRoleType.contains(dir['role'].toString())) {
         dropDownValRoleType.insert(k, dir['role'].toString());
+
+        if (dir['role'].toString() == 'Director') {
+          _editedItem.directors.add({
+            "role": dir['role'].toString(),
+            "starID": dir['starID'].toString(),
+          });
+        }
+
+        if (dir['role'].toString() == 'Producer') {
+          _editedItem.producers.add({
+            "role": dir['role'].toString(),
+            "starID": dir['starID'].toString(),
+          });
+        }
       }
 
       if (dropDownValRole.contains("select item")) {
@@ -235,21 +249,11 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
         dropDownValRoleType.remove("select item");
       }
 
-      if (dir['role'].toString() == 'Director') {
-        _editedItem.directors.add({
-          "role": dir['role'].toString(),
-          "starID": dir['starID'].toString(),
-        });
-      }
-
-      if (dir['role'].toString() == 'Producer') {
-        _editedItem.producers.add({
-          "role": dir['role'].toString(),
-          "starID": dir['starID'].toString(),
-        });
-      }
       k++;
     });
+
+    // print(_editedItem.producers);
+    // print(_editedItem.directors);
 
     final dropdownItemList = ["Select Name", ...itemList.map((cast) => cast.name)].map<DropdownMenuItem<String>>((String value) {
       return DropdownMenuItem<String>(
@@ -294,6 +298,24 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
       drpDownExitingValue = 'Mini Series';
     }
 
+    String categoryType = wholeItem.category.toString();
+
+    // if (wholeItem.category.toString() == 'teledrama') {
+    //   categoryType = 'teledrama';
+    // }
+    // if (wholeItem.category.toString() == 'movie') {
+    //   categoryType = 'movie';
+    // }
+    // if (wholeItem.category.toString() == 'Short Movie') {
+    //   categoryType = 'short-movie';
+    // }
+    // if (wholeItem.category.toString() == 'Web Series') {
+    //   categoryType = 'web-series';
+    // }
+    // if (wholeItem.category.toString() == 'Mini Series') {
+    //   categoryType = 'mini-series';
+    // }
+
     return Scaffold(
       body: (_isLoading || _isLoadingRoles)
           ? Center(
@@ -321,7 +343,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                       ),
                       Center(
                         child: Text(
-                          "Item Form",
+                          "Item Update Form",
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                         ),
                       ),
@@ -338,8 +360,8 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                 textInputAction: TextInputAction.next,
                                 onSaved: (value) {
                                   _editedItem = Item(
-                                    id: _editedItem.id,
-                                    category: _editedItem.category,
+                                    id: wholeItem.id,
+                                    category: categoryType.toString(),
                                     title: value.toString(),
                                     imageUrls: _editedItem.imageUrls,
                                     description: _editedItem.description,
@@ -420,7 +442,7 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                         style: const TextStyle(color: Colors.pink, fontSize: 12),
                                         onChanged: (String? newValue) {
                                           setState(() {
-                                            String categoryType = '';
+                                            // String categoryType = '';
 
                                             dropDownValType = newValue!;
 
@@ -737,12 +759,12 @@ class _ItemUpdateFormScreenState extends State<ItemUpdateFormScreen> {
                                                   if (value.toString() == "Select Role") {
                                                     return "Select a Role";
                                                   }
-                                                  if (_editedItem.producers.length == 0) {
-                                                    return "Add a Producer";
-                                                  }
-                                                  if (_editedItem.directors.length == 0) {
-                                                    return "Add a Director";
-                                                  }
+                                                  // if (_editedItem.producers.length == 0) {
+                                                  //   return "Add a Producer";
+                                                  // }
+                                                  // if (_editedItem.directors.length == 0) {
+                                                  //   return "Add a Director";
+                                                  // }
                                                   return null;
                                                 },
                                                 items: dropdownRoleList,
