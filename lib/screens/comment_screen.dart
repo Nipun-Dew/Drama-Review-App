@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drama_app/providers/auth_provider.dart';
+import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -60,6 +61,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     final authUserId = Provider.of<Auth>(context, listen: false).getUserId;
     final userType = Provider.of<Auth>(context, listen: false).userType;
+    bool isAuth = Provider.of<Auth>(context).isAuth;
 
     print(widget.wholeItem.reviews.length);
 
@@ -127,7 +129,8 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
                   child: InkWell(
                     child: Icon(
                       Icons.keyboard_arrow_down,
@@ -140,59 +143,87 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                 ),
               ]),
-              userType != "ROLE_ADMIN" ? Container(
-                margin: EdgeInsets.all(20),
-                child: TextField(
-                  onChanged: (val) {
-                    if (val.isEmpty) {
-                      setState(() {
-                        canComment = false;
-                      });
-                    }
-                    if (val.isNotEmpty) {
-                      setState(() {
-                        canComment = true;
-                      });
-                    }
-                  },
-                  cursorHeight: 27,
-                  style: TextStyle(decoration: TextDecoration.none),
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(top: 1, left: 25, right: 20, bottom: 1),
-                      suffixIcon: canComment
-                          ? InkWell(
-                              child: Icon(
-                                Icons.send,
-                              ),
-                              onTap: () {
-                                reviewItem = {
-                                  "id": widget.wholeItem.id,
-                                  "review": _controller.text.toString(),
-                                };
-                                callThisMethodOnTap(reviewItem);
-                                _controller.clear();
-                                setState(() {
-                                  canComment = false;
-                                });
-                                FocusManager.instance.primaryFocus!.unfocus();
+              userType != "ROLE_ADMIN"
+                  ? Container(
+                      margin: EdgeInsets.all(20),
+                      child: isAuth
+                          ? TextField(
+                              onChanged: (val) {
+                                if (val.isEmpty) {
+                                  setState(() {
+                                    canComment = false;
+                                  });
+                                }
+                                if (val.isNotEmpty) {
+                                  setState(() {
+                                    canComment = true;
+                                  });
+                                }
                               },
+                              cursorHeight: 27,
+                              style: TextStyle(decoration: TextDecoration.none),
+                              decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(
+                                      top: 1, left: 25, right: 20, bottom: 1),
+                                  suffixIcon: canComment
+                                      ? InkWell(
+                                          child: Icon(
+                                            Icons.send,
+                                          ),
+                                          onTap: () {
+                                            reviewItem = {
+                                              "id": widget.wholeItem.id,
+                                              "review":
+                                                  _controller.text.toString(),
+                                            };
+                                            callThisMethodOnTap(reviewItem);
+                                            _controller.clear();
+                                            setState(() {
+                                              canComment = false;
+                                            });
+                                            FocusManager.instance.primaryFocus!
+                                                .unfocus();
+                                          },
+                                        )
+                                      : null,
+                                  fillColor: Colors.grey[300],
+                                  filled: true,
+                                  //prefixIcon: Icon(Icons.edit),
+                                  border: OutlineInputBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50)),
+                                    borderSide: BorderSide(
+                                      width: 0,
+                                      style: BorderStyle.none,
+                                    ),
+                                  ),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                  labelText: "Write a Comment.."),
+                              controller: _controller,
                             )
-                          : null,
-                      fillColor: Colors.grey[300],
-                      filled: true,
-                      //prefixIcon: Icon(Icons.edit),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        borderSide: BorderSide(
-                          width: 0,
-                          style: BorderStyle.none,
-                        ),
-                      ),
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: "Write a Comment.."),
-                  controller: _controller,
-                ),
-              ) : SizedBox(height: MediaQuery.of(context).size.height * 0.04,),
+                          : Center(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) {
+                                        return SignButtonScreen();
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Please Login to add reviews!",
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                            ),
+                    )
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.04,
+                    ),
               isNoReviews
                   ? Center(child: Text("No Reviws. PLease add a Review"))
                   : Container(

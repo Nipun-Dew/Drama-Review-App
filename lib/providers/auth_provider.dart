@@ -206,7 +206,6 @@ class Auth with ChangeNotifier {
     expireTime = fetchExp;
     userId = fetchUID;
     userType = fetchUType;
-    //print(userId);
     notifyListeners();
     return true;
   }

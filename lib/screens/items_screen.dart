@@ -362,15 +362,16 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         children: <Widget>[
                           IconButton(
                             onPressed: () {
-                              !isUserAuth
-                                  ? Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) {
-                                          return SignButtonScreen();
-                                        },
-                                      ),
-                                    )
-                                  : Navigator.of(context).push(
+                              // !isUserAuth
+                              //     ? Navigator.of(context).push(
+                              //         MaterialPageRoute(
+                              //           builder: (_) {
+                              //             return SignButtonScreen();
+                              //           },
+                              //         ),
+                              //       )
+                              //     :
+                              Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) {
                                           return CommentScreen(
