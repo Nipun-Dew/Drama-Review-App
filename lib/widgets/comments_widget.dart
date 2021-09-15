@@ -252,7 +252,7 @@ class CommentItem extends StatelessWidget {
             ),
           ),
           Container(
-            //width: phoneWidth * 0.83,
+            width: phoneWidth * 0.85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
