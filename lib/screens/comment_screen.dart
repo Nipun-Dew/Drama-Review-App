@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:drama_app/providers/auth_provider.dart';
+import 'package:drama_app/screens/sign_btn_screen.dart';
 import 'package:drama_app/widgets/comments_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -77,6 +78,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     final authUserId = Provider.of<Auth>(context, listen: false).getUserId;
     final userType = Provider.of<Auth>(context, listen: false).userType;
+    bool isAuth = Provider.of<Auth>(context).isAuth;
 
     print(widget.wholeItem.reviews);
 
@@ -152,7 +154,7 @@ class _CommentScreenState extends State<CommentScreen> {
               userType != "ROLE_ADMIN"
                   ? Container(
                       margin: EdgeInsets.all(20),
-                      child: TextField(
+                      child: isAuth ? TextField(
                         onChanged: (val) {
                           if (val.isEmpty) {
                             setState(() {
@@ -204,6 +206,19 @@ class _CommentScreenState extends State<CommentScreen> {
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             labelText: "Write a Comment.."),
                         controller: _controller,
+                      ) : Center(
+                        child: InkWell(
+                          child: Text("Login to add Reviews!"),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) {
+                                  return SignButtonScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     )
                   : SizedBox(
