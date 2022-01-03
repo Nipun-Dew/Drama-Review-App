@@ -18,7 +18,7 @@ class TabScreen extends StatefulWidget {
 
 class _TabScreenState extends State<TabScreen> {
   int _selectIndex = 0;
-  final List<String> titles = ["SL-Drama", "Trending", "Favourites", "Stars", "More.."];
+  final List<String> titles = ["SL-Cinema", "Trending", "Favourites", "Stars", "More.."];
   final List<Widget> _currentTab = [HomeScreen(), TrendingScreen(), FavouriteScreen(), CinemaStarScreen(), DrawerScreen()];
 
   Future<bool> _onItemTapped(int index) {

@@ -37,10 +37,11 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void showAlertBox(String title, String msg) {
     showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertBox(msg, title, ctx);
-        });
+      context: context,
+      builder: (ctx) {
+        return AlertBox(msg, title, ctx);
+      },
+    );
   }
 
   Future<void> submit() async {
@@ -165,6 +166,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       phoneWidth * 0.05,
                     ),
                     child: TextFormField(
+                      //validator: EmailValidator.validate(emailController.text),
                       controller: emailController,
                       cursorHeight: 27,
                       style: TextStyle(decoration: TextDecoration.none),

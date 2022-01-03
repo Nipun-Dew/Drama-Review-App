@@ -469,12 +469,12 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                               //       )
                               //     :
                               Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (_) {
-                                          return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
-                                        },
-                                      ),
-                                    );
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return CommentScreen(widget.id, widget.imageUrl, wholeItem, token);
+                                  },
+                                ),
+                              );
                             },
                             icon: Icon(
                               Icons.add_comment_rounded,
@@ -588,13 +588,13 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
 
               ///Don't Delete this ////
 
-              // Padding(
-              //   padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
-              //   child: YoutubePlayer(
-              //     controller: _controller,
-              //     showVideoProgressIndicator: true,
-              //   ),
-              // ),
+              Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 10, left: 5, right: 5),
+                child: YoutubePlayer(
+                  controller: _controller,
+                  showVideoProgressIndicator: true,
+                ),
+              ),
 
               ///////////////////////////////////////////////////////////////////////
 
